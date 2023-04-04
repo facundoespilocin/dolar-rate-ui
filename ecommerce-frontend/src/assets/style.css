@@ -1,0 +1,117 @@
+h1 {
+    text-align: center;    
+}
+
+h2, h3, h4 {
+    text-align: left;
+    color: black;
+    font-weight: bold;
+}
+
+label {
+    font-weight: bold;
+    color: black;
+    float: left;
+}
+
+span {
+    font-weight: bold;
+}
+
+small {
+    font-weight: bold;
+    float: left;
+    color: rgb(214, 26, 26);
+}
+
+.border-shadow {
+    border: 2px solid black;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px #126619;
+}
+
+.pull-left {
+    text-align: left;
+}
+
+.pull-right {
+    text-align: right;
+}
+
+.padre {
+    height: 100px;
+    /*IMPORTANTE*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#app {
+    font-family: Montserrat, Helvetica, Arial, sans-serif;
+    color: black;
+}
+
+.label {
+    color: white;
+    padding: 8px;
+    font-family: Arial;
+}
+
+.success {
+    background-color: #04AA6D;
+    font-weight: bold;
+    border-radius: 5px;
+} 
+
+.info { 
+    background-color: #2196F3;
+    font-weight: bold;
+} 
+
+.warning { 
+    background-color: #ff9800;
+    font-weight: bold;
+}
+
+.danger {
+    background-color: #f44336;
+    font-weight: bold;
+}
+
+.other { 
+    background-color: #e7e7e7;
+    color: black;
+    font-weight: bold;
+}
+
+.pointer {
+    cursor:pointer;
+}
+
+.icon-size-s {
+    width: 20px;
+    height: 20px;
+}
+
+.icon-size-m {
+    width: 40px;
+    height: 40px;
+}
+
+.icon-size-l {
+    width: 60px;
+    height: 60px;
+}
+
+.text-color-red {
+    color: red;
+}
+
+.b-sidebar {
+    border-right-width: 200px;
+} 
+
+.menu-title, .menu-item {
+    color: white;
+}
+
