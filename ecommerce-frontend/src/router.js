@@ -27,9 +27,14 @@ const router = new Router({
             meta: { requireAuth: true }
         },
         {
+            path: "/Register",
+            name: "Register",
+            component: () => import('./views/Register/Register.vue')
+        },
+        {
             path: "/Login",
             name: "Login",
-            component: () => import('./views/Login.vue')
+            component: () => import('./views/Register/Login.vue')
         },
         {
             path: "/Pedidos",
@@ -45,6 +50,11 @@ const router = new Router({
             path: "/Administracion",
             name: "Administracion",
             component: () => import('./views/Administracion.vue')
+        },
+        {
+            path: "/ForgotPassword",
+            name: "ForgotPassword",
+            component: () => import('./views/Register/ForgotPassword.vue')
         }
     ]
 })

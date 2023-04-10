@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-      <div class="p-2" align="left">
+      <div class="p-2" v-if="!isActive">
         <b-button class="btn-dark" v-b-toggle.sidebar-no-header>Menu</b-button>
         
         <b-sidebar id="sidebar-no-header" bg-variant="dark" sidebar-class="border border-dark" border-width="100px" aria-labelledby="sidebar-no-header-title" no-header shadow visible>
@@ -10,9 +10,9 @@
               
               <nav class="mb-3">
                 <b-nav vertical>
-                  <b-nav-item v-for="itemMenu in itemsMenuList" v-bind="itemMenu.id">
+                  <!-- <b-nav-item v-for="itemMenu in itemsMenuList" v-bind="itemMenu.id">
                     <h6 class="menu-item" v-if="itemMenu.isActive">{{ itemMenu.description }}</h6>
-                  </b-nav-item>
+                  </b-nav-item> -->
                   <b-nav-item href="/">
                     <h6 class="menu-item">Home</h6>
                   </b-nav-item>

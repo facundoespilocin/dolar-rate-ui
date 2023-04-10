@@ -20,7 +20,8 @@ import "bootstrap-vue/dist/bootstrap-vue.css"
 import "vue-sidebar-menu/dist/vue-sidebar-menu.css"
 
 // Developmnet base URL
-axios.defaults.baseURL = "http://localhost:4000/api"
+axios.defaults.baseURL = "https://localhost:7283/api"
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
 
 // Production base URL
 //axios.defaults.baseURL = "https://mevn-project-fe.herokuapp.com/api"

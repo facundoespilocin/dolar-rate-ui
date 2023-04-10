@@ -1,4 +1,5 @@
 using Ecommerce.Services.Collection;
+using Ecommerce.Services.Utils;
 using Microsoft.OpenApi.Models;
 
 namespace Ecommerce
@@ -17,8 +18,9 @@ namespace Ecommerce
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddConfigureContainerExtensions(_configuration);
-
+            services.AddCorsConfigurationExtensions();
             services.AddControllers();
+            services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
 
             services.AddSwaggerGen(c =>
             {
@@ -34,6 +36,8 @@ namespace Ecommerce
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EcommerceAPI v1"));
             }
+
+            app.AddCorsConfigurationExtensions();
 
             app.UseHttpsRedirection();
 

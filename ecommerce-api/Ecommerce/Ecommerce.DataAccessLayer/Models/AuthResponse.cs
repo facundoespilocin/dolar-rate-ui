@@ -6,11 +6,11 @@ namespace Ecommerce.DataAccessLayer.Models
     {
         public AuthResponse()
         {
-            UserData = new User();
+            UserData = new UserDataDTO();
         }
 
         public long Id { get; set; }
         public string Token { get; set; }
-        public User UserData { get; set; }
+        public UserDataDTO UserData { get; set; }
     }
 }

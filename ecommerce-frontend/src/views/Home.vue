@@ -13,6 +13,30 @@ export default {
   name: 'Home',
   components: {
     SearchBar
+  },
+  data()
+  {
+    return {
+
+    }
+  },
+
+  created(){
+    this.callTest();
+  },
+
+  methods: {
+    callTest() {
+      let id = 1;
+      
+      this.axios.get(`/user/${id}`)
+      .then(res => {
+        console.log(res.data.name);
+      })
+      .catch(e => {
+        console.log(e);
+      })
+    }
   }
 }
 </script>

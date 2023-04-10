@@ -16,12 +16,14 @@ namespace Ecommerce.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly AppSettings _appSettings;
+        private readonly IMapper _mapper;
         //private readonly AWSSettings _awsSettings;
 
-        public UserService(IUserRepository userRepository, IOptions<AppSettings> appSettings)
+        public UserService(IUserRepository userRepository, IOptions<AppSettings> appSettings, IMapper mapper)
         {
             _userRepository = userRepository;
             _appSettings = appSettings.Value;
+            _mapper = mapper;
             //_awsSettings = awsSettings.Value;
         }
 
@@ -55,13 +57,13 @@ namespace Ecommerce.Services
 
         public async Task<AuthResponse> Authenticate(AuthRequest request)
         {
-            var user = await GetByCredentials(request.UserName, request.Password);
+            var authResponse = await GetByCredentials(request.UserName, request.Password);
 
-            user.Token = GenerateJwtToken(user);
+            authResponse.Token = GenerateJwtToken(authResponse);
 
-            user.UserData = await GetById(user.Id);
+            authResponse.UserData = await GetUserDataDtoById(authResponse.Id);
 
-            return user;
+            return authResponse;
         }
 
         public async Task<AuthResponse> GetByCredentials(string userName, string password)
@@ -74,8 +76,8 @@ namespace Ecommerce.Services
             if (!user.ConfirmedAccount)
                 throw new Exception($"Account isn't confirmed");
 
-            return new AuthResponse();
-            //return _mapper.Map<AuthResponse>(user);
+            //return new AuthResponse();
+            return _mapper.Map<AuthResponse>(user);
         }
 
         private string GenerateJwtToken(AuthResponse user)
@@ -142,6 +144,13 @@ namespace Ecommerce.Services
             //textCopy = textCopy.Replace("#USERNAME", user.FullName).Replace("#RECOVERPASSWORDLINK", _awsSettings.BaseUrl.AppendToURL($"/account/reset-password/{user.PasswordResetToken}"));
 
             //await AWSEmailService.SendMail(_awsSettings.EmailSender, user.Email, "Password reset request", textCopy, _awsSettings.AccessKey, _awsSettings.AccessSecret, RegionEndpoint.USEast2);
+        }
+
+        public async Task<UserDataDTO> GetUserDataDtoById(long userId)
+        {
+            var user = await _userRepository.GetById(userId);
+            
+            return _mapper.Map<UserDataDTO>(user);
         }
     }
 }

@@ -13,5 +13,6 @@ namespace Ecommerce.Services.Interfaces
         Task<AuthResponse> Authenticate(AuthRequest request);
         Task<bool> ValidateResetPasswordToken(string token);
         Task PostForgotPassword(string email);
+        Task<UserDataDTO> GetUserDataDtoById(long userId);
     }
 }

@@ -135,7 +135,7 @@ namespace Ecommerce.DataAccessLayer.Repositories
         {
             using var con = _factory.GetDbConnection;
 
-            var result = await con.QueryAsync<int>(@"UPDATE Users SET HasRequestedPasswordMail = 1, PasswordResetToken = @Token WHERE Email = @Email;", new
+            var result = await con.QueryAsync<int>(@"UPDATE Users SET HasRequestedPasswordReset = 1, PasswordResetToken = @Token WHERE Email = @Email;", new
             {
                 Email = email,
                 Token = token

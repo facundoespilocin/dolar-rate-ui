@@ -12,7 +12,7 @@ namespace Ecommerce.Services.Utils
 
             CreateMap<User, AuthResponse>();
 
-            //CreateMap<User, UserDTO>();
+            CreateMap<User, UserDataDTO>();
         }
     }
 }

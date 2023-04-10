@@ -85,6 +85,16 @@ export default {
             console.log("onCollapse");
             this.collapsed = c;
         },
+
+        login() {
+            this.axios.post("/user/1")
+            .then(res => {
+                console.log(res.data);
+            })
+            .catch(e => {
+                console.log(e);
+            })
+        }
     },
 
     computed: { },
