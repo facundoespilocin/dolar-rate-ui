@@ -7,11 +7,11 @@ using Ecommerce.Utils.Extensions;
 
 namespace Ecommerce.DataAccessLayer.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class ProductsRepository : IProductsRepository
     {
         private IConnectionFactory _factory;
 
-        public UserRepository(IConnectionFactory factory)
+        public ProductsRepository(IConnectionFactory factory)
         {
             _factory = factory;
         }
@@ -94,79 +94,6 @@ namespace Ecommerce.DataAccessLayer.Repositories
             var query = $@"DELETE FROM Users WHERE Id = {userId}";
 
             await con.ExecuteAsync(query);
-        }
-
-        public async Task<User> GetByCredentials(string email, string password)
-        {
-            using var con = _factory.GetDbConnection;
-
-            var passwordHash = password.GenerateHash();
-
-            var user = await con.QueryFirstOrDefaultAsync<User>(@"SELECT * FROM Users WHERE Email = @Email and Password = @Password;", new
-            {
-                Email = email,
-                Password = passwordHash
-            });
-
-            return user;
-        }
-
-        public async Task<User> GetUserByToken(string token)
-        {
-            using var con = _factory.GetDbConnection;
-
-            var user = await con.QueryFirstOrDefaultAsync<User>(@"SELECT * FROM Users WHERE PasswordResetToken = @Token AND HasRequestedPasswordReset = 1;", new
-            {
-                Token = token
-            });
-
-            return user;
-        }
-
-        public async Task UpdateUserPassword(string token, string password)
-        {
-            using var con = _factory.GetDbConnection;
-
-            var passwordHash = password?.GenerateHash();
-
-            var result = await con.QueryAsync<int>(@"UPDATE Users SET Password = @Password, HasRequestedPasswordReset = 0, PasswordResetToken = NULL WHERE PasswordResetToken = @Token;", new
-            {
-                Password = passwordHash,
-                Token = token
-            });
-        }
-
-        public async Task<User> GetUserByEmailWithPass(string email)
-        {
-            using var con = _factory.GetDbConnection;
-
-            var user = await con.QueryFirstOrDefaultAsync<User>(@"SELECT * FROM Users WHERE Email = @Email AND Password != '';", new
-            {
-                Email = email
-            });
-
-            return user;
-        }
-
-        public async Task UpdateResetPasswordToken(string email, string token)
-        {
-            using var con = _factory.GetDbConnection;
-
-            var result = await con.QueryAsync<int>(@"UPDATE Users SET HasRequestedPasswordReset = 1, PasswordResetToken = @Token WHERE Email = @Email;", new
-            {
-                Email = email,
-                Token = token
-            });
-        }
-        
-        public async Task ConfirmAccount(string token)
-        {
-            using var con = _factory.GetDbConnection;
-
-            await con.ExecuteAsync(@"UPDATE Users SET ConfirmedAccount = IF(ConfirmationToken = @Token, 1, ConfirmedAccount);", new
-            {
-                Token = token
-            });
         }
     }
 }

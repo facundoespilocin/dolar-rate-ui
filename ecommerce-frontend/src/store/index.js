@@ -11,6 +11,10 @@ export default new Vuex.Store({
     userResposne: "",
     cadetsOperation: "",
     editableCadet: "",
+    resetPasswordState: "",
+    productsOperation: "",
+    editableProduct: "",
+    dataSource: "",
   },
 
   mutations: {
@@ -33,6 +37,25 @@ export default new Vuex.Store({
 
     getCadet(state, editableCadet) {
       state.editableCadet = editableCadet;
+    },
+
+    // Products
+    getProductsOperation(state, productsOperation) {
+      state.productsOperation = productsOperation;
+    },
+
+    getProduct(state, editableProduct) {
+      state.editableProduct = editableProduct;
+    },
+
+    getDataSource(state, dataSource) {
+      console.log(dataSource);
+      state.dataSource = dataSource;
+    },
+
+    // Register
+    getResetPasswordState(state, resetPasswordState) {
+      state.resetPasswordState = resetPasswordState;
     }
   },
 
@@ -66,6 +89,25 @@ export default new Vuex.Store({
 
     setCadet({ commit }, editableCadet) {
       commit("getCadet", editableCadet);
+    },
+
+    // Products
+    setProductsOperation({ commit }, productsOperation) {
+      commit("getProductsOperation", productsOperation);
+    },
+
+    setProduct({ commit }, editableProduct) {
+      commit("getProduct", editableProduct);
+    },
+
+    setDataSource({ commit }, dataSource) {
+      commit("getDataSource", dataSource);
+    },
+
+    // Register
+    setResetPasswordState({ commit }, resetPasswordState) {
+      console.log("llego: " + resetPasswordState);
+      commit("getResetPasswordState", resetPasswordState);
     }
   },
 

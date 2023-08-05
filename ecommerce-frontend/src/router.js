@@ -32,6 +32,16 @@ const router = new Router({
             component: () => import('./views/Register/Register.vue')
         },
         {
+            path: "/Register/Success",
+            name: "Success",
+            component: () => import('./views/Register/Success.vue')
+        },
+        {
+            path: "/Register/Confirm",
+            name: "Confirm",
+            component: () => import('./views/Register/Confirm.vue')
+        },
+        {
             path: "/Login",
             name: "Login",
             component: () => import('./views/Register/Login.vue')
@@ -54,7 +64,27 @@ const router = new Router({
         {
             path: "/ForgotPassword",
             name: "ForgotPassword",
-            component: () => import('./views/Register/ForgotPassword.vue')
+            component: () => import('./views/ForgotPassword/ForgotPassword.vue')
+        },
+        {
+            path: "/ForgotPassword/Confirm",
+            name: "ForgotPasswordConfirm",
+            component: () => import('./views/ForgotPassword/Confirm.vue')
+        },
+        {
+            path: "/ForgotPassword/Success",
+            name: "ForgotPasswordSuccess",
+            component: () => import('./views/ForgotPassword/Success.vue')
+        },
+        {
+            path: "/Products",
+            name: "Products",
+            component: () => import('./views/Products.vue')
+        },
+        {
+            path: "/LoadProducts",
+            name: "LoadProducts",
+            component: () => import('./views/Products/LoadProducts.vue')
         }
     ]
 })

@@ -1,3 +1,7 @@
+* {
+    font-family: Montserrat;
+  }
+
 h1 {
     text-align: center;
 }
@@ -131,3 +135,56 @@ small {
     color: white;
 }
 
+.input-border-shadow {
+    border: 2px solid black;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px;
+    margin-bottom: 8px;
+    padding: 3px;
+}
+
+input[type='file'] {
+    color: transparent;
+  }
+
+.margin-bottom {
+    margin-bottom: 7px;
+}
+
+.margin-top {
+    margin-top: 10px;
+}
+
+.margin-right {
+    margin-right: 10px;
+}
+
+.margin-left {
+    margin-left: 10px;
+}
+
+.margin-top-double {
+    margin-top: 20px;
+}
+
+.margin-bottom-none {
+    margin-bottom: 0px;
+}
+
+.icon-green {
+    color: green;
+}
+
+.icon-yellow {
+    color: blue;
+}
+
+.sombreado {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: box-shadow 0.3s ease;
+}
+
+.sombreado:hover {
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+}

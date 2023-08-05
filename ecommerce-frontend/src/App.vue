@@ -129,6 +129,10 @@ export default {
 }
 </script>
 
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat');
+</style>
+
 <!-- <style>
 #app {
   font-family: Montserrat, Helvetica, Arial, sans-serif;

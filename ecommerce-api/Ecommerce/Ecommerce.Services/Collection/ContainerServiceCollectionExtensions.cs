@@ -4,6 +4,7 @@ using Ecommerce.DataAccessLayer.Factory;
 using Ecommerce.DataAccessLayer.Repositories.Interfaces;
 using Ecommerce.DataAccessLayer.Repositories;
 using Ecommerce.Services.Interfaces;
+using Ecommerce.Utils.EmailService;
 
 namespace Ecommerce.Services.Collection
 {
@@ -19,9 +20,14 @@ namespace Ecommerce.Services.Collection
 
             // Services
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IMiscService, MiscService>();
+            services.AddTransient<IEmailService, EmailService>();
+            services.AddTransient<IProductsService, ProductsService>();
 
             // Repositories
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IMiscRepository, MiscRepository>();
+            services.AddTransient<IProductsRepository, ProductsRepository>();
         }
     }
 }

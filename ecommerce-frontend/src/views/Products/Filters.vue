@@ -171,7 +171,7 @@ export default {
                     label: "email"
                 },
             ],
-            inputFilter: "gallet",
+            inputFilter: "a@a.com",
             textPlaceholder: "Ingresá el Nombre",
 
             // Tags

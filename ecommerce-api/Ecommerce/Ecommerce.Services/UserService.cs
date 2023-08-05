@@ -1,14 +1,19 @@
 ﻿using AutoMapper;
-using Ecommerce.DataAccessLayer.Entities.User;
 using Ecommerce.DataAccessLayer.Models;
 using Ecommerce.DataAccessLayer.Repositories.Interfaces;
 using Ecommerce.Services.Interfaces;
+using Ecommerce.Utils.EmailService;
+using Ecommerce.Utils.Settings;
 using Ecommerce.Utils.Extensions;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Reflection;
 using System.Security.Claims;
 using System.Text;
+using User = Ecommerce.DataAccessLayer.Entities.User.User;
+using CreateUserRequest = Ecommerce.DataAccessLayer.Models.CreateUserRequest;
+using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace Ecommerce.Services
 {
@@ -17,14 +22,14 @@ namespace Ecommerce.Services
         private readonly IUserRepository _userRepository;
         private readonly AppSettings _appSettings;
         private readonly IMapper _mapper;
-        //private readonly AWSSettings _awsSettings;
+        private readonly IEmailService _emailService;
 
-        public UserService(IUserRepository userRepository, IOptions<AppSettings> appSettings, IMapper mapper)
+        public UserService(IUserRepository userRepository, IOptions<AppSettings> appSettings, IMapper mapper, IEmailService emailService)
         {
             _userRepository = userRepository;
             _appSettings = appSettings.Value;
             _mapper = mapper;
-            //_awsSettings = awsSettings.Value;
+            _emailService = emailService;
         }
 
         public async Task<IEnumerable<User>> GetAll()
@@ -50,9 +55,41 @@ namespace Ecommerce.Services
             await _userRepository.Update(user);
         }
 
-        public async Task Create(User userRequest)
+        public async Task<ServiceResponse> Create(CreateUserRequest request)
         {
-            await _userRepository.Create(userRequest);
+            ServiceResponse response = new ServiceResponse
+            {
+                Metadata = new Metadata { },
+                Data = new Data { }
+            };
+
+            try
+            {
+                response = await _userRepository.Create(request);
+
+                var directoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+                var htmlText = File.ReadAllText(Path.Combine(directoryName, "EmailFiles/Invitation.html"));
+
+                string fullName = request.Name + ' ' + request.LastName;
+
+                var textCopy = htmlText;
+
+                textCopy = textCopy.Replace("#FULLNAME", fullName)
+                    .Replace("#INVITELINK", _appSettings.BaseUrl.AppendToURL($"Register/Confirm?token={request.ConfirmationToken}"))
+                    .Replace("#COMPANYNAME", "Ecommerce");
+
+                var subject = "You have been invited to Ecommerce";
+
+                _emailService.Send(request.Email, subject, textCopy, request.Email);
+            }
+            catch (Exception e)
+            {
+                response.Metadata.Status = System.Net.HttpStatusCode.BadRequest;
+                response.Metadata.Message = e.Message;
+            }
+
+            return response;
         }
 
         public async Task<AuthResponse> Authenticate(AuthRequest request)
@@ -76,7 +113,6 @@ namespace Ecommerce.Services
             if (!user.ConfirmedAccount)
                 throw new Exception($"Account isn't confirmed");
 
-            //return new AuthResponse();
             return _mapper.Map<AuthResponse>(user);
         }
 
@@ -116,9 +152,12 @@ namespace Ecommerce.Services
         {
             var user = await _userRepository.GetUserByToken(token);
 
-            if (!string.IsNullOrEmpty(user.PasswordResetToken))
+            if (user is not null)
             {
-                return true;
+                if (!string.IsNullOrEmpty(user.PasswordResetToken))
+                {
+                    return true;
+                }
             }
 
             return false;
@@ -137,20 +176,51 @@ namespace Ecommerce.Services
 
             await _userRepository.UpdateResetPasswordToken(email, user.PasswordResetToken);
 
-            //string directoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var directoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-            //var textCopy = File.ReadAllText(Path.Combine(directoryName, "EmailFiles/Resetpassword.html"));
+            var htmlText = File.ReadAllText(Path.Combine(directoryName, "EmailFiles/ForgotPassword.html"));
+            
+            var textCopy = htmlText;
 
-            //textCopy = textCopy.Replace("#USERNAME", user.FullName).Replace("#RECOVERPASSWORDLINK", _awsSettings.BaseUrl.AppendToURL($"/account/reset-password/{user.PasswordResetToken}"));
+            textCopy = textCopy.Replace("#INVITELINK", _appSettings.BaseUrl.AppendToURL($"ForgotPassword/Confirm?token={user.PasswordResetToken}"))
+                .Replace("#COMPANYNAME", "Ecommerce")
+                .Replace("#INVITELINK", user.PasswordResetToken);
 
-            //await AWSEmailService.SendMail(_awsSettings.EmailSender, user.Email, "Password reset request", textCopy, _awsSettings.AccessKey, _awsSettings.AccessSecret, RegionEndpoint.USEast2);
+            var subject = "You received a password reset request from Ecommerce";
+
+            _emailService.Send(email, subject, textCopy, email);
         }
 
         public async Task<UserDataDTO> GetUserDataDtoById(long userId)
         {
             var user = await _userRepository.GetById(userId);
-            
+
             return _mapper.Map<UserDataDTO>(user);
+        }
+
+        public async Task<ServiceResponse> ConfirmAccount(string token)
+        {
+            ServiceResponse response = new ServiceResponse
+            {
+                Metadata = new Metadata
+                {
+                    Message = "Success",
+                    Status = System.Net.HttpStatusCode.OK
+                },
+                Data = new Data { }
+            };
+
+            try
+            {
+                await _userRepository.ConfirmAccount(token);
+            }
+            catch (Exception e)
+            {
+                response.Metadata.Status = System.Net.HttpStatusCode.BadRequest;
+                response.Metadata.Message = e.Message;
+            }
+
+            return response;
         }
     }
 }

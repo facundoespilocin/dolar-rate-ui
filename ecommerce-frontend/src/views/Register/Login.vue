@@ -1,32 +1,36 @@
 <template>
-    <div id="contenedorPadre" class="p-5">
-        <div id="contenedorHijo">
-            <div class="border-shadow p-3">
-                <h1>Login</h1>
-                
-                <div class="col-sm-12">
-                    <label>Email</label>
-                    <input type="email" placeholder="Ingresá el Email" class="form-control my-2 " v-model="user.userName">
-                </div>
+    <div class="p-5">
+        <div class="border-shadow p-3 container col-sm-5">
+            <h2 style="text-align: center">Iniciar sesión</h2>
+            
+            <hr>
 
-                <div class="row">
-                    <div class="col-sm-12">
-                        <label>Password</label>
-                        <input type="password" placeholder="Ingresá la Contraseña" class="form-control my-2" v-model="user.password">
-                    </div>
+            <div class="row">
+                <div class="col-sm-3"></div>
+
+                <div class="col-sm-6">
+                    <label>Email</label>
+                    <input type="email" placeholder="Ingresá el Email" class="form-control my-2" v-model="user.userName">
+                </div>
+            </div>
+
+            <div class="row margin-bottom">
+                <div class="col-sm-3"></div>
+
+                <div class="col-sm-6">
+                    <label>Password</label>
+                    <input type="password" placeholder="Ingresá la Contraseña" class="form-control my-2" v-model="user.password">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 pull-left my-2">
+                    <a href="/ForgotPassword"><strong>Olvidaste tu contraseña?</strong></a>
                 </div>
                 
-                <div class="row">
-                    <div class="col-sm-12 pull-right">
-                        <a class="mx-3" href="/ForgotPassword"><strong>Forgot password?</strong></a>
-                        
-                        <b-button class="btn-dark mx-3" href="/Register"><strong>Register</strong></b-button>
-                        <b-button class="btn-dark" type="submit" v-on:click="login"><strong>Sign In</strong></b-button>
-                    </div>
-                </div>
-                
-                <div v-if="message !== ''">
-                    <p>{{ message }}</p>
+                <div class="col-sm-6 pull-right">
+                    <b-button class="btn-dark mx-2" href="/Register"><strong>Registrar</strong></b-button>
+                    <b-button class="btn-dark" type="submit" v-on:click="login"><strong>Iniciar sesión</strong></b-button>
                 </div>
             </div>
         </div>
@@ -44,13 +48,21 @@ export default {
         }
     },
 
-    created() { },
+    created() { 
+        this.testing();
+    },
 
     methods: {
         ...mapActions(["setUser"]),
+        ...mapActions(["setResetPasswordState"]),
+
+        async testing() {
+            console.log("test");
+            this.setResetPasswordState("sended");
+        },
 
         async login() {
-            this.axios.post("/user/authenticate/", this.user)
+            this.axios.post("/users/authenticate/", this.user)
             .then(res => {
                 console.log(res.data);
                 const token = res.data.token;

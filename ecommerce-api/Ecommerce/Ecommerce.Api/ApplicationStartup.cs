@@ -1,6 +1,8 @@
 using Ecommerce.Services.Collection;
 using Ecommerce.Services.Utils;
+using Ecommerce.Utils.Settings;
 using Microsoft.OpenApi.Models;
+using System.Text.Json.Serialization;
 
 namespace Ecommerce
 {
@@ -21,6 +23,13 @@ namespace Ecommerce
             services.AddCorsConfigurationExtensions();
             services.AddControllers();
             services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
+
+            services.Configure<AppSettings>(_configuration.GetSection("AppSettings"));
+
+            services.AddMvc().AddJsonOptions(options => 
+            {
+                options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+            });
 
             services.AddSwaggerGen(c =>
             {

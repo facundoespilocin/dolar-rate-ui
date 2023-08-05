@@ -64,6 +64,22 @@ export default {
                         },
                     ],
                 },
+                {
+                    title: "Productos",
+                    icon: "fa fa-list-ul",
+                    child: [
+                        {
+                            href: "/Products",
+                            title: "Consultar Productos",
+                            icon: "fa fa-file-alt",
+                        },
+                        {
+                            href: "/Products",
+                            title: "Cargar Productos",
+                            icon: "fa fa-file-alt",
+                        },
+                    ],
+                },
             ]
         }
     },
@@ -73,11 +89,15 @@ export default {
     },
 
     methods: {
-        ...mapActions(["setCadetsOperation"]),
+        ...mapActions(["setCadetsOperation", "setProductsOperation"]),
 
         onItemClick(e, i) {
             if (i.href === "/Cadets") {
                 this.setCadetsOperation(i.title);
+            }
+
+            if (i.href === "/Products") {
+                this.setProductsOperation(i.title);
             }
         },
 
@@ -85,16 +105,6 @@ export default {
             console.log("onCollapse");
             this.collapsed = c;
         },
-
-        login() {
-            this.axios.post("/user/1")
-            .then(res => {
-                console.log(res.data);
-            })
-            .catch(e => {
-                console.log(e);
-            })
-        }
     },
 
     computed: { },

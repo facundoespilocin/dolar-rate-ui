@@ -1,20 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Ecommerce.Services.Interfaces;
 using Ecommerce.DataAccessLayer.Entities.User;
 using Microsoft.AspNetCore.Authorization;
 using Ecommerce.DataAccessLayer.Models;
 using Newtonsoft.Json;
+using Ecommerce.Services.Interfaces;
 
 namespace Ecommerce.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UserController : ControllerBase
+    public class UsersController : ControllerBase
     {
-        private readonly ILogger<UserController> _logger;
+        private readonly ILogger<UsersController> _logger;
         private readonly IUserService _userService;
 
-        public UserController(ILogger<UserController> logger, IUserService userService)
+        public UsersController(ILogger<UsersController> logger, IUserService userService)
         {
             _logger = logger;
             _userService = userService;
@@ -40,11 +40,19 @@ namespace Ecommerce.Api.Controllers
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Create(User user)
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Create(CreateUserRequest user)
         {
-            await _userService.Create(user);
+            var result = await _userService.Create(user);
 
-            return Ok();
+            if (result.Metadata.Status == System.Net.HttpStatusCode.BadRequest)
+            {
+                return BadRequest(result);
+            }
+            else
+            {
+                return Ok(result);
+            }
         }
 
         [HttpPut]
@@ -53,7 +61,7 @@ namespace Ecommerce.Api.Controllers
         public async Task<IActionResult> Update(User user)
         {
             await _userService.UpdateUser(user);
-         
+
             return Ok();
         }
 
@@ -111,6 +119,15 @@ namespace Ecommerce.Api.Controllers
             await _userService.PostForgotPassword(request.Email);
 
             return Ok();
+        }
+
+        [AllowAnonymous]
+        [HttpPost("confirm-account/{token}")]
+        public async Task<IActionResult> ConfirmAccount(string token)
+        {
+            var confirmation = await _userService.ConfirmAccount(token);
+
+            return Ok(confirmation);
         }
     }
 }
