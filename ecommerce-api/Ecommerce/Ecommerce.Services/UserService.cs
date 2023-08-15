@@ -57,7 +57,7 @@ namespace Ecommerce.Services
 
         public async Task<ServiceResponse> Create(CreateUserRequest request)
         {
-            ServiceResponse response = new ServiceResponse
+            ServiceResponse response = new()
             {
                 Metadata = new Metadata { },
                 Data = new Data { }
@@ -105,10 +105,7 @@ namespace Ecommerce.Services
 
         public async Task<AuthResponse> GetByCredentials(string userName, string password)
         {
-            var user = await _userRepository.GetByCredentials(userName, password);
-
-            if (user == null)
-                throw new Exception($"Username {userName} does not exist or Password is incorrect");
+            var user = await _userRepository.GetByCredentials(userName, password) ?? throw new Exception($"Username {userName} does not exist or Password is incorrect");
 
             if (!user.ConfirmedAccount)
                 throw new Exception($"Account isn't confirmed");
@@ -165,12 +162,7 @@ namespace Ecommerce.Services
 
         public async Task PostForgotPassword(string email)
         {
-            var user = await _userRepository.GetUserByEmailWithPass(email);
-
-            if (user is null)
-            {
-                throw new Exception($"Email {email} does not exist");
-            }
+            var user = await _userRepository.GetUserByEmailWithPass(email) ?? throw new Exception($"Email {email} does not exist");
 
             user.PasswordResetToken = Guid.NewGuid().ToString();
 
@@ -200,7 +192,7 @@ namespace Ecommerce.Services
 
         public async Task<ServiceResponse> ConfirmAccount(string token)
         {
-            ServiceResponse response = new ServiceResponse
+            ServiceResponse response = new()
             {
                 Metadata = new Metadata
                 {

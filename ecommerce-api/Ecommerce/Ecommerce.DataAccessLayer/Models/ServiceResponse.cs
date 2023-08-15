@@ -6,6 +6,12 @@ namespace Ecommerce.DataAccessLayer.Models
     {
         public Metadata Metadata { get; set; }
         public Data Data { get; set; }
+
+        public ServiceResponse()
+        {
+            Metadata = new Metadata();
+            Data = new Data();
+        }
     }
 
     public class Metadata

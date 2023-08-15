@@ -1,7 +1,24 @@
 <template>
     <div class="home">
-        <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
-        <SearchBar msg="Welcome to Your Vue.js App"/>
+      <b-button class="btn-dark" v-b-toggle.sidebar-no-header>Menu</b-button>
+        
+        <b-sidebar bg-variant="primary" sidebar-class="" border-width="100px" no-header shadow visible>
+          <template #default="">
+            <div class="p-3">
+              <h4 class="menu-title">eCommerce App</h4>
+              
+              <nav class="mb-3">
+                <b-nav vertical>
+                  <b-nav-item v-for="itemMenu in itemsMenuList" :key="itemMenu.id">
+                        <b-icon-box variant="dark"></b-icon-box>
+                        
+                        <span class="mx-2 menu-item" v-if="itemMenu.isActive" v-on:click="goSelectedRoute(itemMenu.route)">{{ itemMenu.description }}</span>
+                  </b-nav-item>
+                </b-nav>
+              </nav>
+            </div>
+          </template>
+        </b-sidebar>
     </div>
 </template>
 
@@ -17,26 +34,35 @@ export default {
   data()
   {
     return {
-
+      itemsMenuList: [
+        {
+          id: 0,
+          description: "Home",
+          route: "/",
+          isActive: true
+        },
+        {
+          id: 1,
+          description: "About Us",
+          route: "/",
+          isActive: true
+        },
+        {
+          id: 4,
+          description: "Administración",
+          route: "/Administracion",
+          isActive: true
+        },
+      ]
     }
   },
 
-  created(){
-    this.callTest();
-  },
+  created() { },
 
   methods: {
-    callTest() {
-      let id = 1;
-      
-      this.axios.get(`/user/${id}`)
-      .then(res => {
-        console.log(res.data.name);
-      })
-      .catch(e => {
-        console.log(e);
-      })
-    }
+    goSelectedRoute(route) {
+      window.location.href = route;
+    },
   }
 }
 </script>

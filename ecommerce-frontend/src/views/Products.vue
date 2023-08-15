@@ -4,7 +4,7 @@
         
         <div class="border-shadow p-4">
             <div v-if="productsOperation === 'Consultar Productos'">
-                <Filters />
+                <ReadProducts />
             </div>
 
             <div v-if="productsOperation === 'Agregar Productos'">
@@ -19,29 +19,32 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
+import { mapGetters } from "vuex"
 import "@/assets/style.css"
-import Filters from '@/views/Products/Filters.vue'
+import ReadProducts from '@/views/Products/ReadProducts.vue'
 import NewProduct from '@/views/Products/NewProduct.vue'
 import LoadProducts from '@/views/Products/LoadProducts.vue'
 
 export default {
     components: {
-        Filters,
+        ReadProducts,
         NewProduct,
         LoadProducts,
     },
 
     data() {
-        return { }
+        return {
+        }
     },
 
-    created() { },
+    created() {
+        console.log(this.productsOperation);
+    },
 
     methods: { },
 
     computed: {
-        ...mapState(["productsOperation"])
+        ...mapGetters({productsOperation: 'getProductsOperation'})
     }
 }
 </script>

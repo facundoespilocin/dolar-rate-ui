@@ -23,11 +23,15 @@ namespace Ecommerce.Services.Collection
             services.AddTransient<IMiscService, MiscService>();
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<IProductsService, ProductsService>();
+            services.AddTransient<ICategoriesService, CategoriesService>();
+            services.AddTransient<ICustomersService, CustomersService>();
 
             // Repositories
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IMiscRepository, MiscRepository>();
             services.AddTransient<IProductsRepository, ProductsRepository>();
+            services.AddTransient<ICategoriesRepository, CategoriesRepository>();
+            services.AddTransient<ICustomersRepository, CustomersRepository>();
         }
     }
 }

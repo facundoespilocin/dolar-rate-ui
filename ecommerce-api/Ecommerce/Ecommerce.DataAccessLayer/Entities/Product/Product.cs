@@ -1,5 +1,4 @@
 ﻿using System.Text.Json.Serialization;
-using static Ecommerce.Utils.Enums;
 
 namespace Ecommerce.DataAccessLayer.Entities.Product
 {
@@ -19,6 +18,14 @@ namespace Ecommerce.DataAccessLayer.Entities.Product
         public string? ImageUrl { get; set; }
 
         [JsonIgnore]
+        public long CreatedBy { get; set; }
+
+        [JsonIgnore]
         public DateTime CreatedDate { get; set; }
+    }
+
+    public class ProductDTO : Product
+    {
+        public string? CategoryName { get; set; }
     }
 }

@@ -8,13 +8,11 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     token: "",
-    userResposne: "",
-    cadetsOperation: "",
-    editableCadet: "",
+    userResponse: "",
     resetPasswordState: "",
-    productsOperation: "",
-    editableProduct: "",
-    dataSource: "",
+    productsOperation: localStorage.getItem("productsOperation") || "",
+    categoriesOperation: localStorage.getItem("categoriesOperation") || "",
+    customersOperation: localStorage.getItem("customersOperation") || "",
   },
 
   mutations: {
@@ -30,36 +28,29 @@ export default new Vuex.Store({
       }
     },
 
-    // Cadets
-    getCadetsOperation(state, cadetsOperation) {
-      state.cadetsOperation = cadetsOperation;
-    },
-
-    getCadet(state, editableCadet) {
-      state.editableCadet = editableCadet;
-    },
-
-    // Products
-    getProductsOperation(state, productsOperation) {
-      state.productsOperation = productsOperation;
-    },
-
-    getProduct(state, editableProduct) {
-      state.editableProduct = editableProduct;
-    },
-
-    getDataSource(state, dataSource) {
-      console.log(dataSource);
-      state.dataSource = dataSource;
-    },
-
     // Register
     getResetPasswordState(state, resetPasswordState) {
       state.resetPasswordState = resetPasswordState;
-    }
+    },
   },
 
   actions: {
+    setProductsOperation(state, productsOperation) {
+      state = productsOperation;
+      //localStorage.setItem("productsOperation", JSON.stringify(productsOperation));
+      localStorage.setItem("productsOperation", productsOperation);
+    },
+
+    setCategoriesOperation(state, categoriesOperation) {
+      state = categoriesOperation;
+      localStorage.setItem("categoriesOperation", categoriesOperation);
+    },
+
+    setCustomersOperation(state, customersOperation) {
+      state = customersOperation;
+      localStorage.setItem("customersOperation", customersOperation);
+    },
+
     // Users
     setUser({ commit }, token){
       localStorage.setItem("token", token);
@@ -82,39 +73,21 @@ export default new Vuex.Store({
       }
     },
 
-    // Cadets
-    setCadetsOperation({ commit }, cadetsOperation) {
-      commit("getCadetsOperation", cadetsOperation);
-    },
-
-    setCadet({ commit }, editableCadet) {
-      commit("getCadet", editableCadet);
-    },
-
-    // Products
-    setProductsOperation({ commit }, productsOperation) {
-      commit("getProductsOperation", productsOperation);
-    },
-
-    setProduct({ commit }, editableProduct) {
-      commit("getProduct", editableProduct);
-    },
-
-    setDataSource({ commit }, dataSource) {
-      commit("getDataSource", dataSource);
-    },
-
     // Register
     setResetPasswordState({ commit }, resetPasswordState) {
-      console.log("llego: " + resetPasswordState);
       commit("getResetPasswordState", resetPasswordState);
     }
   },
 
   getters: {
-    isActive: state => !!state.token
+    isActive: state => !!state.token,
+
+    getProductsOperation: state => state.productsOperation,
+
+    getCategoriesOperation: state => state.categoriesOperation,
+
+    getCustomersOperation: state => state.customersOperation
   },
 
-  modules: {
-  }
+  modules: { }
 })

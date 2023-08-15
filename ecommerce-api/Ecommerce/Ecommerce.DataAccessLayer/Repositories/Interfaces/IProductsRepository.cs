@@ -1,14 +1,14 @@
-﻿using Ecommerce.DataAccessLayer.Entities.User;
+﻿using Ecommerce.DataAccessLayer.Entities.Product;
+using Ecommerce.DataAccessLayer.Entities.User;
 using Ecommerce.DataAccessLayer.Models;
 
 namespace Ecommerce.DataAccessLayer.Repositories.Interfaces
 {
     public interface IProductsRepository
     {
-        Task<IEnumerable<User>> GetAll();
-        Task<User> GetById(long userId);
-        Task<ServiceResponse> Create(CreateUserRequest request);
-        Task Update(User user);
-        Task Delete(int userId);
+        Task<IEnumerable<ProductDTO>> GetAll(SearchRequest request);
+        Task<IEnumerable<ProductDTO>> GetAllFiltered(SearchRequest request);
+        Task<Product> GetById(long productId);
+        Task<ServiceResponse> InsertProducts(IEnumerable<Product> products);
     }
 }

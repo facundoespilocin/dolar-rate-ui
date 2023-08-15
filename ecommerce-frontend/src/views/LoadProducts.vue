@@ -33,6 +33,7 @@ export default {
     created() { },
 
     methods: { },
+    
     computed: {
         ...mapState(["cadetsOperation"])
     }
