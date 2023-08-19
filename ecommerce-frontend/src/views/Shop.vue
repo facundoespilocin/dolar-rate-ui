@@ -1,29 +1,76 @@
 <template>
     <div class="container">
+        <!-- Navbar -->
         <Navbar></Navbar>
-        
-        <div class="card">
+
+        <div class="border-shadow p-4">
             <div class="row">
-                <div class="col-sm-4 pull-center">
-                    <span>Envío gratis en pedidos US$ 99+</span>
-                    <br>
-                    Dentro de todo el país
+                <div class="col-sm-9">
+                    <h4>Shop</h4>
                 </div>
-                <div class="col-sm-4 pull-center">
-                    <span>Envíos rápidos</span>
-                    <br>
-                    Comprá en linea, recibí dentro de las 24 hs
+
+                <!-- Order type -->
+                <div class="col-sm-3 pull-right">
+                    <span>Ordernar por</span>
+
+                    <b-select class="margin-left">
+                        <b-select-option value="h">
+                            Precio más alto
+                        </b-select-option>
+                        
+                        <b-select-option value="l">
+                            Precio más bajo 
+                        </b-select-option>
+                    </b-select>
                 </div>
-                <div class="col-sm-4 pull-center">
-                    <span>Soporte en tiempo real</span>
-                    <br>
-                    Asesoramiento ágil y personalizado
+            </div>
+
+            <div class="row">
+                <!-- Filters -->
+                <div class="col-sm-3">
+                    <label>Filtros</label>
+
+                    <b-form-group>
+                        <b-form-checkbox-group v-model="selected" :options="options"></b-form-checkbox-group>
+                    </b-form-group>
+
+                    <hr>
+
+                    <label>Precio</label>
+                    
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <span>Desde</span>
+                        </div>
+
+                        <div class="col-sm-5">
+                            <span>Hasta</span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <b-input></b-input>
+                        </div>
+
+                        <div class="col-sm-5 ">
+                            <b-input></b-input>
+                        </div>
+
+                        <div class="col-sm-2 p-0">
+                            <b-button>
+                                <b-icon-arrow-right></b-icon-arrow-right>
+                            </b-button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card section -->
+                <div class="col-sm-9">
+                    <Cards :products="products"></Cards>
                 </div>
             </div>
         </div>
-
-        <!-- Card section -->
-        <Cards :products="products"></Cards>
     </div>
 </template>
 
@@ -31,7 +78,7 @@
 import { mapGetters } from "vuex"
 import "@/assets/style.css"
 import Navbar from '@/components/Navbar/Navbar.vue'
-import Cards from '@/components/Cards/HomeCards.vue'
+import Cards from '@/components/Cards/ShopCards.vue'
 
 export default {
     components: {
@@ -41,6 +88,14 @@ export default {
 
     data() {
         return {
+            selected: [], // Must be an array reference!
+            options: [
+                { text: 'Orange', value: 'orange' },
+                { text: 'Apple', value: 'apple' },
+                { text: 'Pineapple', value: 'pineapple' },
+                { text: 'Grape', value: 'grape' }
+            ],
+
             products: [
                 {
                     id: 1,
@@ -109,28 +164,10 @@ export default {
         }
     },
 
-    async created() {
-        await this.getAllProducts();
+    created() {
     },
 
-    methods: {
-        async getAllProducts() {
-            //this.showOverlay = true;
-
-            let resource = "/products";
-
-            await this.axios.get(resource)
-            .then(res => {
-                this.products = res.data;
-            })
-            .catch(e => {
-                //this.showNotification("error", "No fue posible cargar los Productos. Error: " + e);
-            })
-            .finally(e => {
-                //this.showOverlay = false;
-            })
-        },
-    },
+    methods: { },
 
     computed: {
         ...mapGetters({customersOperation: 'getCustomersOperation'})

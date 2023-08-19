@@ -1,133 +1,137 @@
 <template>
-    <div>
-        <b-overlay :show="showOverlay" rounded="sm">
-            <div class="row my-2">
-                <label id="searchedEmail" class="control-label">Buscar como</label>
+    <div class="container">
+        <h1 class="my-2">Usuarios</h1>
+        
+        <div class="border-shadow p-4">
+            <b-overlay :show="showOverlay" rounded="sm">
+                <div class="row my-2">
+                    <label id="searchedEmail" class="control-label">Buscar como</label>
 
-                <div class="col-3">
-                    <div class="form-group">
-                        <select id="selectTypeSearch" class="form-select" v-model="searchByFilterSelected">
+                    <div class="col-3">
+                        <div class="form-group">
+                            <select id="selectTypeSearch" class="form-select" v-model="searchByFilterSelected">
 
-                            <option 
-                                v-for="(searchByFilter, index) in searchByFilters" :value="searchByFilter" :key="index">
-                                    {{ searchByFilter.description }}
-                            </option>
-                        </select>
+                                <option 
+                                    v-for="(searchByFilter, index) in searchByFilters" :value="searchByFilter" :key="index">
+                                        {{ searchByFilter.description }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="col-xs-12 col-sm-5">
+                        <input type="text"
+                            :placeholder="textPlaceholder"
+                            :class="[errorInputFilterRequired ? 'form-control is-invalid' : 'form-control']"
+                            maxlength="100"
+                            v-model="inputFilter">
+
+                        <small v-if="errorInputFilterRequired">Es un campo requerido</small>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-4" style="text-align: left">
+                        <b-button variant="primary" type="submit" v-on:click="getCustomersFiltered()">Buscar</b-button>
                     </div>
                 </div>
-                
-                <div class="col-xs-12 col-sm-5">
-                    <input type="text"
-                        :placeholder="textPlaceholder"
-                        :class="[errorInputFilterRequired ? 'form-control is-invalid' : 'form-control']"
-                        maxlength="100"
-                        v-model="inputFilter">
 
-                    <small v-if="errorInputFilterRequired">Es un campo requerido</small>
+                <div class="row">
+                    <label>Estado:</label>
+
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" value="2" v-model="statusSelected" /> Todos
+                        </label>
+
+                        <label>
+                            <input type="radio" value="1" class="margin-left" v-model="statusSelected" /> Activo
+                        </label>
+
+                        <label>
+                            <input type="radio" value="0" class="margin-left" v-model="statusSelected" /> No Activo
+                        </label>
+                    </div>
                 </div>
 
-                <div class="col-xs-12 col-sm-4" style="text-align: left">
-                    <b-button variant="primary" type="submit" v-on:click="getCustomersFiltered()">Buscar</b-button>
+                <hr>
+
+                <div class="row">
+                    <p class="mb-1"><em>Mostrando {{ totalRowsFiltered }} de {{ totalRows }} registros encontrados</em></p>
                 </div>
-            </div>
 
-            <div class="row">
-                <label>Estado:</label>
+                <!-- Table -->
+                <div v-if="customers.length > 0">
+                    
+                    <b-table 
+                        ref="customersTable"
+                        class="margin-bottom"
+                        :busy.sync="isBusy"
+                        :items="customers"
+                        :fields="fields"
+                        :bordered="true"
+                        :table-variant="'warning'"
+                        :current-page="currentPage"
+                        :per-page="pageSize"
+                        responsive="sm">
 
-                <div class="radio-group">
-                    <label>
-                        <input type="radio" value="2" v-model="statusSelected" /> Todos
-                    </label>
+                        <template #cell(name)="data">
+                            <div v-if="data.item.hasChildren">
+                                <u>
+                                    <span class="link" v-on:click="showCustomerDetail(data.item, data.index, $event.target)">{{ data.item.name }}</span>
+                                </u>
+                            </div>
+                            <div v-else>{{ data.item.name }}</div>
+                        </template>
 
-                    <label>
-                        <input type="radio" value="1" class="margin-left" v-model="statusSelected" /> Activo
-                    </label>
+                        <template #cell(operations)="data">
+                            <div class="pull-center">
+                                <b-button 
+                                    size="sm"
+                                    class="btn-danger"
+                                    v-b-modal.delete-modal
+                                    v-on:click="showModal(data.item, data.index, $event.target)">
+                                        Eliminar
+                                    <b-icon-trash></b-icon-trash>
+                                </b-button>
+                            </div>
+                        </template>
 
-                    <label>
-                        <input type="radio" value="0" class="margin-left" v-model="statusSelected" /> No Activo
-                    </label>
+                        <template #cell(price)="data">
+                            <span>$</span>{{ data.item.price }}
+                        </template> 
+
+                        <!-- A virtual composite column -->
+                        <template #cell(isActive)="data">
+                            <div class="pull-center mt-2">
+                                <b-icon-x v-if="!data.item.isActive"></b-icon-x>
+                                <b-icon-check2 v-if="data.item.isActive"></b-icon-check2>
+                            </div>
+                        </template> 
+                    </b-table>
+
+                    <b-modal 
+                        :id="deleteModal.id"
+                        :title="deleteModal.title"
+                        centered 
+                        hide-header-close
+                        @ok="removeProduct" 
+                        header-bg-variant="primary"
+                        header-text-variant="light">
+                        <span>{{ deleteModal.content }}</span>
+                    </b-modal>
+
+                    <b-pagination
+                        v-model="currentPage"
+                        :total-rows="totalRowsFiltered"
+                        :per-page="pageSize"
+                        align="fill"
+                        size="sm"
+                        class="my-0">
+                    </b-pagination>
                 </div>
-            </div>
 
-            <hr>
-
-            <div class="row">
-                <p class="mb-1"><em>Mostrando {{ totalRowsFiltered }} de {{ totalRows }} registros encontrados</em></p>
-            </div>
-
-            <!-- Table -->
-            <div v-if="customers.length > 0">
-                
-                <b-table 
-                    ref="customersTable"
-                    class="margin-bottom"
-                    :busy.sync="isBusy"
-                    :items="customers"
-                    :fields="fields"
-                    :bordered="true"
-                    :table-variant="'warning'"
-                    :current-page="currentPage"
-                    :per-page="pageSize"
-                    responsive="sm">
-
-                    <template #cell(name)="data">
-                        <div v-if="data.item.hasChildren">
-                            <u>
-                                <span class="link" v-on:click="showCustomerDetail(data.item, data.index, $event.target)">{{ data.item.name }}</span>
-                            </u>
-                        </div>
-                        <div v-else>{{ data.item.name }}</div>
-                    </template>
-
-                    <template #cell(operations)="data">
-                        <div class="pull-center">
-                            <b-button 
-                                size="sm"
-                                class="btn-danger"
-                                v-b-modal.delete-modal
-                                v-on:click="showModal(data.item, data.index, $event.target)">
-                                    Eliminar
-                                <b-icon-trash></b-icon-trash>
-                            </b-button>
-                        </div>
-                    </template>
-
-                    <template #cell(price)="data">
-                        <span>$</span>{{ data.item.price }}
-                    </template> 
-
-                    <!-- A virtual composite column -->
-                    <template #cell(isActive)="data">
-                        <div class="pull-center mt-2">
-                            <b-icon-x v-if="!data.item.isActive"></b-icon-x>
-                            <b-icon-check2 v-if="data.item.isActive"></b-icon-check2>
-                        </div>
-                    </template> 
-                </b-table>
-
-                <b-modal 
-                    :id="deleteModal.id"
-                    :title="deleteModal.title"
-                    centered 
-                    hide-header-close
-                    @ok="removeProduct" 
-                    header-bg-variant="primary"
-                    header-text-variant="light">
-                    <span>{{ deleteModal.content }}</span>
-                </b-modal>
-
-                <b-pagination
-                    v-model="currentPage"
-                    :total-rows="totalRowsFiltered"
-                    :per-page="pageSize"
-                    align="fill"
-                    size="sm"
-                    class="my-0">
-                </b-pagination>
-            </div>
-
-            <ResultsNotFounded v-if="noResultsFounded"></ResultsNotFounded>
-        </b-overlay>
+                <ResultsNotFounded v-if="noResultsFounded"></ResultsNotFounded>
+            </b-overlay>
+        </div>
     </div>
 </template>
 

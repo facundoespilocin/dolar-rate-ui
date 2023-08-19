@@ -1,61 +1,59 @@
 <template>
     <div>
-        <div class="row my-2">
-            <label id="searchedEmail" class="control-label">Buscar como</label>
+        <b-overlay :show="showOverlay" rounded="sm">
+            <div class="row my-2">
+                <label id="searchedEmail" class="control-label">Buscar como</label>
 
-            <div class="col-2">
-                <div class="form-group">
-                    <select id="selectTypeSearch" class="form-select" v-model="searchByFilterSelected">
-
-                        <option 
-                            v-for="(searchByFilter, index) in searchByFilters" :value="searchByFilter" :key="index">
+                <div class="col-2">
+                    <div class="form-group">
+                        <select id="selectTypeSearch" class="form-select" v-model="searchByFilterSelected">
+                            <option v-for="(searchByFilter, index) in searchByFilters" :value="searchByFilter" :key="index">
                                 {{ searchByFilter.description }}
-                        </option>
-                    </select>
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text"
+                        :placeholder="textPlaceholder"
+                        :class="[errorInputFilterRequired ? 'form-control is-invalid' : 'form-control']"
+                        maxlength="100"
+                        v-model="inputFilter">
+                        <small v-if="errorInputFilterRequired">Es un campo requerido</small>
+                </div>
+
+                <div class="col-xs-12 col-sm-4" style="text-align: left">
+                    <b-button variant="primary" type="submit" v-on:click="getProductsFiltered()">Buscar</b-button>
                 </div>
             </div>
-            
-            <div class="col-xs-12 col-sm-6">
-                <input type="text"
-                    :placeholder="textPlaceholder"
-                    :class="[errorInputFilterRequired ? 'form-control is-invalid' : 'form-control']"
-                    maxlength="100"
-                    v-model="inputFilter">
-                    <small v-if="errorInputFilterRequired">Es un campo requerido</small>
+
+            <div class="row">
+                <label>Estado:</label>
+
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" value="2" v-model="statusSelected" /> Todos
+                    </label>
+
+                    <label>
+                        <input type="radio" value="1" class="margin-left" v-model="statusSelected" /> Activo
+                    </label>
+
+                    <label>
+                        <input type="radio" value="0" class="margin-left" v-model="statusSelected" /> No Activo
+                    </label>
+                </div>
             </div>
 
-            <div class="col-xs-12 col-sm-4" style="text-align: left">
-                <b-button variant="primary" type="submit" v-on:click="getProductsFiltered()">Buscar</b-button>
+            <hr>
+
+            <div class="row">
+                <p class="mb-1"><em>Mostrando {{ totalRowsFiltered }} de {{ totalRows }} registros encontrados</em></p>
             </div>
-        </div>
 
-        <div class="row">
-            <label>Estado:</label>
-
-            <div class="radio-group">
-                <label>
-                    <input type="radio" value="2" v-model="statusSelected" /> Todos
-                </label>
-
-                <label>
-                    <input type="radio" value="1" class="margin-left" v-model="statusSelected" /> Activo
-                </label>
-
-                <label>
-                    <input type="radio" value="0" class="margin-left" v-model="statusSelected" /> No Activo
-                </label>
-            </div>
-        </div>
-
-        <hr>
-
-        <div class="row">
-            <p class="mb-1"><em>Mostrando {{ totalRowsFiltered }} de {{ totalRows }} registros encontrados</em></p>
-        </div>
-
-        <!-- Table -->
-        <div v-if="products.length > 0">
-            <b-overlay :show="showOverlay" rounded="sm">
+            <!-- Table -->
+            <div v-if="products.length > 0">
                 <b-table 
                     ref="productsTable"
                     class="margin-bottom"
@@ -93,30 +91,30 @@
                         </div>
                     </template> 
                 </b-table>
-            </b-overlay>
 
-            <b-modal 
-                :id="deleteModal.id"
-                :title="deleteModal.title"
-                centered 
-                hide-header-close
-                @ok="removeProduct" 
-                header-bg-variant="primary"
-                header-text-variant="light">
-                <span>{{ deleteModal.content }}</span>
-            </b-modal>
+                <b-modal 
+                    :id="deleteModal.id"
+                    :title="deleteModal.title"
+                    centered 
+                    hide-header-close
+                    @ok="removeProduct" 
+                    header-bg-variant="primary"
+                    header-text-variant="light">
+                    <span>{{ deleteModal.content }}</span>
+                </b-modal>
 
-            <b-pagination
-                v-model="currentPage"
-                :total-rows="totalRowsFiltered"
-                :per-page="pageSize"
-                align="fill"
-                size="sm"
-                class="my-0">
-            </b-pagination>
-        </div>
+                <b-pagination
+                    v-model="currentPage"
+                    :total-rows="totalRowsFiltered"
+                    :per-page="pageSize"
+                    align="fill"
+                    size="sm"
+                    class="my-0">
+                </b-pagination>
+            </div>
 
-        <ResultsNotFounded v-if="noResultsFounded"></ResultsNotFounded>
+            <ResultsNotFounded v-if="noResultsFounded"></ResultsNotFounded>
+        </b-overlay>
     </div>
 </template>
 
@@ -135,6 +133,7 @@ export default {
             products: [],
             productSelected: null,
             isBusy: false,
+            showOverlay: false,
 
             // Filter Area
             // States
@@ -211,7 +210,6 @@ export default {
     },
 
     async mounted() {
-        //this.getProducts();
         await this.getAllProducts();
     },
 

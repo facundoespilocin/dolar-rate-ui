@@ -33,7 +33,10 @@ namespace Ecommerce.DataAccessLayer.Repositories
 
             var where = (whereClause.Any() ? " WHERE " : "") + string.Join(" AND ", whereClause);
 
-            string select = "SELECT * FROM Customers c ";
+            string select = $@"SELECT c.*, g.Name AS Gender, dt.Name AS DocumentType, co.Name AS Country FROM Customers c
+                               INNER JOIN Genders g ON c.GenderId = g.Id
+                               INNER JOIN DocumentTypes dt ON c.DocumentTypeId = dt.Id
+                               INNER JOIN Countries co ON c.CountryId = co.Id ";
 
             var productsQuery = $@"{select} {where};";
 

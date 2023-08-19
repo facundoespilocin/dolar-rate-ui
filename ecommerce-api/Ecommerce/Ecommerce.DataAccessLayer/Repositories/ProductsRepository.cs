@@ -93,10 +93,35 @@ namespace Ecommerce.DataAccessLayer.Repositories
 
             var currentDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
-            var query = @$"INSERT INTO Products (Name, IsActive, ProductCategoryId, Price, Quantity, BrandId, Tags, ImageUrl, CreatedBy, CreatedDate)
-                                        VALUES(@Name, @IsActive, @ProductCategoryId, @Price, @Quantity, @BrandId, @Tags, @ImageUrl, 1, '{currentDate}');";
+            var query = @$"INSERT INTO Products (Name, IsActive, CategoryId, Price, Quantity, BrandId, Tags, ImageUrl, CreatedBy, CreatedDate)
+                                        VALUES(@Name, @IsActive, @CategoryId, @Price, @Quantity, @BrandId, @Tags, @ImageUrl, 1, '{currentDate}');";
 
             var result = await con.ExecuteAsync(query, products);
+
+            return new ServiceResponse
+            {
+                Metadata = new Metadata
+                {
+                    Message = "Success",
+                    Status = System.Net.HttpStatusCode.OK
+                },
+                Data = new Data
+                {
+                    Id = result,
+                }
+            };
+        }
+
+        public async Task<ServiceResponse> InsertProduct(CreateProductDTO product)
+        {
+            using var con = _factory.GetDbConnection;
+
+            var currentDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+            var query = @$"INSERT INTO Products (Name, Description, ShortDescription, IsActive, CategoryId, Price, Quantity, Discount, CustomAttributes, ImageUrl, CreatedBy, CreatedDate)
+                                         VALUES(@Name, @Description, @ShortDescription, @IsActive, @CategoryId, @Price, @Quantity, @Discount, @CustomAttributes, @ImageUrl, 1, '{currentDate}');";
+
+            var result = await con.ExecuteAsync(query, product.Product);
 
             return new ServiceResponse
             {

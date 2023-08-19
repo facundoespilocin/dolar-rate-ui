@@ -35,6 +35,24 @@ namespace Ecommerce.Services
             return products;
         }
 
+
+        public async Task<ServiceResponse> PostCreateProduct(CreateProductDTO request)
+        {
+            ServiceResponse response = new();
+
+            try
+            {
+                response = await _productsRepository.InsertProduct(request);
+            }
+            catch (Exception e)
+            {
+                response.Metadata.Status = System.Net.HttpStatusCode.BadRequest;
+                response.Metadata.Message = e.Message;
+            }
+
+            return response;
+        }
+
         public async Task<ServiceResponse> PostLoadProducts(LoadProductsDTO request)
         {
             ServiceResponse response = new();

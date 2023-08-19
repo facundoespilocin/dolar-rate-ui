@@ -9,7 +9,7 @@ namespace Ecommerce.DataAccessLayer.Entities.Product
         public double Price { get; set; }
         public long Quantity { get; set; }
         public bool IsActive { get; set; } = true;
-        public long ProductCategoryId { get; set; }
+        public long CategoryId { get; set; }
 
         [JsonIgnore]
         public long BrandId { get; set; }

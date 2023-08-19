@@ -8,6 +8,7 @@ namespace Ecommerce.Services.Interfaces
     public interface IProductsService
     {
         Task<IEnumerable<ProductDTO>> GetAll(SearchRequest request);
+        Task<ServiceResponse> PostCreateProduct(CreateProductDTO request);
         Task<ServiceResponse> PostLoadProducts(LoadProductsDTO request);
         Task<IEnumerable<Product>> PostReadProducts(IFormFile file, DataSourceTypes dataSource);
     }

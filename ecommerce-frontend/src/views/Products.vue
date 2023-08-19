@@ -7,7 +7,7 @@
                 <ReadProducts />
             </div>
 
-            <div v-if="productsOperation === 'Agregar Productos'">
+            <div v-if="productsOperation === 'Agregar Producto'">
                 <NewProduct />
             </div>
 
