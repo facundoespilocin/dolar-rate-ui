@@ -7,7 +7,8 @@
                 <ReadCategories />
             </div>
 
-            <div v-if="categoriesOperation === 'Agregar Categorias'">
+            <div v-if="categoriesOperation === 'Agregar Categoria'">
+                <NewCategory />
             </div>
 
             <div v-if="categoriesOperation === 'Cargar Categorias'">
@@ -20,10 +21,12 @@
 import { mapGetters } from "vuex"
 import "@/assets/style.css"
 import ReadCategories from '@/views/Categories/ReadCategories.vue'
+import NewCategory from '@/views/Categories/NewCategory.vue'
 
 export default {
     components: {
         ReadCategories,
+        NewCategory
     },
 
     data() {

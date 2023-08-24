@@ -7,6 +7,7 @@ namespace Ecommerce.DataAccessLayer.Repositories.Interfaces
     {
         Task<IEnumerable<Category>> GetAll(SearchRequest request);
         Task<Category> GetById(long categoryId);
-        Task<ServiceResponse> InsertProducts(IEnumerable<Category> categories);
+        Task<ServiceResponse> InsertCategories(IEnumerable<Category> categories);
+        Task<ServiceResponse> InsertCategory(CreateCategoryDTO request);
     }
 }

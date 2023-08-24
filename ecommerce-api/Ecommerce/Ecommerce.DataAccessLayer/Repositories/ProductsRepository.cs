@@ -112,7 +112,7 @@ namespace Ecommerce.DataAccessLayer.Repositories
             };
         }
 
-        public async Task<ServiceResponse> InsertProduct(CreateProductDTO product)
+        public async Task<ServiceResponse> InsertProduct(CreateProductDTO request)
         {
             using var con = _factory.GetDbConnection;
 
@@ -121,7 +121,7 @@ namespace Ecommerce.DataAccessLayer.Repositories
             var query = @$"INSERT INTO Products (Name, Description, ShortDescription, IsActive, CategoryId, Price, Quantity, Discount, CustomAttributes, ImageUrl, CreatedBy, CreatedDate)
                                          VALUES(@Name, @Description, @ShortDescription, @IsActive, @CategoryId, @Price, @Quantity, @Discount, @CustomAttributes, @ImageUrl, 1, '{currentDate}');";
 
-            var result = await con.ExecuteAsync(query, product.Product);
+            var result = await con.ExecuteAsync(query, request.Product);
 
             return new ServiceResponse
             {

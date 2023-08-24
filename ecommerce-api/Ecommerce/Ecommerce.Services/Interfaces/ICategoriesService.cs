@@ -7,5 +7,6 @@ namespace Ecommerce.Services.Interfaces
     public interface ICategoriesService
     {
         Task<IEnumerable<Category>> GetAll(SearchRequest request);
+        Task<ServiceResponse> PostCreateCategory(CreateCategoryDTO request);
     }
 }

@@ -1,7 +1,5 @@
 <template>
     <div class="container">
-        <Sidebar></Sidebar>
-
         <h1 class="my-2">Clientes</h1>
         
         <div class="border-shadow p-4">

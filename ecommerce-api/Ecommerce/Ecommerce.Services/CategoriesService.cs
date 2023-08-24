@@ -27,5 +27,22 @@ namespace Ecommerce.Services
 
             return categories;
         }
+
+        public async Task<ServiceResponse> PostCreateCategory(CreateCategoryDTO request)
+        {
+            ServiceResponse response = new();
+
+            try
+            {
+                response = await _categoriesRepository.InsertCategory(request);
+            }
+            catch (Exception e)
+            {
+                response.Metadata.Status = System.Net.HttpStatusCode.BadRequest;
+                response.Metadata.Message = e.Message;
+            }
+
+            return response;
+        }
     }
 }

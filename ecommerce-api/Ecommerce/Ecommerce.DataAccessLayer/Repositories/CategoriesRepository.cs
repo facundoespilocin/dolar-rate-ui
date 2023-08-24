@@ -53,7 +53,7 @@ namespace Ecommerce.DataAccessLayer.Repositories
             return user;
         }
 
-        public async Task<ServiceResponse> InsertProducts(IEnumerable<Category> categories)
+        public async Task<ServiceResponse> InsertCategories(IEnumerable<Category> categories)
         {
             using var con = _factory.GetDbConnection;
 
@@ -63,6 +63,60 @@ namespace Ecommerce.DataAccessLayer.Repositories
                                            VALUES(@Name, @HierarchicalName, @Level, @HasChildren, @IsActive, @ParentId, @Ancestry, 1, '{currentDate}');";
 
             var result = await con.ExecuteAsync(query, categories);
+
+            return new ServiceResponse
+            {
+                Metadata = new Metadata
+                {
+                    Message = "Success",
+                    Status = System.Net.HttpStatusCode.OK
+                },
+                Data = new Data
+                {
+                    Id = result,
+                }
+            };
+        }
+
+        public async Task<ServiceResponse> InsertCategory(CreateCategoryDTO request)
+        {
+            using var con = _factory.GetDbConnection;
+
+            var childrenQuery = string.Empty;
+
+            var query = @$"INSERT INTO Categories (Name, HierarchicalName, Level, HasChildren, IsActive, ParentId, CreatedBy, CreatedDate)
+                                           VALUES(@Name, @HierarchicalName, @Level, @HasChildren, @IsActive, @ParentId, @CreatedBy, @CreatedDate);
+                           SELECT LAST_INSERT_ID();";
+
+            var result = await con.QuerySingleOrDefaultAsync<long>(query, new
+            {
+                request.Category.Name,
+                request.Category.HierarchicalName,
+                request.Category.Level,
+                request.Category.HasChildren,
+                request.Category.IsActive,
+                request.Category.ParentId,
+                CreatedBy = 1,
+                request.Category.CreatedDate
+            });
+
+            if (request.Category.HasChildren)
+            {
+                foreach (var children in request.Category.Children)
+                {
+                    await con.ExecuteAsync(query, new
+                    {
+                        children.Name,
+                        HierarchicalName = request.Category.HierarchicalName + " - " + children.Name,
+                        Level = request.Category.Level + 1,
+                        children.HasChildren,
+                        request.Category.IsActive,
+                        ParentId = result,
+                        CreatedBy = 1,
+                        request.Category.CreatedDate
+                    });
+                }
+            }
 
             return new ServiceResponse
             {

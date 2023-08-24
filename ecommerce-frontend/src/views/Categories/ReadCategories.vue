@@ -115,6 +115,7 @@
                     <span>{{ deleteModal.content }}</span>
                 </b-modal>
 
+                <!-- Detail modal -->
                 <b-modal 
                     :id="categoryDetailModal.id"
                     :title="categoryDetailModal.title"
@@ -123,7 +124,32 @@
                     @ok="removeProduct"
                     header-bg-variant="primary"
                     header-text-variant="light">
-                    <span>{{ categoryDetailModal.content }}</span>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label id="productName" class="control-label">Nombre</label>
+                                <input 
+                                    type="text"
+                                    class="form-control"
+                                    :class="[errorNameRequired ? 'is-invalid' : '']"
+                                    placeholder="Ingresá el Nombre"
+                                    maxlength="100"
+                                    v-model="categorySelected.name">
+                                <small v-if="errorNameRequired">Es un campo requerido</small>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label id="productName" class="control-label">Padre</label>
+                                <input 
+                                    type="text"
+                                    class="form-control"
+                                    :class="[errorParentRequired ? 'is-invalid' : '']"
+                                    placeholder="Ingresá el Nombre"
+                                    maxlength="100"
+                                    v-model="categorySelected.hierarchicalName">
+                                <small v-if="errorNameRequired">Es un campo requerido</small>
+                        </div>
+                        </div>
                 </b-modal>
 
                 <b-pagination
@@ -153,7 +179,8 @@ export default {
     data() {
         return {
             categories: [],
-            categorySelected: null,
+            categoriesChildren: [],
+            categorySelected: {},
             isBusy: false,
             showOverlay: false,
 
@@ -223,6 +250,9 @@ export default {
                 title: 'Detalle de Categoría',
                 content: 'Contenido'
             },
+            errorNameRequired: false,
+            errorParentRequired: false,
+            errorStatusRequired: false,
 
             statusCode: null,
         }
@@ -230,6 +260,7 @@ export default {
 
     async mounted() {
         await this.getAllCategories();
+        this.getAllChildrenCategories();
     },
 
     created() {
@@ -245,8 +276,9 @@ export default {
         // Category Detail Modal
         showCategoryDetail(item, index, button) {
             this.$root.$emit('bv::show::modal', this.categoryDetailModal.id, button);
-            this.categorySelected = item?.id;
-            this.categoryDetailModal.content = "Categoría Padre: " + item.name;
+            console.log(item);
+            this.categorySelected = item;
+            //this.categoryDetailModal.content = "Categoría Padre: " + item.name;
         },
 
         closeTag() {},
@@ -309,6 +341,12 @@ export default {
                 this.showOverlay = false;
                 this.isBusy = false;
             })
+        },
+
+        getAllChildrenCategories() {
+            let categoriesWithChildren = this.categories.filter(c => c.hasChildren);
+            let filteredIds = categoriesWithChildren.map(category => category.id);
+            this.categoriesChildren = this.categories.filter(category => filteredIds.includes(category.id));
         },
 
         validateFields() {

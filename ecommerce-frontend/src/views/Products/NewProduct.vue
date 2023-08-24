@@ -35,7 +35,7 @@
 
             <div class="row my-2">
                 <div class="col-sm-6">
-                    <label id="productName" class="control-label">Descripción corta</label>
+                    <label id="productShortDescription" class="control-label">Descripción corta</label>
                     <input 
                         type="text"
                         class="form-control"
@@ -58,7 +58,7 @@
                 </div>
 
                 <div class="col-sm-3">
-                    <label id="productEmail" class="control-label">Cantidad</label>
+                    <label id="productQuantity" class="control-label">Cantidad</label>
                     <input 
                         type="number"
                         class="form-control"
@@ -71,13 +71,10 @@
                 <div class="col-sm-4">
                     <label id="productCategory" class="control-label">Categoría</label>
                     <b-form-select v-model="categorySelected" class="form-control">
-                        <b-form-select-option :value="null">Please select an option</b-form-select-option>
-                        <b-form-select-option value="a">Option A</b-form-select-option>
-                        <b-form-select-option value="b" disabled>Option B (disabled)</b-form-select-option>
-                        <b-form-select-option-group label="Grouped options">
-                            <b-form-select-option :value="{ C: '3PO' }">Option with object value</b-form-select-option>
-                            <b-form-select-option :value="{ R: '2D2' }">Another option with object value</b-form-select-option>
-                        </b-form-select-option-group>
+                        <b-form-select-option :value="null">Seleccioná una opción</b-form-select-option>
+                        <b-form-select-option v-for="category in categories" :key="category.id" :value=category.id>
+                            {{ category.hierarchicalName }}
+                        </b-form-select-option>
                     </b-form-select>
                 </div>
 
@@ -151,24 +148,24 @@
 
             <div class="row" v-if="showDiscount">
                 <div class="col-sm-2">
-                    <label id="productEmail" class="control-label">Nombre</label>
+                    <label id="productDiscountName" class="control-label">Nombre</label>
                     <input 
                         class="form-control"
                         :class="[errorDiscountNameRequired ? 'is-invalid' : '']"
                         :disabled="discountDisabled"
-                        placeholder="Ingresá la Nombre"
+                        placeholder="Ingresá el Nombre"
                         type="text"
                         v-model="product.discount.name">
                     <small v-if="errorDiscountNameRequired">Es un campo requerido</small>
                 </div>
 
                 <div class="col-sm-2">
-                    <label id="productEmail" class="control-label">Valor</label>
+                    <label id="productDiscountValue" class="control-label">Valor</label>
                     <input 
                         class="form-control"
                         :class="[errorDiscountValueRequired ? 'is-invalid' : '']"
                         type="number"
-                        placeholder="Ingresá la Valor"
+                        placeholder="Ingresá el Valor"
                         :disabled="discountDisabled"
                         v-model="product.discount.value">
                     <small v-if="errorDiscountValueRequired">Es un campo requerido</small>
@@ -206,24 +203,24 @@
 
             <div class="row mt-2" v-for="customAttribute in customAttributes" :key="customAttribute.id">
                 <div class="col-sm-2" v-if="customAttribute.isActive">
-                    <label id="productEmail" class="control-label">Nombre</label>
+                    <label id="productCustomAttributeName" class="control-label">Nombre</label>
                     <input 
                         class="form-control"
                         :class="[errorCustomAttributeNameRequired ? 'is-invalid' : '']"
                         :disabled="customAttribute.isDisabled"
-                        placeholder="Ingresá la Nombre"
+                        placeholder="Ingresá el Nombre"
                         type="text"
                         v-model="customAttribute.name">
                     <small v-if="errorCustomAttributeNameRequired">Es un campo requerido</small>
                 </div>
 
                 <div class="col-sm-2" v-if="customAttribute.isActive">
-                    <label id="productEmail" class="control-label">Valor</label>
+                    <label id="productCustomAttributeValue" class="control-label">Valor</label>
                     <input 
                         class="form-control"
                         :class="[errorCustomAttributeValueRequired ? 'is-invalid' : '']"
                         :disabled="customAttribute.isDisabled"
-                        placeholder="Ingresá la Valor"
+                        placeholder="Ingresá el Valor"
                         type="text"
                         v-model="customAttribute.value">
                     <small v-if="errorCustomAttributeValueRequired">Es un campo requerido</small>
@@ -250,7 +247,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
+import { mapActions } from "vuex"
 import "@/assets/style.css"
 
 export default {
@@ -264,6 +261,9 @@ export default {
             errorDiscountValueRequired: false,
             errorCustomAttributeNameRequired: false,
             errorCustomAttributeValueRequired: false,
+            
+            categories: [],
+            categoriesWithChildren: [],
 
             product: {
                 name: "Producto de prueba",
@@ -275,8 +275,8 @@ export default {
                 status: 2,
                 image: null,
                 discount: {
-                    name: "Descuento del 10%",
-                    value: 10
+                    name: "Descuento del 25%",
+                    value: 25
                 },
                 customAttributes: [
                     {
@@ -352,10 +352,30 @@ export default {
         }
     },
 
-    created() { 
+    async created() { 
+        await this.getAllCategories();
     },
 
     methods: {
+        ...mapActions(['convertToJSON']),
+
+        async getAllCategories() {
+            this.showOverlay = true;
+
+            let resource = "/categories";
+
+            await this.axios.get(resource)
+            .then(res => {
+                this.categories = res.data;
+            })
+            .catch(e => {
+                this.showNotification("error", "No fue posible cargar las Categorías. Error: " + e);
+            })
+            .finally(e => {
+                this.showOverlay = false;
+            })
+        },
+
         cleanFile() {
             this.$refs['file-input'].reset();
         },
@@ -398,8 +418,11 @@ export default {
 
         cleanDiscount() {
             this.discountDisabled = this.errorDiscountNameRequired = this.errorDiscountValueRequired = false;
-            this.product.discount.name = null;
-            this.product.discount.value = 0;
+
+            this.product.discount = {
+                name: null,
+                value: 0
+            }
         },
 
         cleanCustomAttributes() {
@@ -470,27 +493,26 @@ export default {
 
             //this.axios.post("/cadets", this.cadet, config)
             let discountValidation = true;
-            let customAttributesValidation = true;
-            // let customAttributesValidation = this.customAttributes.filter(i => i.isActive);
+            let customAttributesValidation = this.customAttributes.filter(i => i.isActive);
 
-            // if (this.showDiscount) {
-            //     console.log("se valida discountValidation");
-            //     discountValidation = this.validateDiscount();
-            // }
+            if (this.showDiscount) {
+                console.log("se valida discountValidation");
+                discountValidation = this.validateDiscount();
+            }
 
-            // if (customAttributesValidation.length > 0) {
-            //     console.log("se valida customAttributesValidation");
-            //     customAttributesValidation = this.validateCustomAttributes();
-            // } else {
-            //     this.product.customAttributes = [];
-            // }
+            if (customAttributesValidation.length > 0) {
+                console.log("se valida customAttributesValidation");
+                customAttributesValidation = this.validateCustomAttributes();
+            } else {
+                this.product.customAttributes = null;
+            }
 
             if (discountValidation && customAttributesValidation) {
                 let validateForm = this.validateFields();
                 
                 if (validateForm) {
-                    this.product.discount = JSON.stringify(this.product.discount);
-                    this.product.customAttributes = JSON.stringify(this.product.customAttributes);
+                    this.product.discount = await this.convertToJSON(this.product.discount);
+                    this.product.customAttributes = await this.convertToJSON(this.product.customAttributes);
 
                     let body = {
                         product: this.product
@@ -499,8 +521,7 @@ export default {
                     await this.axios.post("/products", body)
                     .then(res => {
                         this.cleanProduct();
-                        
-                        this.showNotification("success", "Se ingresó correctamente el Producto");
+                        this.showNotification("success", "Se guardó correctamente el Producto");
                     })
                     .catch(e => {                    
                         // if (e.response.data.error.errors.name.message) {
@@ -508,6 +529,8 @@ export default {
                         // } else {
                         //     this.message.text = "No se ingresó la Nota"
                         // }
+                    })
+                    .finally(e => {
                     })
                 }
             }
@@ -624,7 +647,6 @@ export default {
         'product.price': function() {
             // Eliminar caracteres que no sean números ni puntos decimales
             this.product.price = this.product.price.replace(/[^0-9.]/g, '');
-
             // Eliminar ceros a la izquierda
             this.product.price = this.product.price.replace(/^0+/, '');
 
@@ -652,25 +674,26 @@ export default {
 
         'product.discount.value': function() {
             // Eliminar caracteres que no sean números ni puntos decimales
-            this.product.discount.value = this.product.discount.value.replace(/[^0-9.]/g, '');
+            if (this.product.discount.value > 0) {
+                this.product.discount.value = this.product.discount.value.replace(/[^0-9.]/g, '');
+                console.log(this.product.discount);
 
-            // Eliminar ceros a la izquierda
-            this.product.discount.value = this.product.discount.value.replace(/^0+/, '');
+                // Eliminar ceros a la izquierda
+                this.product.discount.value = this.product.discount.value.replace(/^0+/, '');
 
-            // Limitar a dos cifras decimales
-            const portions = this.product.discount.value.split('.');
+                // Limitar a dos cifras decimales
+                const portions = this.product.discount.value.split('.');
 
-            if (portions.length === 2) {
-                portions[1] = portions[1].slice(0, 2);
-                this.product.discount.value = portions.join('.');
-            } else if (portions.length > 2) {
-                this.product.discount.value = portions[0] + '.' + portions[1].slice(0, 2);
+                if (portions.length === 2) {
+                    portions[1] = portions[1].slice(0, 2);
+                    this.product.discount.value = portions.join('.');
+                } else if (portions.length > 2) {
+                    this.product.discount.value = portions[0] + '.' + portions[1].slice(0, 2);
+                }
             }
         }
     },
 
-    computed: {
-        ...mapState([""]),
-    }
+    computed: {}
 }
 </script>

@@ -35,7 +35,6 @@ namespace Ecommerce.Services
             return products;
         }
 
-
         public async Task<ServiceResponse> PostCreateProduct(CreateProductDTO request)
         {
             ServiceResponse response = new();

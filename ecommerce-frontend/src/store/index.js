@@ -76,6 +76,19 @@ export default new Vuex.Store({
     // Register
     setResetPasswordState({ commit }, resetPasswordState) {
       commit("getResetPasswordState", resetPasswordState);
+    },
+
+    // Custom functions
+    convertToJSON(context, object) {
+      return object !== null ? JSON.stringify(object) : null;
+    },
+
+    convertToNull(context, object) {
+      for (const key in object) {
+        if (object.hasOwnProperty(key)) {
+          object[key] = null;
+        }
+      }
     }
   },
 
