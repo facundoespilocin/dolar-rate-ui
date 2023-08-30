@@ -7,11 +7,11 @@ using Ecommerce.Utils.Extensions;
 
 namespace Ecommerce.DataAccessLayer.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UsersRepository : IUsersRepository
     {
         private IConnectionFactory _factory;
 
-        public UserRepository(IConnectionFactory factory)
+        public UsersRepository(IConnectionFactory factory)
         {
             _factory = factory;
         }
@@ -102,7 +102,7 @@ namespace Ecommerce.DataAccessLayer.Repositories
 
             var passwordHash = password.GenerateHash();
 
-            var user = await con.QueryFirstOrDefaultAsync<User>(@"SELECT * FROM Users WHERE Email = @Email and Password = @Password;", new
+            var user = await con.QueryFirstOrDefaultAsync<User>(@"SELECT * FROM Users WHERE Email = @Email", new
             {
                 Email = email,
                 Password = passwordHash

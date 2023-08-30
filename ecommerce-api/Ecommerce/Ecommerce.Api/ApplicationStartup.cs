@@ -19,7 +19,8 @@ namespace Ecommerce
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddConfigureContainerExtensions(_configuration);
+            services.ServicesDependencyInjection(_configuration);
+            services.AddHttpContextAccessor();
             services.AddCorsConfigurationExtensions();
             services.AddControllers();
             services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);

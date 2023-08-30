@@ -3,7 +3,7 @@ using Ecommerce.DataAccessLayer.Models;
 
 namespace Ecommerce.DataAccessLayer.Repositories.Interfaces
 {
-    public interface IUserRepository
+    public interface IUsersRepository
     {
         Task<IEnumerable<User>> GetAll();
         Task<User> GetById(long userId);

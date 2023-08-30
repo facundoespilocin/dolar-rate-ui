@@ -6,27 +6,23 @@ using Ecommerce.Utils.EmailService;
 using Ecommerce.Utils.Settings;
 using Ecommerce.Utils.Extensions;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
-using System.Security.Claims;
-using System.Text;
 using User = Ecommerce.DataAccessLayer.Entities.User.User;
 using CreateUserRequest = Ecommerce.DataAccessLayer.Models.CreateUserRequest;
-using Org.BouncyCastle.Asn1.Ocsp;
+using Ecommerce.DataAccessLayer.Dtos.User;
 
 namespace Ecommerce.Services
 {
-    public class UserService : IUserService
+    public class UsersService : IUsersService
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUsersRepository _usersRepository;
         private readonly AppSettings _appSettings;
         private readonly IMapper _mapper;
         private readonly IEmailService _emailService;
 
-        public UserService(IUserRepository userRepository, IOptions<AppSettings> appSettings, IMapper mapper, IEmailService emailService)
+        public UsersService(IUsersRepository usersRepository, IOptions<AppSettings> appSettings, IMapper mapper, IEmailService emailService)
         {
-            _userRepository = userRepository;
+            _usersRepository = usersRepository;
             _appSettings = appSettings.Value;
             _mapper = mapper;
             _emailService = emailService;
@@ -34,14 +30,14 @@ namespace Ecommerce.Services
 
         public async Task<IEnumerable<User>> GetAll()
         {
-            var usersList = await _userRepository.GetAll();
+            var result = await _usersRepository.GetAll();
 
-            return usersList;
+            return result;
         }
 
         public async Task<User> GetById(long userId)
         {
-            var user = await _userRepository.GetById(userId);
+            var user = await _usersRepository.GetById(userId);
 
             return user;
         }
@@ -50,9 +46,9 @@ namespace Ecommerce.Services
         {
             User user;
 
-            user = await _userRepository.GetById(userRequest.Id);
+            user = await _usersRepository.GetById(userRequest.Id);
 
-            await _userRepository.Update(user);
+            await _usersRepository.Update(user);
         }
 
         public async Task<ServiceResponse> Create(CreateUserRequest request)
@@ -65,7 +61,7 @@ namespace Ecommerce.Services
 
             try
             {
-                response = await _userRepository.Create(request);
+                response = await _usersRepository.Create(request);
 
                 var directoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
@@ -92,52 +88,13 @@ namespace Ecommerce.Services
             return response;
         }
 
-        public async Task<AuthResponse> Authenticate(AuthRequest request)
-        {
-            var authResponse = await GetByCredentials(request.UserName, request.Password);
-
-            authResponse.Token = GenerateJwtToken(authResponse);
-
-            authResponse.UserData = await GetUserDataDtoById(authResponse.Id);
-
-            return authResponse;
-        }
-
-        public async Task<AuthResponse> GetByCredentials(string userName, string password)
-        {
-            var user = await _userRepository.GetByCredentials(userName, password) ?? throw new Exception($"Username {userName} does not exist or Password is incorrect");
-
-            if (!user.ConfirmedAccount)
-                throw new Exception($"Account isn't confirmed");
-
-            return _mapper.Map<AuthResponse>(user);
-        }
-
-        private string GenerateJwtToken(AuthResponse user)
-        {
-            var tokenHandler = new JwtSecurityTokenHandler();
-
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
-
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new[] { new Claim("id", user.Id.ToString()) }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-
-            return tokenHandler.WriteToken(token);
-        }
-
         public async Task<ResetPasswordResponse> UpdateUserPassword(ResetPasswordRequest request)
         {
             var validation = await ValidateResetPasswordToken(request.Token);
 
             if (validation)
             {
-                await _userRepository.UpdateUserPassword(request.Token, request.NewPassword);
+                await _usersRepository.UpdateUserPassword(request.Token, request.NewPassword);
 
                 return new ResetPasswordResponse { Succeded = true };
             }
@@ -147,7 +104,7 @@ namespace Ecommerce.Services
 
         public async Task<bool> ValidateResetPasswordToken(string token)
         {
-            var user = await _userRepository.GetUserByToken(token);
+            var user = await _usersRepository.GetUserByToken(token);
 
             if (user is not null)
             {
@@ -162,11 +119,11 @@ namespace Ecommerce.Services
 
         public async Task PostForgotPassword(string email)
         {
-            var user = await _userRepository.GetUserByEmailWithPass(email) ?? throw new Exception($"Email {email} does not exist");
+            var user = await _usersRepository.GetUserByEmailWithPass(email) ?? throw new Exception($"Email {email} does not exist");
 
             user.PasswordResetToken = Guid.NewGuid().ToString();
 
-            await _userRepository.UpdateResetPasswordToken(email, user.PasswordResetToken);
+            await _usersRepository.UpdateResetPasswordToken(email, user.PasswordResetToken);
 
             var directoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
@@ -174,7 +131,8 @@ namespace Ecommerce.Services
             
             var textCopy = htmlText;
 
-            textCopy = textCopy.Replace("#INVITELINK", _appSettings.BaseUrl.AppendToURL($"ForgotPassword/Confirm?token={user.PasswordResetToken}"))
+            textCopy = textCopy
+                .Replace("#INVITELINK", _appSettings.BaseUrl.AppendToURL($"ForgotPassword/Confirm?token={user.PasswordResetToken}"))
                 .Replace("#COMPANYNAME", "Ecommerce")
                 .Replace("#INVITELINK", user.PasswordResetToken);
 
@@ -183,9 +141,9 @@ namespace Ecommerce.Services
             _emailService.Send(email, subject, textCopy, email);
         }
 
-        public async Task<UserDataDTO> GetUserDataDtoById(long userId)
+        public async Task<UserDataDTO> GetUserDataById(long userId)
         {
-            var user = await _userRepository.GetById(userId);
+            var user = await _usersRepository.GetById(userId);
 
             return _mapper.Map<UserDataDTO>(user);
         }
@@ -204,7 +162,7 @@ namespace Ecommerce.Services
 
             try
             {
-                await _userRepository.ConfirmAccount(token);
+                await _usersRepository.ConfirmAccount(token);
             }
             catch (Exception e)
             {

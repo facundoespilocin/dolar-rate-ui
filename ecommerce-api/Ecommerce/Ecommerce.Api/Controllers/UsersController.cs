@@ -12,19 +12,19 @@ namespace Ecommerce.Api.Controllers
     public class UsersController : ControllerBase
     {
         private readonly ILogger<UsersController> _logger;
-        private readonly IUserService _userService;
+        private readonly IUsersService _usersService;
 
-        public UsersController(ILogger<UsersController> logger, IUserService userService)
+        public UsersController(ILogger<UsersController> logger, IUsersService usersService)
         {
             _logger = logger;
-            _userService = userService;
+            _usersService = usersService;
         }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
         {
-            var result = await _userService.GetAll();
+            var result = await _usersService.GetAll();
 
             return Ok(result);
         }
@@ -33,7 +33,7 @@ namespace Ecommerce.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetById(int userId)
         {
-            var result = await _userService.GetById(userId);
+            var result = await _usersService.GetById(userId);
 
             return Ok(result);
         }
@@ -43,7 +43,7 @@ namespace Ecommerce.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Create(CreateUserRequest user)
         {
-            var result = await _userService.Create(user);
+            var result = await _usersService.Create(user);
 
             if (result.Metadata.Status == System.Net.HttpStatusCode.BadRequest)
             {
@@ -60,37 +60,9 @@ namespace Ecommerce.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Update(User user)
         {
-            await _userService.UpdateUser(user);
+            await _usersService.UpdateUser(user);
 
             return Ok();
-        }
-
-        [HttpDelete("{userId}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Delete(int userId)
-        {
-            //var result = await _userRepository.GetById(id);
-
-            //if (result == null)
-            //    return BadRequest("User to delete not found");
-
-            //await _userRepository.Delete(id);
-            return Ok();
-        }
-
-        [AllowAnonymous]
-        [HttpPost("authenticate")]
-        public async Task<IActionResult> Authenticate([FromBody] AuthRequest request)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(JsonConvert.SerializeObject(ModelState.Values.Select(e => e.Errors).ToList()));
-            }
-
-            var response = await _userService.Authenticate(request);
-
-            return Ok(response);
         }
 
         [AllowAnonymous]
@@ -102,7 +74,7 @@ namespace Ecommerce.Api.Controllers
                 return BadRequest(JsonConvert.SerializeObject(ModelState.Values.Select(e => e.Errors).ToList()));
             }
 
-            var response = await _userService.UpdateUserPassword(request);
+            var response = await _usersService.UpdateUserPassword(request);
 
             return Ok(response);
         }
@@ -116,7 +88,7 @@ namespace Ecommerce.Api.Controllers
                 return BadRequest(JsonConvert.SerializeObject(ModelState.Values.Select(e => e.Errors).ToList()));
             }
 
-            await _userService.PostForgotPassword(request.Email);
+            await _usersService.PostForgotPassword(request.Email);
 
             return Ok();
         }
@@ -125,7 +97,7 @@ namespace Ecommerce.Api.Controllers
         [HttpPost("confirm-account/{token}")]
         public async Task<IActionResult> ConfirmAccount(string token)
         {
-            var confirmation = await _userService.ConfirmAccount(token);
+            var confirmation = await _usersService.ConfirmAccount(token);
 
             return Ok(confirmation);
         }

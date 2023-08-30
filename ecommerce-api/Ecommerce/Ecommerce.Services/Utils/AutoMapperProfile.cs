@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Ecommerce.DataAccessLayer.Dtos.User;
 using Ecommerce.DataAccessLayer.Entities.User;
 using Ecommerce.DataAccessLayer.Models;
 
