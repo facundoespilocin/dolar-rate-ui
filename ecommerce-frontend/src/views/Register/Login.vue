@@ -49,25 +49,19 @@ export default {
     },
 
     created() { 
-        this.testing();
     },
 
     methods: {
         ...mapActions(["setUser"]),
         ...mapActions(["setResetPasswordState"]),
 
-        async testing() {
-            console.log("test");
-            this.setResetPasswordState("sended");
-        },
-
         async login() {
-            this.axios.post("/users/authenticate/", this.user)
+            this.axios.post("/auth/authenticate/", this.user)
             .then(res => {
                 console.log(res.data);
                 const token = res.data.token;
                 this.setUser(token);
-                window.location.href = "/Administracion";
+                window.location.href = "/";
             })
             .catch(e => {
                 console.log(e);

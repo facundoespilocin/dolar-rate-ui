@@ -4,6 +4,7 @@ using static Ecommerce.Utils.Enums;
 using Ecommerce.DataAccessLayer.Models;
 using Ecommerce.Services;
 using Ecommerce.DataAccessLayer.Entities.Product;
+using Ecommerce.DataAccessLayer.Entities.Category;
 
 namespace Ecommerce.Api.Controllers
 {

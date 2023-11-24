@@ -1,4 +1,4 @@
-﻿namespace Ecommerce.DataAccessLayer.Entities.Product
+﻿namespace Ecommerce.DataAccessLayer.Entities.Category
 {
     public class CreateCategoryDTO
     {

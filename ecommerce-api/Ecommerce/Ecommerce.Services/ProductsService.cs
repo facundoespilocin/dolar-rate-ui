@@ -34,6 +34,13 @@ namespace Ecommerce.Services
 
             return products;
         }
+        
+        public async Task<ProductDTO> GetById(long productId)
+        {
+            var products = await _productsRepository.GetById(productId);
+
+            return products;
+        }
 
         public async Task<ServiceResponse> PostCreateProduct(CreateProductDTO request)
         {

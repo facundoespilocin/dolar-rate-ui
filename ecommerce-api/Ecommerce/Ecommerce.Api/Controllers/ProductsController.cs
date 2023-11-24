@@ -33,6 +33,14 @@ namespace Ecommerce.Api.Controllers
             return Ok(result);
         }
 
+        [HttpGet("{productId}")]
+        public async Task<IActionResult> GetById(long productId)
+        {
+            var result = await _productsService.GetById(productId);
+
+            return Ok(result);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateProductDTO request)
         {

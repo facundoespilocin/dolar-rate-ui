@@ -1,6 +1,5 @@
-﻿using Ecommerce.DataAccessLayer.Entities.Product;
+﻿using Ecommerce.DataAccessLayer.Entities.Category;
 using Ecommerce.DataAccessLayer.Models;
-using static Ecommerce.Utils.Enums;
 
 namespace Ecommerce.Services.Interfaces
 {

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Ecommerce.DataAccessLayer.Entities.Product
+namespace Ecommerce.DataAccessLayer.Entities.Category
 {
     public class Category
     {

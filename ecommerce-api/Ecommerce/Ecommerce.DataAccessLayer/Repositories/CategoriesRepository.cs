@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using Ecommerce.DataAccessLayer.Entities.Product;
+using Ecommerce.DataAccessLayer.Entities.Category;
 using Ecommerce.DataAccessLayer.Factory;
 using Ecommerce.DataAccessLayer.Models;
 using Ecommerce.DataAccessLayer.Repositories.Interfaces;

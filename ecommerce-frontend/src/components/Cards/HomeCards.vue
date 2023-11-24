@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="product-section">
-            <div v-for="product in products" :key="product.id" class="home-product-card">
+            <div v-for="product in products" :key="product.id" class="home-product-card" v-on:click="goProductDetail(product.id)">
                 <img src="https://picsum.photos/300/300/?image=41" alt="Product">
                 
                 <div>
@@ -27,12 +27,17 @@ export default {
     name: "HomeCards",
     props: { 
         products: Array,
-        
     },
 
     methods: {
         addToCart(product) {
             console.log("Se agregó");
+        },
+
+        async goProductDetail(productId) {
+            console.log("ProductDetail of productId: " + productId);
+
+            window.location.href = "/Products/Details/" + productId;
         }
     }
 }

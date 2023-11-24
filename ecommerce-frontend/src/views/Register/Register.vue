@@ -172,7 +172,7 @@ export default {
             user: {
                 name: "Facundo",
                 lastName: "Espilocin", 
-                cellPhone: "+5493834902205", 
+                cellPhone: "+541124644402", 
                 birthDate: new Date(1994, 5, 15),
                 countryId: 0, 
                 industryId: 0,

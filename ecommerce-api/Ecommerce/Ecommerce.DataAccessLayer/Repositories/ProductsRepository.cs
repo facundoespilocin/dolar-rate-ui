@@ -34,10 +34,11 @@ namespace Ecommerce.DataAccessLayer.Repositories
 
             var where = (whereClause.Any() ? " WHERE " : "") + string.Join(" AND ", whereClause);
 
-            string select = $@"SELECT p.*, c.Name AS CategoryName FROM Products p 
-                               INNER JOIN Categories c ON p.ProductCategoryId = c.Id ";
+            string query = $@"SELECT p.*, c.Name AS CategoryName 
+                              FROM Products p 
+                              INNER JOIN Categories c ON p.CategoryId = c.Id ";
 
-            var productsQuery = $@"{select} {where};";
+            var productsQuery = $@"{query} {where};";
 
             var products = await con.QueryAsync<ProductDTO>(productsQuery);
 
@@ -76,13 +77,13 @@ namespace Ecommerce.DataAccessLayer.Repositories
             return products;
         }
 
-        public async Task<Product> GetById(long productId)
+        public async Task<ProductDTO> GetById(long productId)
         {
             using var con = _factory.GetDbConnection;
 
             var query = $"SELECT * FROM Products WHERE Id = {productId};";
 
-            var user = await con.QueryFirstOrDefaultAsync<Product>(query);
+            var user = await con.QueryFirstOrDefaultAsync<ProductDTO>(query);
 
             return user;
         }

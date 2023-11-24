@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="sidebar" :class="{ 'collapsed': isCollapsed }" @mouseenter="expandSidebar" ref="sidebar">
-            <h4 class="pointer pointer px-3 py-2 m-0" v-on:click="goHome()">eCommerce</h4>
+            <h4 class="pointer pointer px-3 py-2 m-0" v-on:click="goHome()">{{ !isCollapsed ? "eCommerce" : "L" }}</h4>
 
             <div class="icon-list p-0">
                 <nav class="mb-3">
@@ -22,10 +22,10 @@
                             </div>
 
                             <div v-if="itemMenu.showChilds">
-                                <b-nav-item v-for="child in itemMenu.childs" :key="child.id">
+                                <b-nav-item v-for="child in itemMenu.childs" :key="child.id" v-on:click="onItemClick(itemMenu, child)" class="menu-item" style="transition: opacity .3s ease;">
                                     <b-icon-box variant="light"></b-icon-box>
                                     
-                                    <span class="mx-3 menu-item p-0" v-if="itemMenu.isActive && itemMenu.isVisible" v-on:click="onItemClick(itemMenu, child)" style="transition: opacity .3s ease;">{{ child.title }}</span>
+                                    <span class="mx-3 p-0" v-if="itemMenu.isActive && itemMenu.isVisible" >{{ child.title }}</span>
                                 </b-nav-item>
                             </div>
                         </b-nav-item>

@@ -1,4 +1,4 @@
-﻿using Ecommerce.DataAccessLayer.Entities.Product;
+﻿using Ecommerce.DataAccessLayer.Entities.Category;
 using Ecommerce.DataAccessLayer.Models;
 
 namespace Ecommerce.DataAccessLayer.Repositories.Interfaces
