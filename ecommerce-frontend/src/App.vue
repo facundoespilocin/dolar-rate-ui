@@ -38,37 +38,6 @@
           </template>
         </b-sidebar>
       </div>
-
-      <!-- Navbar -->
-      <!-- <div id="navbar">
-        <b-navbar toggleable="lg" type="dark" variant="dark">
-          <b-navbar-brand href="#">NavBar</b-navbar-brand>
-
-          <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-
-          <b-collapse id="nav-collapse" is-nav>
-            <b-navbar-nav>
-              <b-nav-item href="/">Item 1</b-nav-item>
-              <b-nav-item href="/">Item 2</b-nav-item>
-              <b-nav-item href="/">Item 3</b-nav-item>
-              
-              <b-nav-item-dropdown right v-if="isActive"> 
-                Using 'button-content' slot
-                <template #button-content>
-                  <em>User</em>
-                </template>
-                <b-dropdown-item href="#">Profile</b-dropdown-item>
-                <b-dropdown-item v-on:click="logOut()">Sign Out</b-dropdown-item>
-              </b-nav-item-dropdown>
-            </b-navbar-nav>
-
-            Right aligned nav items
-            <b-navbar-nav class="ml-auto">
-              
-            </b-navbar-nav>
-          </b-collapse>
-        </b-navbar>
-      </div> -->
     <router-view/>
   </div>
 </template>

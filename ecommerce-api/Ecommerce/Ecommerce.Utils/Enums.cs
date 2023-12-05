@@ -17,9 +17,9 @@ namespace Ecommerce.Utils
 
         public enum StatusTypes
         {
-            NotActive = 0,
-            Active = 1,
-            All = 2,
+            NotActive = 1,
+            Active = 2,
+            All = 3,
         }
 
         public enum DocumentTypes
@@ -34,6 +34,13 @@ namespace Ecommerce.Utils
             Male = 1,
             Female = 2,
             Other = 3
+        }
+
+        public enum OrderTypes
+        {
+            Initialized = 1,
+            Finished = 2,
+            Error = 3,
         }
     }
 }

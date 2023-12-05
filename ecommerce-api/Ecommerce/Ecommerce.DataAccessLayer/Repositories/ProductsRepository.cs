@@ -34,11 +34,39 @@ namespace Ecommerce.DataAccessLayer.Repositories
 
             var where = (whereClause.Any() ? " WHERE " : "") + string.Join(" AND ", whereClause);
 
-            string query = $@"SELECT p.*, c.Name AS CategoryName 
-                              FROM Products p 
-                              INNER JOIN Categories c ON p.CategoryId = c.Id ";
+            string offset = $" OFFSET {request.PageSize * (request.CurrentPage - 1)}";
 
-            var productsQuery = $@"{query} {where};";
+            string limit = $" LIMIT {request.PageSize}";
+
+            string query = $@"SELECT 
+                               p.Id, 
+                               p.Name, 
+                               p.Description, 
+                               p.ShortDescription, 
+                               p.IsActive, 
+                               p.Price, 
+                               p.Quantity, 
+                               p.Sizes AS SizesList,
+                               p.CategoryId, 
+                               p.BrandId, 
+                               p.PaymentMethods AS PaymentMethodsList, 
+                               p.DeliveriesIds, 
+                               p.MainImageUrl, 
+                               p.ImagesUrl AS ImagesUrlList, 
+                               p.Discount, 
+                               p.CustomAttributes, 
+                               p.Tags, 
+                               p.CreatedBy, 
+                               p.CreatedDate,
+                               MAX(CASE WHEN d.Type = 1 THEN d.ShippingCost END) AS ShippingCost,
+                               MAX(CASE WHEN d.Type = 2 THEN d.ShippingCost END) AS WithdrawalCost,
+                               c.Name AS CategoryName 
+                           FROM Products p
+                           LEFT JOIN Deliveries d ON FIND_IN_SET(d.Type, p.DeliveriesIds)
+                           INNER JOIN Categories c ON p.CategoryId = c.Id
+                           GROUP BY p.Id, p.Name";
+
+            var productsQuery = $@"{query} {where} {limit} {offset};";
 
             var products = await con.QueryAsync<ProductDTO>(productsQuery);
 
@@ -77,15 +105,60 @@ namespace Ecommerce.DataAccessLayer.Repositories
             return products;
         }
 
-        public async Task<ProductDTO> GetById(long productId)
+        public async Task<ProductDetailDTO> GetById(long productId)
         {
             using var con = _factory.GetDbConnection;
 
-            var query = $"SELECT * FROM Products WHERE Id = {productId};";
+            var query = $@"SELECT 
+                               p.Id, 
+                               p.Name, 
+                               p.Description, 
+                               p.ShortDescription, 
+                               p.IsActive, 
+                               p.Price, 
+                               p.Quantity, 
+                               p.Sizes AS SizesList,
+                               p.CategoryId, 
+                               p.BrandId, 
+                               p.PaymentMethods AS PaymentMethodsList, 
+                               p.DeliveriesIds, 
+                               p.MainImageUrl, 
+                               p.ImagesUrl AS ImagesUrlList, 
+                               p.Discount, 
+                               p.CustomAttributes, 
+                               p.Tags, 
+                               p.CreatedBy, 
+                               p.CreatedDate,
+                               MAX(CASE WHEN d.Type = 1 THEN d.ShippingCost END) AS ShippingCost,
+                               MAX(CASE WHEN d.Type = 2 THEN d.ShippingCost END) AS WithdrawalCost
+                           FROM Products p
+                           LEFT JOIN Deliveries d ON FIND_IN_SET(d.Type, p.DeliveriesIds)
+                           WHERE p.Id = {productId}
+                           GROUP BY p.Id, p.Name;";
 
-            var user = await con.QueryFirstOrDefaultAsync<ProductDTO>(query);
+            var product = await con.QueryFirstOrDefaultAsync<ProductDetailDTO>(query);
 
-            return user;
+            if (!string.IsNullOrEmpty(product.SizesList))
+            {
+                product.Sizes = product.SizesList.Split(',').Select(s => s.Trim());
+            }
+
+            if (!string.IsNullOrEmpty(product.PaymentMethodsList))
+            {
+                product.PaymentMethods = product.PaymentMethodsList.Split(',').Select(s => s.Trim());
+            }
+
+            if (!string.IsNullOrEmpty(product.DeliveriesIds))
+            {
+                product.Deliveries = product.DeliveriesIds.Split(',').Select(s => s.Trim());
+            }
+            
+            if (!string.IsNullOrEmpty(product.ImagesUrlList))
+            {
+                product.ImagesUrl = product.ImagesUrlList.Split(',').Select(s => s.Trim());
+            }
+
+            return product;
         }
 
         public async Task<ServiceResponse> InsertProducts(IEnumerable<Product> products)
@@ -113,7 +186,7 @@ namespace Ecommerce.DataAccessLayer.Repositories
             };
         }
 
-        public async Task<ServiceResponse> InsertProduct(CreateProductDTO request)
+        public async Task<ServiceResponse> InsertProduct(ProductDTO request)
         {
             using var con = _factory.GetDbConnection;
 
@@ -122,7 +195,7 @@ namespace Ecommerce.DataAccessLayer.Repositories
             var query = @$"INSERT INTO Products (Name, Description, ShortDescription, IsActive, CategoryId, Price, Quantity, Discount, CustomAttributes, ImageUrl, CreatedBy, CreatedDate)
                                          VALUES(@Name, @Description, @ShortDescription, @IsActive, @CategoryId, @Price, @Quantity, @Discount, @CustomAttributes, @ImageUrl, 1, '{currentDate}');";
 
-            var result = await con.ExecuteAsync(query, request.Product);
+            var result = await con.ExecuteAsync(query, request);
 
             return new ServiceResponse
             {

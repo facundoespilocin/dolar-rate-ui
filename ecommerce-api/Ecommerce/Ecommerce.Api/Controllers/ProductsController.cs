@@ -42,7 +42,7 @@ namespace Ecommerce.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] CreateProductDTO request)
+        public async Task<IActionResult> Post([FromBody] ProductDTO request)
         {
             var result = await _productsService.PostCreateProduct(request);
 

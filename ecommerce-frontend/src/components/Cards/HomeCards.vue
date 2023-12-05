@@ -2,17 +2,17 @@
     <div>
         <div class="product-section">
             <div v-for="product in products" :key="product.id" class="home-product-card" v-on:click="goProductDetail(product.id)">
-                <img src="https://picsum.photos/300/300/?image=41" alt="Product">
+                <img class="pointer" :src="product.mainImageUrl" alt="Product">
                 
                 <div>
-                    <h3 class="pull-center product-title">{{ product.name.length >= 17 ? product.name.substring(0,14) + "..." : product.name }}</h3>
+                    <h3 class="pull-center product-title pointer">{{ product.name.length >= 17 ? product.name.substring(0,14) + "..." : product.name }}</h3>
                     
-                    <p class="pull-center">Description for product</p>
+                    <!-- <p class="pull-center">{{ product.shortDescription}}</p> -->
                     
                     <p class="pull-center">Price: <span>$</span>{{ product.price }}</p>
                     
                     <div class="pull-center">
-                        <b-button variant="primary" @click="addToCart(product)">Add to Cart</b-button>
+                        <b-button variant="primary" @click="addToCart(product)">Agregar al carrito</b-button>
                     </div>
                 </div>
             </div>
@@ -35,8 +35,6 @@ export default {
         },
 
         async goProductDetail(productId) {
-            console.log("ProductDetail of productId: " + productId);
-
             window.location.href = "/Products/Details/" + productId;
         }
     }

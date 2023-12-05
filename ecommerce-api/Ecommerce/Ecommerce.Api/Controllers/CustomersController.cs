@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Ecommerce.Services.Interfaces;
-using static Ecommerce.Utils.Enums;
 using Ecommerce.DataAccessLayer.Models;
-using Ecommerce.Services;
 
 namespace Ecommerce.Api.Controllers
 {
@@ -10,10 +8,10 @@ namespace Ecommerce.Api.Controllers
     [Route("api/[controller]")]
     public class CustomersController : ControllerBase
     {
-        private readonly ILogger<ProductsController> _logger;
+        private readonly ILogger<CustomersController> _logger;
         private readonly ICustomersService _customersService;
 
-        public CustomersController(ILogger<ProductsController> logger, ICustomersService customersService)
+        public CustomersController(ILogger<CustomersController> logger, ICustomersService customersService)
         {
             _logger = logger;
             _customersService = customersService;

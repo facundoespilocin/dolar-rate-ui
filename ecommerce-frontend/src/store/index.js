@@ -13,6 +13,8 @@ export default new Vuex.Store({
     productsOperation: localStorage.getItem("productsOperation") || "",
     categoriesOperation: localStorage.getItem("categoriesOperation") || "",
     customersOperation: localStorage.getItem("customersOperation") || "",
+    orderId: localStorage.getItem("orderId"),
+    orderItems: parseInt(localStorage.getItem('orderItems')) || 0,
   },
 
   mutations: {
@@ -31,6 +33,19 @@ export default new Vuex.Store({
     // Register
     getResetPasswordState(state, resetPasswordState) {
       state.resetPasswordState = resetPasswordState;
+    },
+
+    // Orders
+    setOrderItems(state, value) {
+      console.log("valor que llega al setOrderItems: " + value)
+      state.orderItems = value;
+      localStorage.setItem('orderItems', value);
+    },
+
+    removeOrderItem(state, value) {
+      console.log("valor que llega al removeOrderItems: " + value)
+      state.orderItems = value;
+      localStorage.setItem('orderItems', value - 1);
     },
   },
 
@@ -73,6 +88,23 @@ export default new Vuex.Store({
       }
     },
 
+    // Orders
+    setOrderItems(state, orderItems) {
+      state = orderItems;
+      localStorage.setItem("orderItems", orderItems);
+    },
+
+    removeOrderItem({ commit }, value) {
+      console.log("valor que llega al removeOrderItem: " + value)
+      commit('removeOrderItem', value);
+    },
+
+
+    updateOrderItems({ commit }, value) {
+      console.log("valor que llega al updateOrderItems: " + value)
+      commit('setOrderItems', value);
+    },
+
     // Register
     setResetPasswordState({ commit }, resetPasswordState) {
       commit("getResetPasswordState", resetPasswordState);
@@ -99,7 +131,11 @@ export default new Vuex.Store({
 
     getCategoriesOperation: state => state.categoriesOperation,
 
-    getCustomersOperation: state => state.customersOperation
+    getCustomersOperation: state => state.customersOperation,
+
+    getOrderId: state => state.orderId,
+
+    getOrderItems: state => state.orderItems,
   },
 
   modules: { }

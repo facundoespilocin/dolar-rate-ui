@@ -25,5 +25,6 @@ namespace Ecommerce.DataAccessLayer.Models
     {
         public long Id { get; set; }
         public string? Name { get; set; }
+        public long Count { get; set; }
     }
 }

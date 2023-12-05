@@ -46,3 +46,6 @@
 				4.3.3.2. Cuando el cliente selecciona su metodo de envio, se oculta el resto de opciones // (extra)
 		4.4.4. Boton Pagar
 			4.4.4.1. Se deben validar todos los datos ingresados en el formulario
+			
+----------------------------------------------------------------------
+Fecha de primer despliegue: 16/12

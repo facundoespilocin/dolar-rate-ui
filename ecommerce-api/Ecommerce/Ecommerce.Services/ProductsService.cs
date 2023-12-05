@@ -42,7 +42,7 @@ namespace Ecommerce.Services
             return products;
         }
 
-        public async Task<ServiceResponse> PostCreateProduct(CreateProductDTO request)
+        public async Task<ServiceResponse> PostCreateProduct(ProductDTO request)
         {
             ServiceResponse response = new();
 

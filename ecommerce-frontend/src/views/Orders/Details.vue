@@ -2,7 +2,7 @@
     <div class="container">
         <Navbar :orderItems=orderItems></Navbar>
 
-        <h1 class="my-2">Detalle de Producto</h1>
+        <h1 class="my-2">Detalle de </h1>
 
         <div class="border-shadow p-4">
             <b-overlay :show=showOverlay rounded="sm">

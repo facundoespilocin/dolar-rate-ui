@@ -28,6 +28,7 @@ namespace Ecommerce.Services.Collection
             services.AddTransient<IProductsService, ProductsService>();
             services.AddTransient<ICategoriesService, CategoriesService>();
             services.AddTransient<ICustomersService, CustomersService>();
+            services.AddTransient<IOrdersService, OrdersService>();
 
             // Repositories
             services.AddTransient<IUsersRepository, UsersRepository>();
@@ -35,6 +36,7 @@ namespace Ecommerce.Services.Collection
             services.AddTransient<IProductsRepository, ProductsRepository>();
             services.AddTransient<ICategoriesRepository, CategoriesRepository>();
             services.AddTransient<ICustomersRepository, CustomersRepository>();
+            services.AddTransient<IOrdersRepository, OrdersRepository>();
         }
     }
 }

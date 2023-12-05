@@ -41,7 +41,7 @@ import { mapState, mapActions } from "vuex"
 import "@/assets/style.css"
 
 export default {
-    name: "Sidebar",
+    name: "Sidebar2",
     props: { 
     },
 

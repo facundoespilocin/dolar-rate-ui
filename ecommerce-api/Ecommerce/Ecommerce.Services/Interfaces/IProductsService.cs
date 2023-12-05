@@ -9,7 +9,7 @@ namespace Ecommerce.Services.Interfaces
     {
         Task<IEnumerable<ProductDTO>> GetAll(SearchRequest request);
         Task<ProductDTO> GetById(long productId);
-        Task<ServiceResponse> PostCreateProduct(CreateProductDTO request);
+        Task<ServiceResponse> PostCreateProduct(ProductDTO request);
         Task<ServiceResponse> PostLoadProducts(LoadProductsDTO request);
         Task<IEnumerable<Product>> PostReadProducts(IFormFile file, DataSourceTypes dataSource);
     }

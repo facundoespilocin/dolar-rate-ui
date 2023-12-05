@@ -7,9 +7,9 @@ namespace Ecommerce.DataAccessLayer.Repositories.Interfaces
     public interface IProductsRepository
     {
         Task<IEnumerable<ProductDTO>> GetAll(SearchRequest request);
-        Task<ProductDTO> GetById(long productId);
+        Task<ProductDetailDTO> GetById(long productId);
         Task<IEnumerable<ProductDTO>> GetAllFiltered(SearchRequest request);
         Task<ServiceResponse> InsertProducts(IEnumerable<Product> products);
-        Task<ServiceResponse> InsertProduct(CreateProductDTO request);
+        Task<ServiceResponse> InsertProduct(ProductDTO request);
     }
 }

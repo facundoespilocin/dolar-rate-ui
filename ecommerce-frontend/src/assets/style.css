@@ -34,6 +34,13 @@ small {
     box-shadow: 1px 1px 5px;
 }
 
+.border-primary {
+    border: 2px solid #0d6efd;
+    border-radius: 5px;
+    /* box-shadow: 1px 1px 5px #126619; */
+    box-shadow: 1px 1px 5px;
+}
+
 .pull-left {
     text-align: left;
 }
@@ -104,7 +111,7 @@ small {
 }
 
 .pointer {
-    cursor:pointer;
+    cursor: pointer;
 }
 
 .icon-size-s {
@@ -354,7 +361,7 @@ input[type='file'] {
     flex-direction: column;
     align-items: flex-start;
     overflow-y: auto; /* Agregar desplazamiento si el contenido excede la altura */
-  }
+}
 
 /* .sidebar {
     width: 300px;
@@ -363,33 +370,85 @@ input[type='file'] {
     transition: width 0.3s;
   } */
   
-  .collapsed {
+.collapsed {
     width: 50px; /* Cambia el ancho cuando el sidebar está contraído */
-  }
+}
   
-  .icon-list {
+.icon-list {
     padding: 5px;
-  }
+}
   
-  .menu-item {
+.menu-item {
     cursor: pointer;
     padding: 10px;
     transition: background-color 0.3s;
-  }
+}
   
-  .menu-item:hover {
+.menu-item:hover {
     background-color: #444;
-  }
+}
   
-  .show-childs {
+.show-childs {
     background-color: #444;
-  }
+}
   
-  .child-items {
+.child-items {
     padding-left: 20px;
     display: none;
-  }
+}
   
-  .show-childs .child-items {
+.show-childs .child-items {
     display: block;
-  }
+}
+
+  .img-container {
+    max-width: 100%;
+    height: auto;
+}
+
+.vertical-line {
+    border-left: 2px solid black; /* Cambia el color y grosor según necesites */
+    height: 100px; /* Establece la altura deseada */
+    margin: 0 10px; /* Puedes ajustar el margen según sea necesario */
+}
+
+.block {
+    display: block;    
+}
+
+.line-through {
+    text-decoration: line-through;
+}
+
+.image-zoom {
+    overflow: hidden;
+}
+  
+.image-zoom img {
+    transition: transform 0.3s ease-in-out;
+}
+  
+.image-zoom:hover img {
+    transform: scale(1.2); /* Puedes ajustar el valor para aumentar o disminuir el nivel de zoom */
+}
+
+.cart-icon {
+    position: relative;
+    display: inline-block;
+}
+  
+.cart-count {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    color: white;
+    font-size: 12px;
+    border-radius: 50%;
+    font-weight: bold;
+}
