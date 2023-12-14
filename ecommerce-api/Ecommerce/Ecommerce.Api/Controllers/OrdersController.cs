@@ -23,15 +23,45 @@ namespace Ecommerce.Api.Controllers
             var result = await _ordersService.PostCreateOrder(request, 1);
 
             Thread.Sleep(1000);
+
             return Ok(result);
         }
 
         [HttpPut()]
-        public async Task<IActionResult> PutAddItemsToOrder([FromBody] UpdateOrderDTO request)
+        public async Task<IActionResult> PutAddItemsToOrder([FromBody] CreateOrderDTO request)
         {
             var result = await _ordersService.PutAddItemsToOrder(request, 1);
 
-            Thread.Sleep(1000);
+            //Thread.Sleep(1000);
+
+            return Ok(result);
+        }
+
+        [HttpDelete("{orderId}")]
+        public async Task<IActionResult> DeleteOrderItem(long orderId, [FromQuery] long organizationId, long items, long productId, double amount)
+        {
+            RemoveOrderItemDTO request = new()
+            {
+                Id = orderId,
+                OrganizationId = organizationId,
+                Items = items,
+                ProductId = productId,
+                Amount = amount
+            };
+
+            var result = await _ordersService.DeleteOrderItem(request, 1);
+
+            //Thread.Sleep(1000);
+
+            return Ok(result);
+        }
+
+        [HttpPost("{orderId}")]
+        public async Task<IActionResult> DeleteOrder(long orderId, [FromQuery] long organizationId)
+        {
+            var result = await _ordersService.DeleteOrder(orderId, organizationId);
+
+            //Thread.Sleep(1000);
 
             return Ok(result);
         }

@@ -186,6 +186,16 @@ input[type='file'] {
     margin-bottom: 0px;
 }
 
+.margin-none {
+    margin-bottom: 0px;
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
+.padding-left {
+    padding-left: 2px;
+}
+
 .icon-green {
     color: green;
 }

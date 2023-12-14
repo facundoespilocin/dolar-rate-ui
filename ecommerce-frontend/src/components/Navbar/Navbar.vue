@@ -45,17 +45,13 @@
             </div>
         </nav>
 
-        <OrderDetails 
-            v-if="orderId > 0"
-            :isCollapsed="isCollapsed"
-            @update:isCollapsed="updateIsCollapsed">
-        </OrderDetails>
+        <OrderDetails :isCollapsed="isCollapsed" @update:isCollapsed="updateIsCollapsed" />
     </div>
 </template>
 
 <script>
 import "@/assets/style.css"
-import { mapGetters, mapActions } from "vuex"
+import { mapGetters } from "vuex"
 import OrderDetails from '@/components/Sidebar/OrderDetails.vue'
 
 export default {
@@ -72,48 +68,22 @@ export default {
     },
 
     async created() {
-        console.log("orderItems: " + this.orderItems);
-        await this.getOrder();
+        await this.$store.dispatch('getOrderDetails', localStorage.getItem("orderId") || 0);
+
+        console.log("cantidad de items leidos desde el store, llamando desde Navbar: " + this.orderItems);
     },
 
     methods: {
-        async getOrder() {
-            console.log("orderId from LS: " + this.orderId);
-
-            if (this.orderId != null && this.orderId != undefined) {
-                console.log("entro al if");
-
-                let resource = "/orders/" + this.orderId;
-                
-                await this.axios.get(resource)
-                .then(res => {
-                    this.order = res.data;
-
-                    console.log("orderId devuelto en el GetOrder: " + this.order.id);
-                    console.log("orderData: ");
-                    console.log(this.order);
-
-                    //this.products = this.order.products;
-                    
-                    //this.orderItems = this.order.items;
-
-                    //this.setOrder(this.order);
-                })
-                .catch(e => {
-                    //this.showNotification("error", "No fue posible obtener el detalle del Producto. Error: " + e);
-                })
-                .finally(e => {
-                    this.showButtonOverlay = false;
-                })
-            }
-        },
-
         showSidebar() {
             this.isCollapsed = !this.isCollapsed;
         },
 
         updateIsCollapsed(value) {
             this.isCollapsed = value;
+        },
+
+        updateProducts(index) {
+            this.products = this.products.filter(i => i.index !== index);
         },
 
         showNotification(type, text) {
@@ -131,10 +101,17 @@ export default {
             });
         }
     },
+    
+    watch: {
+        // async orderId(newOrderId) {
+        //     console.log("llego a orderId");
+        //     await this.getOrder();
+        // },
+    },
 
     computed: {
-        ...mapGetters({orderId: 'getOrderId'}),
         ...mapGetters(['getOrderItems']),
+        
         orderItems() {
             return this.getOrderItems;
         },

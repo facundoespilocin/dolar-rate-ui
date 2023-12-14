@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import decode from 'jwt-decode'
 import router from '../router'
+import axios from "axios"
 
 Vue.use(Vuex)
 
@@ -13,8 +14,12 @@ export default new Vuex.Store({
     productsOperation: localStorage.getItem("productsOperation") || "",
     categoriesOperation: localStorage.getItem("categoriesOperation") || "",
     customersOperation: localStorage.getItem("customersOperation") || "",
-    orderId: localStorage.getItem("orderId"),
-    orderItems: parseInt(localStorage.getItem('orderItems')) || 0,
+
+    // 
+    products: [],
+    orderId: localStorage.getItem("orderId") || 0,
+    orderItems: 0,
+    orderProducts: [],
   },
 
   mutations: {
@@ -36,17 +41,70 @@ export default new Vuex.Store({
     },
 
     // Orders
-    setOrderItems(state, value) {
-      console.log("valor que llega al setOrderItems: " + value)
-      state.orderItems = value;
-      localStorage.setItem('orderItems', value);
+    setOrderId(state, orderId) {
+      state.orderId = orderId;
+      console.log("orderId seteado en el setOrderId del Store: ");
+      console.log(orderId);
     },
 
-    removeOrderItem(state, value) {
-      console.log("valor que llega al removeOrderItems: " + value)
-      state.orderItems = value;
-      localStorage.setItem('orderItems', value - 1);
+    setOrderProducts(state, orderProducts) {
+      state.orderProducts = orderProducts;
+      console.log("productos seteados en el setOrderProducts del Store: ");
+      console.log(orderProducts);
     },
+
+    setProducts(state, products) {
+      state.products = products;
+      console.log("productos seteados en el setProducts del Store: ");
+      console.log(products);
+    },
+
+    setAddProduct(state, product) {
+      state.products = state.products.push(product);
+      console.log("nuevo array de productos desde el setAddProduct del Store: ");
+      console.log(products);
+    },
+
+    setOrderItems(state, itemsCount) {
+      console.log("orderItems seteado en el setOrderItems del Store: ");
+      console.log(itemsCount);
+      state.orderItems = itemsCount;
+    },
+
+    setAddOrderItem(state, product) {
+      const existingProduct = state.orderProducts.find(p => p.id === product.id);
+      
+      console.log("productId que llega al setAddOrderItem: " + product.id);
+      //state.orderItems = state.orderItems + 1;
+      //state.orderProducts.push(product);
+
+      if (existingProduct) {  
+        existingProduct.quantity += product.quantity;
+        //existingProduct.price += product.price;
+      } else {
+        state.orderItems = state.orderItems + 1;
+        state.orderProducts.push(product);
+      }
+    },
+
+    setRemoveOrderItem(state, product) {
+      state.orderItems = state.orderItems - 1;
+      state.orderProducts = state.orderProducts.filter(p => p.id !== product.id);
+
+      if (state.orderItems === 0) {
+        localStorage.setItem("orderId", 0);
+        state.orderId = 0;
+      };
+      
+      //console.log("orderItems seteado en el setRemoveOrderItem del Store: " + state.orderItems);
+    },
+
+    setEmptyCart(state) {
+      state.orderItems = 0;
+      localStorage.setItem("orderId", 0);
+      state.orderId = 0;
+      state.orderProducts = [];
+    }
   },
 
   actions: {
@@ -89,25 +147,70 @@ export default new Vuex.Store({
     },
 
     // Orders
-    setOrderItems(state, orderItems) {
-      state = orderItems;
-      localStorage.setItem("orderItems", orderItems);
+    async getOrderDetails({commit}, orderId) {
+      if (orderId > 0) {
+          let resource = "/orders/" + orderId;
+          
+          await axios.get(resource)
+          .then(res => {
+              console.log("res.data del getOrderDetails(): ");
+              console.log(res.data);
+
+              if (res.data) {
+                commit('setOrderProducts', res.data?.products);
+                commit('setOrderItems', res.data?.products?.length);
+                commit('setOrderId', res.data?.id);
+              }
+          })
+          .catch(e => {
+              console.log("Error en getOrderDetails del Store:  " + e);
+              //this.showNotification("error", "No fue posible obtener el detalle del Producto. Error: " + e);
+          })
+          .finally(e => { })
+      } else {
+        commit('setOrderItems', 0);
+      }
     },
 
-    removeOrderItem({ commit }, value) {
-      console.log("valor que llega al removeOrderItem: " + value)
-      commit('removeOrderItem', value);
+    setAddOrderItem({commit}, product) {
+      commit('setAddOrderItem', product);
     },
 
-
-    updateOrderItems({ commit }, value) {
-      console.log("valor que llega al updateOrderItems: " + value)
-      commit('setOrderItems', value);
+    setRemoveOrderItem({commit}, product) {
+      commit('setRemoveOrderItem', product);
     },
 
-    // Register
-    setResetPasswordState({ commit }, resetPasswordState) {
-      commit("getResetPasswordState", resetPasswordState);
+    setEmptyCart({commit}) {
+      commit('setEmptyCart');
+    },
+
+    setOrderId({commit}, orderId) {
+      localStorage.setItem("orderId",  orderId);
+
+      commit('setOrderId', orderId);
+    },
+
+    // Products
+    async getAllProducts({commit}) {
+      let resource = "/products";
+
+      await axios.get(resource)
+      .then(res => {
+        if (res.data) {
+          commit('setProducts', res.data);
+        }
+      })
+      .catch(e => {
+          console.log("Error en getAllProducts del Store:  " + e);
+          //this.showNotification("error", "No fue posible cargar los Productos. Error: " + e);
+      })
+      .finally(e => { })
+    },
+
+    setAddProduct({commit}, product) {
+      console.log("producto en el setAddProduct: ")
+      console.log(product)
+      commit('setAddProduct', product);
     },
 
     // Custom functions
@@ -127,15 +230,25 @@ export default new Vuex.Store({
   getters: {
     isActive: state => !!state.token,
 
-    getProductsOperation: state => state.productsOperation,
-
-    getCategoriesOperation: state => state.categoriesOperation,
-
-    getCustomersOperation: state => state.customersOperation,
-
+    getProducts: state => state.products,
+    
     getOrderId: state => state.orderId,
 
     getOrderItems: state => state.orderItems,
+
+    getOrderProducts: state => state.orderProducts,
+
+    getSubtotal: state => {
+      return state.orderProducts.reduce((total, product) => {
+        return total + product.price * product.quantity;
+      }, 0);
+    },
+
+    getTotalQuantity: state => {
+      return state.orderProducts.reduce((quantity, product) => {
+        return quantity + product.quantity;
+      }, 0);
+    }
   },
 
   modules: { }

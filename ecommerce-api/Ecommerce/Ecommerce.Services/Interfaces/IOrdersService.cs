@@ -5,8 +5,10 @@ namespace Ecommerce.Services.Interfaces
 {
     public interface IOrdersService
     {
-        Task<CreateOrderDTO> GetById(long orderId);
+        Task<OrderDTO> GetById(long orderId);
         Task<ServiceResponse> PostCreateOrder(CreateOrderDTO request, long userId);
-        Task<ServiceResponse> PutAddItemsToOrder(UpdateOrderDTO request, long userId);
+        Task<ServiceResponse> PutAddItemsToOrder(CreateOrderDTO request, long userId);
+        Task<ServiceResponse> DeleteOrderItem(RemoveOrderItemDTO request, long userId);
+        Task<ServiceResponse> DeleteOrder(long orderId, long organizationId);
     }
 }

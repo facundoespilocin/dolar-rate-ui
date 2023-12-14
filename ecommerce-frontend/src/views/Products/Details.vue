@@ -93,14 +93,10 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-2 mb-2">
+                        <div class="col-sm-3 mb-2">
                             <label id="quantity" class="control-label">Cantidad</label>
-                            <input 
-                                type="number"
-                                class="form-control"
-                                :class="[errorQuantityRequired ? 'is-invalid' : '']"
-                                maxlength="3"
-                                v-model="product.quantity">
+                            
+                            <b-form-spinbutton no-controls-input v-model="product.quantity" :min="1" :max="product.maxQuantity" />
                         </div>
 
                         <div class="row mb-2">
@@ -112,7 +108,6 @@
                                         type="submit"
                                         v-on:click="addToCart()"
                                         v-if="!isSuccess">
-                                        <b-icon-save class="margin-right"></b-icon-save>
                                             Agregar al carrito
                                     </b-button>
 
@@ -120,8 +115,7 @@
                                         class="col-sm-12"
                                         variant="success"
                                         v-if="isSuccess">
-                                        <b-icon-save class="margin-right"></b-icon-save>
-                                            Producto agregado con exito
+                                            Producto agregado con éxito
                                     </b-button>
                                 </div>
                             </b-overlay>
@@ -165,6 +159,7 @@
 
                                 <div class="col-sm-3 m-0 pull-right">
                                     <span class="block">Gratis</span>
+
                                     <p class="line-through m-0 p-0">{{ product.shippingCost }}</p>
                                 </div>
                             </div>
@@ -249,6 +244,8 @@ export default {
     async created() {
         var productId = this.$route.params.productId;
 
+        this.orderItems = this.$store.getters.getOrderItems;
+
         await this.getProductDetails(productId);
     },
 
@@ -270,6 +267,11 @@ export default {
                     }
                 }
 
+                if (this.product.quantity > 0) {
+                    this.product.maxQuantity = this.product.quantity;
+                    this.product.quantity = 1;
+                }
+
                 //console.log(this.product);
             })
             .catch(e => {
@@ -289,13 +291,12 @@ export default {
         },
 
         async addToCart() {
-            //  this.product.reduce((total, product) => total + product.price, 0),
             this.showButtonOverlay = true;
             
-            if (this.order !== null && this.order !== undefined) {
-                console.log("la orden con Id: " + this.order.id + " contiene la cantidad de: " + this.order.items);
+            if (this.orderId > 0) {
+                console.log("la orden con Id: " + this.orderId + " contiene la cantidad de: " + this.orderItems);
 
-                await this.putOrder(this.order);
+                await this.putOrder();
             } else {
                 await this.postOrder();
             }
@@ -306,12 +307,12 @@ export default {
 
             let resource = "/orders";
             
-            let products = [this.product];
+            // let products = [this.product];
             
             let body = { 
                 organizationId: 1,
                 customerId: 1,
-                products: products,
+                product: this.product,
                 paymentMethodId: 1,
                 amount: this.product.price,
                 discount: 0,
@@ -324,15 +325,11 @@ export default {
             .then(res => {
                 this.result = res.data;
 
-                //console.log(this.result.data.orderId);
                 console.log(this.result);
 
                 localStorage.setItem("orderId",  this.result.data.id);
 
-                //this.updateOrderItems(this.orderItems + 1);
                 this.updateOrderItems(this.$store.getters.getOrderItems + 1);
-
-                // this.orderItems = this.order.items + 1;
 
                 this.isSuccess = true;
             })
@@ -349,25 +346,27 @@ export default {
             
             let resource = "/orders";
             
-            let products = [this.product];
-            
             let body = { 
-                id: this.order.id,
+                id: this.orderId,
                 organizationId: 1,
-                items: this.order.items + 1,
+                customerId: 1,
+                product: this.product,
+                paymentMethodId: 1,
+                amount: this.product.price,
+                discount: 0,
+                items: this.orderItems + 1,
+                installments: this.product.installments,
+                deliveryType: this.deliveryTypeSelected,
             };
             
             await this.axios.put(resource, body)
             .then(res => {
                 this.result = res.data;
 
-                console.log(this.result.data.orderId);
+                console.log(this.result.data.id);
                 console.log(this.result);
 
-                //this.updateOrderItems(this.orderItems + 1);
-                this.updateOrderItems(this.$store.getters.getOrderItems + 1);
-
-                // this.orderItems = this.order.items + 1;
+                this.updateOrderItems(this.orderItems + 1);
 
                 this.isSuccess = true;
             })
@@ -429,7 +428,7 @@ export default {
     },
 
     computed: {
-        //...mapGetters({order: 'getOrder'})
+        ...mapGetters({orderId: 'getOrderId'})
     }
 }
 </script>

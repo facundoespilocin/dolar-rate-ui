@@ -3,12 +3,12 @@ using static Ecommerce.Utils.Enums;
 
 namespace Ecommerce.DataAccessLayer.Entities.Order
 {
-    public class CreateOrderDTO
+    public class OrderDTO
     {
         public long Id { get; set; }
         public long OrganizationId { get; set; }
         public long CustomerId { get; set; }
-        public ProductDTO Product { get; set; }
+        public List<ProductDTO> Products { get; set; }
         public long PaymentMethodId { get; set; }
         public double Amount { get; set; }
         public double Discount { get; set; }

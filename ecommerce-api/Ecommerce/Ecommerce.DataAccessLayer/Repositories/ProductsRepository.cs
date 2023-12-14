@@ -4,6 +4,7 @@ using Ecommerce.DataAccessLayer.Entities.User;
 using Ecommerce.DataAccessLayer.Factory;
 using Ecommerce.DataAccessLayer.Models;
 using Ecommerce.DataAccessLayer.Repositories.Interfaces;
+using System.Linq;
 
 namespace Ecommerce.DataAccessLayer.Repositories
 {
@@ -159,6 +160,52 @@ namespace Ecommerce.DataAccessLayer.Repositories
             }
 
             return product;
+        }
+
+        public async Task<IEnumerable<ProductDetailDTO>> GetByIds(long productId)
+        {
+            using var con = _factory.GetDbConnection;
+
+            var query = $@"
+        SELECT 
+            p.Id, 
+            p.Name, 
+            p.Description, 
+            ps.Size AS Sizes,
+            pp.PaymentMethod AS PaymentMethods,
+            pd.Delivery AS Deliveries,
+            pi.ImageUrl AS ImagesUrl
+        FROM Products p
+        OUTER APPLY STRING_SPLIT(p.Sizes, ',') ps
+        OUTER APPLY STRING_SPLIT(p.PaymentMethods, ',') pp
+        OUTER APPLY STRING_SPLIT(p.DeliveriesIds, ',') pd
+        OUTER APPLY STRING_SPLIT(p.ImagesUrl, ',') pi
+        WHERE p.Id = {productId};
+    ";
+
+            var result = await con.QueryAsync<ProductDetailDTO>(query);
+
+            //if (!string.IsNullOrEmpty(product.SizesList))
+            //{
+            //    product.Sizes = product.SizesList.Split(',').Select(s => s.Trim());
+            //}
+
+            //if (!string.IsNullOrEmpty(product.PaymentMethodsList))
+            //{
+            //    product.PaymentMethods = product.PaymentMethodsList.Split(',').Select(s => s.Trim());
+            //}
+
+            //if (!string.IsNullOrEmpty(product.DeliveriesIds))
+            //{
+            //    product.Deliveries = product.DeliveriesIds.Split(',').Select(s => s.Trim());
+            //}
+
+            //if (!string.IsNullOrEmpty(product.ImagesUrlList))
+            //{
+            //    product.ImagesUrl = product.ImagesUrlList.Split(',').Select(s => s.Trim());
+            //}
+
+            return result;
         }
 
         public async Task<ServiceResponse> InsertProducts(IEnumerable<Product> products)

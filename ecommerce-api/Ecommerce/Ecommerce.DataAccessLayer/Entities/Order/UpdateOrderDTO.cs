@@ -1,7 +1,4 @@
-﻿using Ecommerce.DataAccessLayer.Entities.Product;
-using static Ecommerce.Utils.Enums;
-
-namespace Ecommerce.DataAccessLayer.Entities.Order
+﻿namespace Ecommerce.DataAccessLayer.Entities.Order
 {
     public class UpdateOrderDTO
     {
