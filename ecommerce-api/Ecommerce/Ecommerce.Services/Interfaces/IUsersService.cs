@@ -1,4 +1,5 @@
 ﻿using Ecommerce.DataAccessLayer.Dtos.User;
+using Ecommerce.DataAccessLayer.Entities.Customer;
 using Ecommerce.DataAccessLayer.Entities.User;
 using Ecommerce.DataAccessLayer.Models;
 
@@ -8,6 +9,7 @@ namespace Ecommerce.Services.Interfaces
     {
         Task<IEnumerable<User>> GetAll();
         Task<User> GetById(long userId);
+        Task<CustomerDataDTO> GetCustomerByEmail(string email);
         Task<ServiceResponse> Create(CreateUserRequest user);
         Task UpdateUser(User userRequest);
         Task<ResetPasswordResponse> UpdateUserPassword(ResetPasswordRequest request);

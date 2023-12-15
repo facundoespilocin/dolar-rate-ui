@@ -73,5 +73,15 @@ namespace Ecommerce.Api.Controllers
 
             return Ok(result);
         }
+
+        [HttpPut("{orderId}")]
+        public async Task<IActionResult> PutFinishOrder([FromBody] UpdateOrderDTO request, long orderId, long userId)
+        {
+            var result = await _ordersService.PutFinishOrder(request, orderId, 1);
+
+            //Thread.Sleep(1000);
+
+            return Ok(result);
+        }
     }
 }

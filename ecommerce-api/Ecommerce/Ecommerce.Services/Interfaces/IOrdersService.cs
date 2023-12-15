@@ -10,5 +10,6 @@ namespace Ecommerce.Services.Interfaces
         Task<ServiceResponse> PutAddItemsToOrder(CreateOrderDTO request, long userId);
         Task<ServiceResponse> DeleteOrderItem(RemoveOrderItemDTO request, long userId);
         Task<ServiceResponse> DeleteOrder(long orderId, long organizationId);
+        Task<ServiceResponse> PutFinishOrder(UpdateOrderDTO request, long orderId, long userId);
     }
 }

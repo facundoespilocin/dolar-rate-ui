@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Ecommerce.DataAccessLayer.Entities.Customer;
 using Ecommerce.DataAccessLayer.Entities.User;
 using Ecommerce.DataAccessLayer.Factory;
 using Ecommerce.DataAccessLayer.Models;
@@ -34,6 +35,20 @@ namespace Ecommerce.DataAccessLayer.Repositories
             var query = $"SELECT * FROM Users WHERE Id = {userId}";
 
             var user = await con.QueryFirstOrDefaultAsync<User>(query);
+
+            return user;
+        }
+
+        public async Task<CustomerDataDTO> GetCustomerByEmail(string email)
+        {
+            using var con = _factory.GetDbConnection;
+
+            var query = @$"SELECT c.*, u.Email 
+                           FROM Customers c
+                           INNER JOIN Users u ON u.Id = c.Id
+                           WHERE u.Email = '{email}';";
+
+            var user = await con.QueryFirstOrDefaultAsync<CustomerDataDTO>(query);
 
             return user;
         }

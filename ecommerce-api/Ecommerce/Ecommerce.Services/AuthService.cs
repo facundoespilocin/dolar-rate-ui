@@ -113,7 +113,7 @@ namespace Ecommerce.Services
             {
                 new Claim(ClaimTypes.Sid, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.FullName),
-                new Claim(ClaimTypes.Email, user.Email),
+                new Claim("Email", user.Email),
                 //new Claim("DefaultCompanyId", user.DefaultCompanyId.ToString())
             };
 

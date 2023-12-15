@@ -2,13 +2,13 @@
     <div>
         <h1 class="my-2">Panel de Administración</h1>
         
-        <Sidebar></Sidebar>
+        <Sidebar/>
     </div>
 </template>
 
 <script>
 import "@/assets/style.css"
-import Sidebar from "../components/Sidebar/Sidebar2.0.vue"
+import Sidebar from "../components/Sidebar/Sidebar.vue"
 
 export default {
     components: {

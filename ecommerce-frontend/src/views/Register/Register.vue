@@ -121,7 +121,7 @@
                             </div>
                             
                             <div class="col-sm-1 py-2">
-                                <b-icon id="email-tooltip" icon="info-circle" class="icon-size-s icon-yellow margin-bottom" />
+                                <b-icon id="email-tooltip" icon="info-circle" class="icon-size-s icon-blue margin-bottom" />
                             </div>
                             
                             <b-tooltip target="email-tooltip" title="Online!">Ingresá un correo electrónico válido debido a que te va a llegar un correo de verificación</b-tooltip>

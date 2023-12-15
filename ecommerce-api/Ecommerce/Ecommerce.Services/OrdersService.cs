@@ -43,17 +43,24 @@ namespace Ecommerce.Services
 
             return response;
         }
-        
+
         public async Task<ServiceResponse> DeleteOrderItem(RemoveOrderItemDTO request, long userId)
         {
             var response = await _ordersRepository.DeleteOrderItem(request, userId);
 
             return response;
         }
-        
+
         public async Task<ServiceResponse> DeleteOrder(long orderId, long organizationId)
         {
             var response = await _ordersRepository.DeleteOrder(orderId, organizationId);
+
+            return response;
+        }
+
+        public async Task<ServiceResponse> PutFinishOrder(UpdateOrderDTO request, long orderId, long userId)
+        {
+            var response = await _ordersRepository.PutFinishOrder(request, orderId, userId);
 
             return response;
         }

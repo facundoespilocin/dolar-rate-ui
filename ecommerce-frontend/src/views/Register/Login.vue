@@ -52,16 +52,15 @@ export default {
     },
 
     methods: {
-        ...mapActions(["setUser"]),
-        ...mapActions(["setResetPasswordState"]),
+        ...mapActions(["setJWTToken", "setUserData", "setResetPasswordState"]),
 
         async login() {
             this.axios.post("/auth/authenticate/", this.user)
             .then(res => {
                 console.log(res.data);
-                const token = res.data.token;
-                this.setUser(token);
-                window.location.href = "/";
+                this.setJWTToken(res.data.token);
+                //this.setUserData(res.data.userData);
+                // window.location.href = "/";
             })
             .catch(e => {
                 console.log(e);

@@ -2,7 +2,7 @@
     <div>
         <b-sidebar
             id="sidebar"
-            width="35%"
+            width="25%"
             no-header
             shadow
             bg-variant="light"
@@ -184,7 +184,7 @@
 
                             <div class="row">
                                 <div>
-                                    <b-button class="col-sm-12 mb-2" variant="primary" v-on:click="goAddressDetails()">Comprar</b-button>
+                                    <b-button class="col-sm-12 mb-2" variant="primary" v-on:click="goCheckout()">Comprar</b-button>
                                 </div>
                             </div>
 
@@ -243,8 +243,8 @@ export default {
             window.location.href = "/Products/Details/" + productId;
         },
 
-        goAddressDetails() {
-            window.location.href = "/";
+        goCheckout() {
+            window.location.href = "/Checkout/v1/Start/" + this.orderId;
         },
 
         async deleteOrderItem(product) {

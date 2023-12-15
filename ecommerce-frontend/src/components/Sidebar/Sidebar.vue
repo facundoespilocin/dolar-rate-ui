@@ -1,44 +1,38 @@
 <template>
     <div>
-        <b-sidebar id="sidebar-no-header" aria-labelledby="sidebar-no-header-title" no-header shadow bg-variant="primary" text-variant="dark" visible :class="{ 'collapsed': isCollapsed }">
-            <template>
-                <div class="p-3">
-                    <h4 id="sidebar-no-header-title" v-on:click="goHome()" class="pointer">eCommerce</h4>
-                    
-                    <hr class="mx-3">
+        <div class="sidebar" :class="{ 'collapsed': isCollapsed }" @mouseenter="expandSidebar" ref="sidebar">
+            <h4 class="pointer pointer px-3 py-2 m-0" v-on:click="goHome()">{{ !isCollapsed ? "eCommerce" : "L" }}</h4>
 
-                    <button @click="toggleSidebar">Toggle Sidebar</button>
-
-                    <nav class="mb-3">
-                        <b-nav vertical>
-                            <b-nav-item v-for="itemMenu in itemsMenuList" :key="itemMenu.id" v-on:click="handleChilds(itemMenu.title)">
-                                <div class="row">
-                                    <div class="col-sm-2">
-                                        <b-icon-box variant="light"></b-icon-box>
-                                    </div>
-
-                                    <div class="col-sm-8 p-0">
-                                        <span class="menu-item" v-if="itemMenu.isActive">{{ itemMenu.title }}</span>
-                                    </div>
-
-                                    <div class="col-sm-2 pull-right">
-                                        <b-icon-arrow-down-short variant="light"></b-icon-arrow-down-short>
-                                    </div>
+            <div class="icon-list p-0">
+                <nav class="mb-3">
+                    <b-nav vertical>
+                        <b-nav-item v-for="itemMenu in itemsMenuList" :key="itemMenu.id" v-on:click="handleChilds(itemMenu.title)">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <b-icon-box variant="light"></b-icon-box>
                                 </div>
 
-                                <div v-if="itemMenu.showChilds">
-                                    <b-nav-item v-for="child in itemMenu.childs" :key="child.id">
-                                        <b-icon-box variant="light"></b-icon-box>
-                                        
-                                        <span class="mx-3 menu-item p-0" v-if="itemMenu.isActive" v-on:click="onItemClick(itemMenu, child)" style="transition: opacity .3s ease;">{{ child.title }}</span>
-                                    </b-nav-item>
+                                <div class="col-sm-8 p-0">
+                                    <span class="menu-item" v-if="itemMenu.isActive && itemMenu.isVisible">{{ itemMenu.title }}</span>
                                 </div>
-                            </b-nav-item>
-                        </b-nav>
-                    </nav>
-                </div>
-            </template>
-        </b-sidebar>
+
+                                <div class="col-sm-2 pull-right">
+                                    <b-icon-arrow-down-short v-if="itemMenu.isVisible" variant="light"></b-icon-arrow-down-short>
+                                </div>
+                            </div>
+
+                            <div v-if="itemMenu.showChilds">
+                                <b-nav-item v-for="child in itemMenu.childs" :key="child.id" v-on:click="onItemClick(itemMenu, child)" class="menu-item" style="transition: opacity .3s ease;">
+                                    <b-icon-box variant="light"></b-icon-box>
+                                    
+                                    <span class="mx-3 p-0" v-if="itemMenu.isActive && itemMenu.isVisible" >{{ child.title }}</span>
+                                </b-nav-item>
+                            </div>
+                        </b-nav-item>
+                    </b-nav>
+                </nav>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -60,22 +54,26 @@ export default {
                     id: 0,
                     title: "Productos",
                     isActive: true,
+                    isVisible: true,
                     showChilds: false,
                     childs: [
                         {   id: 0,
                             title: "Agregar Producto",
                             route: "/Products",
-                            isActive: true
+                            isActive: true,
+                            isVisible: false,
                         },
                         {   id: 1,
                             title: "Consultar Productos",
                             route: "/Products",
-                            isActive: true
+                            isActive: true,
+                            isVisible: false,
                         },
                         {   id: 2,
                             title: "Cargar Productos",
                             route: "/Products",
-                            isActive: true
+                            isActive: true,
+                            isVisible: false,
                         }
                     ]
                 },
@@ -84,17 +82,20 @@ export default {
                     title: "Categorias",
                     href: "/Categories",
                     isActive: true,
+                    isVisible: true,
                     showChilds: false,
                     childs: [
                         {   id: 0,
                             title: "Agregar Categoria",
                             route: "/Categories",
-                            isActive: true
+                            isActive: true,
+                            isVisible: false,
                         },
                         {   id: 1,
                             title: "Consultar Categorias",
                             route: "/Categories",
-                            isActive: true
+                            isActive: true,
+                            isVisible: false,
                         },
                         
                     ]
@@ -103,12 +104,14 @@ export default {
                     id: 2,
                     title: "Clientes",
                     isActive: true,
+                    isVisible: true,
                     showChilds: false,
                     childs: [
                         {   id: 0,
                             title: "Consultar Clientes",
                             route: "/Customers",
-                            isActive: true
+                            isActive: true,
+                            isVisible: false,
                         },
                     ]
                 },
@@ -116,12 +119,14 @@ export default {
                     id: 3,
                     title: "Usuarios",
                     isActive: true,
+                    isVisible: true,
                     showChilds: false,
                     childs: [
                         {   id: 0,
                             title: "Consultar Usuarios",
                             route: "/Users",
-                            isActive: true
+                            isActive: true,
+                            isVisible: false,
                         },
                     ]
                 },
@@ -131,12 +136,11 @@ export default {
 
     mounted() {
         // Agregar un manejador de eventos para cerrar el sidebar al hacer clic fuera de él
-        document.addEventListener("click", (event) => {
-            const sidebar = this.$el;
-        if (!sidebar.contains(event.target)) {
-            this.collapseSidebar();
-        }
-        });
+        document.addEventListener("click", this.handleOutsideClick);
+    },
+
+    beforeDestroy() {
+        document.removeEventListener("click", this.handleOutsideClick);
     },
     
     created() { },
@@ -172,13 +176,37 @@ export default {
             this.isCollapsed = !this.isCollapsed;
         },
 
+        expandSidebar() {
+            this.isCollapsed = false;
+
+            this.itemsMenuList.forEach(item => {
+                item.isVisible = true;
+            });
+
+            this.itemsMenuList.forEach(item => item.childs.forEach(c => c.isVisible = false));
+        },
+
         collapseSidebar() {
             this.isCollapsed = true;
         },
 
-        onCollapse(c) {
-            console.log("onCollapse");
-            this.collapsed = c;
+        handleOutsideClick(event) {
+            if (!this.$refs.sidebar.contains(event.target)) {
+                this.resetShowChilds();
+                this.collapseSidebar();
+            }
+        },
+
+        resetShowChilds() {
+            this.itemsMenuList.forEach(item => {
+                item.showChilds = false;
+            });
+
+            this.itemsMenuList.forEach(item => {
+                item.isVisible = false;
+            });
+
+            this.itemsMenuList.forEach(item => item.childs.forEach(c => c.isVisible = false));
         },
     },
     

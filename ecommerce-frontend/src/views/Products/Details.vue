@@ -108,7 +108,7 @@
                                         type="submit"
                                         v-on:click="addToCart()"
                                         v-if="!isSuccess">
-                                            Agregar al carrito
+                                        <b-icon-cart-plus /> Agregar al carrito
                                     </b-button>
 
                                     <b-button 

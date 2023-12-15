@@ -170,6 +170,10 @@ input[type='file'] {
     margin-top: 10px;
 }
 
+.margin-top-double {
+    margin-top: 20px;
+}
+
 .margin-right {
     margin-right: 10px;
 }
@@ -178,8 +182,12 @@ input[type='file'] {
     margin-left: 10px;
 }
 
-.margin-top-double {
-    margin-top: 20px;
+.margin-left-double {
+    margin-left: 20px;
+}
+
+.margin-left-triple {
+    margin-left: 30px;
 }
 
 .margin-bottom-none {
@@ -200,7 +208,7 @@ input[type='file'] {
     color: green;
 }
 
-.icon-yellow {
+.icon-blue {
     color: blue;
 }
 
@@ -461,4 +469,8 @@ input[type='file'] {
     font-size: 12px;
     border-radius: 50%;
     font-weight: bold;
+}
+
+.background-white {
+    background-color: #eeeeee;
 }

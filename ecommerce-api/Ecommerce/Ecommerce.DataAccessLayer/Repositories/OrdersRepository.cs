@@ -242,13 +242,32 @@ namespace Ecommerce.DataAccessLayer.Repositories
             };
         }
 
-        public async Task<ServiceResponse> PutFinishOrder(long orderId, long userId)
+        public async Task<ServiceResponse> PutFinishOrder(UpdateOrderDTO request, long orderId, long userId)
         {
             using var con = _factory.GetDbConnection;
 
-            var query = @$"UPDATE Orders SET Status = {OrderTypes.Finished}, ModifiedBy = {userId}, ModifiedDate = CURRENT_TIMESTAMP WHERE Id = {orderId};";
+            var query = @$"UPDATE Orders 
+                           SET
+                               PaymentMethodId = @PaymentMethodId,
+                               Amount = @Amount,
+                               Discount = @Discount,
+                               Items = @Items,
+                               Installments = @Installments,
+                               DeliveryType = @DeliveryType,
+                               Status = {OrderTypes.Finished},
+                               ModifiedBy = {userId},
+                               ModifiedDate = CURRENT_TIMESTAMP 
+                           WHERE Id = {orderId};";
 
-            var result = await con.ExecuteAsync(query);
+            var result = await con.ExecuteAsync(query, new
+            {
+                request.PaymentMethodId,
+                request.Amount,
+                request.Discount,
+                request.Items,
+                request.Installments,
+                request.DeliveryType
+            });
 
             return new ServiceResponse
             {

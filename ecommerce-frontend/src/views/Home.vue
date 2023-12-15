@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <Navbar ref="navbar"></Navbar>
+        <Navbar />
         
         <div class="card">
             <div class="row">

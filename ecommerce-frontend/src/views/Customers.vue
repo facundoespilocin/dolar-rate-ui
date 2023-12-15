@@ -20,12 +20,10 @@
 import { mapGetters } from "vuex"
 import "@/assets/style.css"
 import ReadCustomers from '@/views/Customers/ReadCustomers.vue'
-import Sidebar from "../components/Sidebar/Sidebar.vue"
 
 export default {
     components: {
         ReadCustomers,
-        Sidebar
     },
 
     data() {

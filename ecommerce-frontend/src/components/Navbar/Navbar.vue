@@ -4,7 +4,7 @@
             <!-- Left section -->
             <div class="navbar-brand">
                 <a class="navbar-item" href="/">
-                    Logo
+                    <b-icon-house-door />
                 </a>
             </div>
 
@@ -23,13 +23,13 @@
             <div class="navbar-end">
                 <a class="navbar-item" href="#">
                     <span class="icon">
-                        <b-icon-people></b-icon-people>
+                        <b-icon-people />
                     </span>
                 </a>
 
                 <a class="navbar-item" href="#">
                     <span class="icon">
-                        <b-icon-search></b-icon-search>
+                        <b-icon-search />
                     </span>
                 </a>
 

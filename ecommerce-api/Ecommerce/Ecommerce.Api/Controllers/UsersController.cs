@@ -29,8 +29,7 @@ namespace Ecommerce.Api.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{userId}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [HttpGet("id/{userId}")]
         public async Task<IActionResult> GetById(int userId)
         {
             var result = await _usersService.GetById(userId);
@@ -38,9 +37,15 @@ namespace Ecommerce.Api.Controllers
             return Ok(result);
         }
 
+        [HttpGet("email/{email}")]
+        public async Task<IActionResult> GetCustomerByEmail(string email)
+        {
+            var result = await _usersService.GetCustomerByEmail(email);
+
+            return Ok(result);
+        }
+
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Create(CreateUserRequest user)
         {
             var result = await _usersService.Create(user);
@@ -56,8 +61,6 @@ namespace Ecommerce.Api.Controllers
         }
 
         [HttpPut]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Update(User user)
         {
             await _usersService.UpdateUser(user);

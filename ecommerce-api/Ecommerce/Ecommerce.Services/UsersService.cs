@@ -10,6 +10,7 @@ using System.Reflection;
 using User = Ecommerce.DataAccessLayer.Entities.User.User;
 using CreateUserRequest = Ecommerce.DataAccessLayer.Models.CreateUserRequest;
 using Ecommerce.DataAccessLayer.Dtos.User;
+using Ecommerce.DataAccessLayer.Entities.Customer;
 
 namespace Ecommerce.Services
 {
@@ -38,6 +39,13 @@ namespace Ecommerce.Services
         public async Task<User> GetById(long userId)
         {
             var user = await _usersRepository.GetById(userId);
+
+            return user;
+        }
+        
+        public async Task<CustomerDataDTO> GetCustomerByEmail(string email)
+        {
+            var user = await _usersRepository.GetCustomerByEmail(email);
 
             return user;
         }
@@ -75,7 +83,7 @@ namespace Ecommerce.Services
                     .Replace("#INVITELINK", _appSettings.BaseUrl.AppendToURL($"Register/Confirm?token={request.ConfirmationToken}"))
                     .Replace("#COMPANYNAME", "Ecommerce");
 
-                var subject = "You have been invited to Ecommerce";
+                var subject = "Welcome to Ecommerce";
 
                 _emailService.Send(request.Email, subject, textCopy, request.Email);
             }

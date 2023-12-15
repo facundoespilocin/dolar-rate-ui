@@ -9,7 +9,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     token: "",
-    userResponse: "",
+    tokenJWT: "",
+    userData: null,
     resetPasswordState: "",
     productsOperation: localStorage.getItem("productsOperation") || "",
     categoriesOperation: localStorage.getItem("categoriesOperation") || "",
@@ -24,15 +25,21 @@ export default new Vuex.Store({
 
   mutations: {
     // User
-    getUser(state, token) {
+    setJWTToken(state, token) {
       state.token = token;
 
       if (token === "") {
-        state.userResponse = "";
+        state.tokenJWT = "";
       } else {
-        state.userResponse = decode(token);
+        state.tokenJWT = decode(token);
         //router.push({ name: "Notas" });
       }
+    },
+
+    setUserData(state, userData) {
+      state.userData = userData;
+      console.log("user seteado en el setUserData del Store: ");
+      console.log(userData);
     },
 
     // Register
@@ -125,25 +132,55 @@ export default new Vuex.Store({
     },
 
     // Users
-    setUser({ commit }, token){
+    setJWTToken({ commit }, token) {
       localStorage.setItem("token", token);
-      commit("getUser", token);
+      console.log("token en el setJWTToken: " + token);
+      commit("setJWTToken", token);
+    },
+
+    // setUserData({commit}, userData) {
+    //   commit("setUserData", userData);
+    // },
+
+    async getUserData({commit}, tokenJWT) {
+      const tokenJWTDecoded = decode(tokenJWT);
+
+      //console.log(tokenJWTDecoded);
+
+      if (tokenJWT !== null && tokenJWT !== "") {
+          let resource = "/users/email/" + tokenJWTDecoded['Email'];
+          
+          await axios.get(resource)
+          .then(res => {
+              //console.log("res.data del getUserData(): ");
+              //console.log(res.data);
+
+              if (res.data) {
+                commit('setUserData', res.data);
+              }
+          })
+          .catch(e => {
+              console.log("Error en getUserData del Store:  " + e);
+              this.showNotification("error", "No fue posible obtener el detalle del Cliente. Error: " + e);
+          })
+          .finally(e => { })
+      }
     },
 
     logOut({ commit }) {
-      commit("getUser", "");
+      //commit("getUser", "");
       localStorage.removeItem("token");
-      router.push({ name: "Login" });
+      //router.push({ name: "Login" });
     },
 
     getToken({ commit }) {
       const token = localStorage.getItem("token");
       
-      if (token) {
-        commit("getUser", token);
-      } else {
-        commit("getUser", "");
-      }
+      // if (token) {
+      //   commit("getUser", token);
+      // } else {
+      //   commit("getUser", "");
+      // }
     },
 
     // Orders
@@ -230,6 +267,16 @@ export default new Vuex.Store({
   getters: {
     isActive: state => !!state.token,
 
+    getJWTToken: state => state.tokenJWT,
+
+    getCustomerData: state => state.userData,
+
+    getCustomersOperation: state => state.customersOperation,
+
+    getProductsOperation: state => state.productsOperation,
+    
+    getCategoriesOperation: state => state.categoriesOperation,
+    
     getProducts: state => state.products,
     
     getOrderId: state => state.orderId,
