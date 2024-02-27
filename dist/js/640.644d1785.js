@@ -1,2 +1,0 @@
-"use strict";(self["webpackChunkmevn_project_frontend"]=self["webpackChunkmevn_project_frontend"]||[]).push([[640],{8640:function(n,t,e){e.r(t),e.d(t,{default:function(){return s}});var r=function(){var n=this;n._self._c;return n._m(0)},u=[function(){var n=this,t=n._self._c;return t("div",[t("h1",[n._v("Pedidos")]),t("form",{attrs:{action:""}})])}],c=e(1001),f={},o=(0,c.Z)(f,r,u,!1,null,null,null),s=o.exports}}]);
-//# sourceMappingURL=640.644d1785.js.map
