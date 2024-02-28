@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "start": "vue-cli-service serve",
     "build": "vue-cli-service build"
   },
   "dependencies": {
@@ -25,10 +25,10 @@
     "vue-toasted": "^1.1.28",
     "vuejs-datepicker": "^1.6.2",
     "vuex": "^3.4.0",
-    "@vue/cli-plugin-babel": "^5.0.8",
-    "@vue/cli-plugin-router": "^5.0.8",
-    "@vue/cli-plugin-vuex": "~4.5.0",
-    "@vue/cli-service": "^5.0.8",
+    "vue/cli-plugin-babel": "^5.0.8",
+    "vue/cli-plugin-router": "^5.0.8",
+    "vue/cli-plugin-vuex": "~4.5.0",
+    "vue/cli-service": "^5.0.8",
     "vue-template-compiler": "^2.6.11"
   },
   "devDependencies": {
