@@ -3,25 +3,25 @@
         <nav class="navbar">
             <!-- Left section -->
             <div class="navbar-brand">
-                <a class="navbar-item" href="/">
+                <!-- <a class="navbar-item" href="/">
                     <b-icon-house-door />
-                </a>
+                </a> -->
             </div>
 
             <!-- Center section -->
             <div class="navbar-brand">
-                <a class="navbar-item" href="/Shop">
-                    Productos
+                <a class="navbar-item" href="/">
+                    Panel principal
                 </a>
 
-                <a class="navbar-item" href="/Administracion">
-                    Administración
+                <a class="navbar-item" href="/Inflation">
+                    Inflación
                 </a>
             </div>
 
             <!-- Right section -->
             <div class="navbar-end">
-                <a class="navbar-item" href="#">
+                <!-- <a class="navbar-item" href="/MyProfile">
                     <span class="icon">
                         <b-icon-people />
                     </span>
@@ -41,25 +41,17 @@
                             {{ orderItems > 0 ? orderItems : 0 }}
                         </span>
                     </span>
-                </a>
+                </a> -->
             </div>
         </nav>
-
-        <OrderDetails :isCollapsed="isCollapsed" @update:isCollapsed="updateIsCollapsed" />
     </div>
 </template>
 
 <script>
 import "@/assets/style.css"
-import { mapGetters } from "vuex"
-import OrderDetails from '@/components/Sidebar/OrderDetails.vue'
 
 export default {
     name: "Navbar",
-
-    components: {
-        OrderDetails
-    },
 
     data() {
         return { 
@@ -68,9 +60,9 @@ export default {
     },
 
     async created() {
-        await this.$store.dispatch('getOrderDetails', localStorage.getItem("orderId") || 0);
+        //await this.$store.dispatch('getOrderDetails', localStorage.getItem("orderId") || 0);
 
-        console.log("cantidad de items leidos desde el store, llamando desde Navbar: " + this.orderItems);
+        //console.log("cantidad de items leidos desde el store, llamando desde Navbar: " + this.orderItems);
     },
 
     methods: {
@@ -109,12 +101,6 @@ export default {
         // },
     },
 
-    computed: {
-        ...mapGetters(['getOrderItems']),
-        
-        orderItems() {
-            return this.getOrderItems;
-        },
-    }
+    computed: { }
 }
 </script>

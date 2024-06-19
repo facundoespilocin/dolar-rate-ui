@@ -1,6 +1,8 @@
 import Vue from "vue"
 import Router from "vue-router"
 import Home from "../views/Home.vue"
+import NotFound from '../components/Misc/NotFound.vue';
+import InConstrunction from '../components/Misc/InConstruction.vue';
 
 import store from "../store"
 
@@ -18,104 +20,34 @@ const router = new Router({
         {
             path: "/About",
             name: "About",
-            component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+            component: () => import('../views/About.vue')
         },
         {
-            path: "/Notas",
-            name: "Notas",
-            component: () => import('../views/Notas.vue'),
-            meta: { requireAuth: true }
+            path: "/Inflation",
+            name: "Inflation",
+            component: InConstrunction,
         },
         {
-            path: "/Register",
-            name: "Register",
-            component: () => import('../views/Register/Register.vue')
+            path: "/Donations",
+            name: "Donations",
+            component: InConstrunction,
         },
+        
         {
-            path: "/Register/Success",
-            name: "Success",
-            component: () => import('../views/Register/Success.vue')
+            path: "/BugReport",
+            name: "BugReport",
+            component: InConstrunction,
         },
+        // {
+        //     path: "/MyProfile",
+        //     name: "MyProfile",
+        //     component: () => import('../views/MyProfile/MyProfile.vue')
+        // },
         {
-            path: "/Register/Confirm",
-            name: "Confirm",
-            component: () => import('../views/Register/Confirm.vue')
-        },
-        {
-            path: "/Login",
-            name: "Login",
-            component: () => import('../views/Register/Login.vue')
-        },
-        {
-            path: "/Pedidos",
-            name: "Pedidos",
-            component: () => import('../views/Pedidos.vue')
-        },
-        {
-            path: "/Cadets",
-            name: "Cadets",
-            component: () => import('../views/Cadets.vue')
-        },
-        {
-            path: "/Administracion",
-            name: "Administracion",
-            component: () => import('../views/Administracion.vue')
-        },
-        {
-            path: "/ForgotPassword",
-            name: "ForgotPassword",
-            component: () => import('../views/ForgotPassword/ForgotPassword.vue')
-        },
-        {
-            path: "/ForgotPassword/Confirm",
-            name: "ForgotPasswordConfirm",
-            component: () => import('../views/ForgotPassword/Confirm.vue')
-        },
-        {
-            path: "/ForgotPassword/Success",
-            name: "ForgotPasswordSuccess",
-            component: () => import('../views/ForgotPassword/Success.vue')
-        },
-        {
-            path: "/Products",
-            name: "Products",
-            component: () => import('../views/Products.vue')
-        },
-        {
-            path: "/LoadProducts",
-            name: "LoadProducts",
-            component: () => import('../views/Products/LoadProducts.vue')
-        },
-        {
-            path: "/Products/Details/:productId",
-            name: "ProductDetails",
-            component: () => import('../views/Products/Details.vue')
-        },
-        {
-            path: "/Categories",
-            name: "Categories",
-            component: () => import('../views/Categories.vue')
-        },
-        {
-            path: "/Customers",
-            name: "Customers",
-            component: () => import('../views/Customers.vue')
-        },
-        {
-            path: "/Users",
-            name: "Users",
-            component: () => import('../views/Users.vue')
-        },
-        {
-            path: "/Shop",
-            name: "Shop",
-            component: () => import('../views/Shop.vue')
-        },
-        {
-            path: "/Checkout/v1/Start/:orderId",
-            name: "Checkout",
-            component: () => import('../views/Checkout/v1/Start/Checkout.vue')
-        },
+            path: '*',
+            name: 'NotFound',
+            component: NotFound,
+          },
     ]
 })
 

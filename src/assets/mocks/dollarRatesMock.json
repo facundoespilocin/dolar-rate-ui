@@ -1,0 +1,68 @@
+{
+    "errors": [],
+    "data": [
+        {
+            "currency": "USD",
+            "shortName": "oficial",
+            "name": "Oficial",
+            "purchasePrice": 884,
+            "salePrice": 924,
+            "exchangeRateIndex": 1,
+            "updatedAt": "2024-06-19T09:30:00Z"
+        },
+        {
+            "currency": "USD",
+            "shortName": "blue",
+            "name": "Blue",
+            "purchasePrice": 1285,
+            "salePrice": 1305,
+            "exchangeRateIndex": 1,
+            "updatedAt": "2024-06-19T13:56:00Z"
+        },
+        {
+            "currency": "USD",
+            "shortName": "bolsa",
+            "name": "Bolsa",
+            "purchasePrice": 1239.5,
+            "salePrice": 1245.1,
+            "exchangeRateIndex": 1,
+            "updatedAt": "2024-06-19T13:56:00Z"
+        },
+        {
+            "currency": "USD",
+            "shortName": "contadoconliqui",
+            "name": "Contado con liquidación",
+            "purchasePrice": 1262.5,
+            "salePrice": 1263.9,
+            "exchangeRateIndex": 1,
+            "updatedAt": "2024-06-19T13:56:00Z"
+        },
+        {
+            "currency": "USD",
+            "shortName": "mayorista",
+            "name": "Mayorista",
+            "purchasePrice": 882.23,
+            "salePrice": 922.15,
+            "exchangeRateIndex": 1,
+            "updatedAt": "2024-06-19T13:56:00Z"
+        },
+        {
+            "currency": "USD",
+            "shortName": "cripto",
+            "name": "Cripto",
+            "purchasePrice": 1293,
+            "salePrice": 1340,
+            "exchangeRateIndex": 1,
+            "updatedAt": "2024-06-19T13:56:00Z"
+        },
+        {
+            "currency": "USD",
+            "shortName": "tarjeta",
+            "name": "Tarjeta",
+            "purchasePrice": 1414.4,
+            "salePrice": 1478.4,
+            "exchangeRateIndex": 1,
+            "updatedAt": "2024-06-19T09:30:00Z"
+        }
+    ]
+}

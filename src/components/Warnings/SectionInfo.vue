@@ -1,8 +1,8 @@
 <template>
     <div>
-        <div class="row container my-2">
+        <div class="row container my-2 text-white">
             <div class="col-sm-6 info border-shadow margin-bottom">
-                <b-icon class="margin-right" icon="exclamation-circle"/>
+                <b-icon class="margin-right text-color-yellow" icon="exclamation-circle"/>
                 
                 {{ text }}
             </div>

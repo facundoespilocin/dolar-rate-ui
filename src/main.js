@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router/index.js'
 import store from './store'
 import { BootstrapVue, BootstrapVueIcons, FormSelectPlugin } from 'bootstrap-vue'
-import axios from "axios"
+import { axios } from "./api/axiosConfig"
 import VueAxios from "vue-axios"
 import Toasted from "vue-toasted"
 import VueSidebarMenu from "vue-sidebar-menu"
@@ -19,11 +19,11 @@ import "bootstrap/dist/css/bootstrap.css"
 import "bootstrap-vue/dist/bootstrap-vue.css"
 import "vue-sidebar-menu/dist/vue-sidebar-menu.css"
 
-document.title = "eCommerce App"
+document.title = "Dollar Rate App"
 
 // Developmnet base URL
-axios.defaults.baseURL = "https://localhost:7283/api"
-axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
+//axios.defaults.baseURL = "https://localhost:7283/api"
+//axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
 
 // Production base URL
 //axios.defaults.baseURL = "https://mevn-project-fe.herokuapp.com/api"

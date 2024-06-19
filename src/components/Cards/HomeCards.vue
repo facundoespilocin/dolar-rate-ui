@@ -1,141 +1,153 @@
 <template>
     <div>
-        <div class="product-section">
-            <div v-for="product in products" :key="product.index" class="home-product-card">
-                <div v-on:click="goProductDetail(product.id)">
-                    <img class="pointer" :src="product.mainImageUrl">
-                    
-                    <h5 class="pull-center product-title pointer">{{ product.name.length >= 24 ? product.name.substring(0,24) + "..." : product.name }}</h5>
-                    
-                    <p class="pull-center">Price: <span>$</span>{{ product.price }}</p>
-                </div>
+        <b-overlay :show="showOverlay" rounded="sm">
+            <div
+                class="product-section"
+                :class="[screenWidth < 768 ? 'pull-center' : '']" 
+                v-if="exchangeRates.length > 0">
+                <div v-for="(exchangeRate, index) in exchangeRates" :key="index" class="home-product-card pull-center">
+                    <div class="row">
+                        <div class="d-flex align-items-center text-color-primary">
+                            <h5 class="flex-grow-1">
+                                <span class="text-shadow">{{ ellipsis(exchangeRate.name) }}</span>
+                            </h5>
 
-                <div class="pull-center">
-                    <b-overlay :show=showButtonOverlay rounded="sm">
-                        <b-button variant="primary" v-on:click="addToCart(product)">Agregar al carrito</b-button>
-                    </b-overlay>
+                            <b-icon-clipboard-check
+                                :id="'target-copy-paste-' + index" 
+                                class="icon-zoom" 
+                                v-on:click="copyToClipboard(exchangeRate)"/>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-6">
+                            Compra
+                            <br>
+                            <span>${{ exchangeRate.purchasePrice }}</span>
+                        </div>
+
+                        <div class="col-6">
+                            Venta
+                            <br>
+                            <span>${{ exchangeRate.salePrice }}</span>
+                        </div>
+                    </div>
+
+                    <!-- <div class="row pull-center">
+                        <div class="pull-center" v-if="exchangeRate.exchangeRateIndex > 0">
+                            <b-icon-caret-down-fill class="text-color-red"/>
+                            {{ exchangeRate.exchangeRateIndex }}
+                        </div>
+                        
+                        <div class="pull-center" v-else>
+                            <b-icon-caret-up-fill class="icon-green"/>
+                            {{ exchangeRate.exchangeRateIndex }}
+                        </div>
+                    </div> -->
+
+                    <b-tooltip 
+                        :target="'target-copy-paste-' + index"
+                        triggers="hover">
+                            Copiá toda la información del contenedor
+                    </b-tooltip>
                 </div>
             </div>
-        </div>
+        </b-overlay>
     </div>
 </template>
 
 <script>
 import "@/assets/style.css"
-import { mapGetters, mapActions } from "vuex"
+import dollarRatesMocks from '@/assets/mocks/dollarRatesMock.json';
+import API_ROUTES from '@/api/routes';
 
 export default {
     name: "HomeCards",
 
     data() {
         return {
-            showOverlay: true,
             showButtonOverlay: false,
             isSuccess: false,
             errorQuantityRequired: false,
             sizeSelected: "",
             deliveryTypeSelected: 1,
+            exchangeRates: [],
+            clipboardText: "El dólar {0} cotiza a ${1} para la compra y ${2} para la venta.\n\n" +
+                //"La variación para el dia de hoy {3} es de {4}%.\n\n" +
+                "Fuente: https://dolarinfo.com.ar",
+            screenWidth: window.innerWidth,
+            intervalId: null,
+            showOverlay: false,
         }
     },
 
     async created() {
-        await this.$store.dispatch('getAllProducts');
+        //await this.$store.dispatch('getAllProducts');
+        //await this.getExchangeRates();
+        this.exchangeRates = dollarRatesMocks.data;
+        
+        this.updateScreenWidth();
+        window.addEventListener('resize', this.updateScreenWidth);
+        
+        //this.intervalId = setInterval(this.getExchangeRates, 1 * 30 * 1000);
+    },
+
+    destroyed() {
+        window.removeEventListener('resize', this.updateScreenWidth);
+
+        if (this.intervalId) {
+            clearInterval(this.intervalId);
+        }
     },
 
     methods: {
-        ...mapActions(['setAddOrderItem']),
-        ...mapActions(["setOrderId"]),
+        updateScreenWidth() {
+            this.screenWidth = window.innerWidth;
+        },
 
-        async addToCart(product) {
-            this.showButtonOverlay = true;
+        ellipsis(name) {
+            return name.length > 29 ? name.substring(0, 29) + "..." : name
+        },
+        
+        async getExchangeRates() {
+            this.showOverlay = true;
 
-            product.imagesUrl = [""];
-
-            // Obtener CustomerProductId y persistirlo en cada producto al añadir
-            // un item al carrito
-            
-            console.log("la orden con Id: " + this.orderId + " contiene la cantidad de: " + this.orderItems);
-            
-            if (this.orderId > 0) {
-                await this.putOrder(product);
-            } else {
-                await this.postOrder(product);
+            try {
+                const response = await this.axios.get(API_ROUTES.GET_EXCHANGE_RATES);
+                this.exchangeRates = response.data.data;
+            } catch (error) {
+                console.error('Error retrieving Exchange Rates:', error);
             }
+
+            this.showOverlay = false;
         },
 
-        async postOrder(product) {
-            console.log("ingreso al postOrder...");
+        async copyToClipboard(exchangeRate) {
+            const template = this.clipboardText;
+            //const values = [exchangeRate.name, exchangeRate.purchasePrice, exchangeRate.salePrice, await this.getCurrentDate(), exchangeRate.exchangeRateIndex];
+            const values = [exchangeRate.name, exchangeRate.purchasePrice, exchangeRate.salePrice, await this.getCurrentDate()];
 
-            product.quantity = 1;
+            // Replace placeholders {0}, {1}, {2}, {3} y {4} with the correct values
+            const formattedString = template.replace(/\{(\d+)\}/g, (match, index) => values[index]);
 
-            let resource = "/orders";
-            
-            let body = { 
-                organizationId: 1,
-                customerId: 1,
-                product: product,
-                paymentMethodId: 1,
-                amount: product.price,
-                discount: 0,
-                items: 1,
-                installments: product.installments,
-                deliveryType: 1,
-            };
-            
-            await this.axios.post(resource, body)
-            .then(res => {
-                this.result = res.data;
+            const tempInput = document.createElement('textarea');
+            tempInput.value = formattedString;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
 
-                console.log(this.result);
-
-                this.setOrderId(this.result.data.id)
-
-                this.setAddOrderItem(product);
-
-                this.isSuccess = true;
-            })
-            .catch(e => {
-                this.showNotification("error", "No fue posible guardar el Producto. Error: " + e);
-            })
-            .finally(e => {
-                this.showButtonOverlay = false;
-            })
+            this.showNotification('success', 'Texto copiado al portapapeles');
+            this.$root.$emit('bv::hide::tooltip')
         },
 
-        async putOrder(product) {
-            console.log("ingreso al putOrder...");
-            
-            product.quantity = 1;
-            let amount = this.getSubtotal + product.price;
-            let resource = "/orders";
+        async getCurrentDate() {
+            const date = new Date();
+            const day = date.getDate().toString().padStart(2, '0');
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const year = date.getFullYear();
 
-            let body = { 
-                id: this.orderId,
-                organizationId: 1,
-                customerId: 1,
-                product: product,
-                paymentMethodId: 1,
-                amount: amount,
-                discount: 0,
-                items: this.orderItems + 1,
-                installments: product.installments,
-                deliveryType: 1,
-            };
-            
-            await this.axios.put(resource, body)
-            .then(res => {
-                this.result = res.data;
-                
-                this.setAddOrderItem(product);
-
-                this.isSuccess = true;
-            })
-            .catch(e => {
-                this.showNotification("error", "No fue posible guardar el Producto. Error: " + e);
-            })
-            .finally(e => {
-                this.showButtonOverlay = false;
-            })
+            return `${day}/${month}/${year}`;
         },
 
         showNotification(type, text) {
@@ -153,31 +165,27 @@ export default {
             });
         },
 
-        async goProductDetail(productId) {
-            window.location.href = "/Products/Details/" + productId;
-        }
+        // async goProductDetail(productId) {
+        //     window.location.href = "/Products/Details/" + productId;
+        // }
     },
 
     computed: {
-        ...mapGetters(['getOrderId']),
-        ...mapGetters(['getOrderItems']),
-        ...mapGetters(['getSubtotal']),
+        // orderItems() {
+        //     return this.getOrderItems;
+        // },
 
-        orderItems() {
-            return this.getOrderItems;
-        },
+        // orderId() {
+        //     return this.getOrderId;
+        // },
 
-        orderId() {
-            return this.getOrderId;
-        },
+        // products() {
+        //     return this.$store.getters.getProducts;
+        // },
 
-        products() {
-            return this.$store.getters.getProducts;
-        },
-
-        subTotal() {
-            return this.getSubtotal;
-        },
+        // subTotal() {
+        //     return this.getSubtotal;
+        // },
     }
 }
 </script>
