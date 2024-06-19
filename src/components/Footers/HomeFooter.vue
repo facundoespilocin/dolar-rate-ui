@@ -46,6 +46,8 @@
                         Por cualquier consulta y sugerencia, están habilitados los siguientes canales de comunicación
                         dolarinformation@gmail.com
                     </p>
+
+                    <p>Redes sociales</p>
                     
                     <a href="https://www.instagram.com/facuespilocin/" target="_blank"><b-icon-instagram class="icon-size-s text-color-primary pointer" /></a>
                     <a href="https://twitter.com/facuespilocin_" target="_blank"><b-icon-twitter class="icon-size-s margin-left text-color-skyblue pointer" /></a>

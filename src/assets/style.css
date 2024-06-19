@@ -294,8 +294,19 @@ input[type='file'] {
     padding: 10px 20px;
 }
 
+.navbar-logo {
+    width: 20px;
+    height: auto;
+}
+
 .navbar-brand img {
     max-width: 100px;
+}
+
+.navbar-center {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
 }
 
 .navbar-end {
@@ -305,7 +316,7 @@ input[type='file'] {
 
 .navbar-item {
     margin: 0 10px;
-    color: #fff;
+    color: white;
     text-decoration: none;
 }
 
@@ -648,4 +659,12 @@ html, body, #app {
 
 .footer {
     padding: 20px 0;
+}
+
+.text-color-white {
+    color: white;
+}
+
+.border-color-white {
+    color: white;
 }

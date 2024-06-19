@@ -28,7 +28,7 @@
         </div>
 
         <!-- Footer section -->
-         <Footer class="footer"/>
+         <Footer class="footer container"/>
     </div>
 </template>
 

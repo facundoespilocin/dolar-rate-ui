@@ -32,7 +32,16 @@ const router = new Router({
             name: "Donations",
             component: InConstrunction,
         },
-        
+        {
+            path: "/Currencies",
+            name: "Currencies",
+            component: InConstrunction,
+        },
+        {
+            path: "/Historic",
+            name: "Historic",
+            component: InConstrunction,
+        },
         {
             path: "/BugReport",
             name: "BugReport",

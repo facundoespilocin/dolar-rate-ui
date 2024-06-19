@@ -1,49 +1,58 @@
 <template>
     <div>
-        <nav class="navbar">
-            <!-- Left section -->
-            <div class="navbar-brand">
-                <!-- <a class="navbar-item" href="/">
-                    <b-icon-house-door />
-                </a> -->
-            </div>
+        <b-navbar toggleable="lg" class="text-color-primary">
+            <b-navbar-brand href="/" class="margin-left">
+                <img src="@/assets/icons/dollar-info-icon.png" width="20%">
+                <span class="text-color-white margin-left">Dólar Info</span>
+            </b-navbar-brand>
 
-            <!-- Center section -->
-            <div class="navbar-brand">
-                <a class="navbar-item" href="/">
-                    Panel principal
-                </a>
+            <b-navbar-toggle class="margin-right" target="nav-collapse">
+                <template #default="{ expanded }">
+                    <b-icon class="text-color-white" v-if="expanded" icon="chevron-bar-up"></b-icon>
+                    <b-icon class="text-color-white" v-else icon="chevron-bar-down"></b-icon>
+                </template>
+            </b-navbar-toggle>
 
-                <a class="navbar-item" href="/Inflation">
-                    Inflación
-                </a>
-            </div>
-
-            <!-- Right section -->
-            <div class="navbar-end">
-                <!-- <a class="navbar-item" href="/MyProfile">
-                    <span class="icon">
-                        <b-icon-people />
-                    </span>
-                </a>
-
-                <a class="navbar-item" href="#">
-                    <span class="icon">
-                        <b-icon-search />
-                    </span>
-                </a>
-
-                <a class="navbar-item cart-icon pointer" v-on:click="showSidebar()">
-                    <span class="icon">
-                        <b-icon-cart></b-icon-cart>
-
-                        <span class="cart-count">
-                            {{ orderItems > 0 ? orderItems : 0 }}
+            <b-collapse id="nav-collapse" is-nav class="justify-content-center">
+                <b-navbar-nav class="">
+                    <b-nav-item class="navbar-item" href="/">
+                        <span class="text-color-white margin-left">
+                            Panel principal
                         </span>
-                    </span>
-                </a> -->
-            </div>
-        </nav>
+                    </b-nav-item>
+
+                    <b-nav-item class="navbar-item" href="/Inflation">
+                        <span class="text-color-white margin-left">
+                            Inflación
+                        </span>
+                    </b-nav-item>
+
+                    <b-nav-item class="navbar-item" href="/Historic">
+                        <span class="text-color-white margin-left">
+                            Histórico
+                        </span>
+                    </b-nav-item>
+
+                    <b-nav-item class="navbar-item" href="/Currencies">
+                        <span class="text-color-white margin-left">
+                            Otras monedas
+                        </span>
+                    </b-nav-item>
+
+                    <b-nav-item class="navbar-item" href="/Donations">
+                        <span class="text-color-white margin-left">
+                            Donaciones
+                        </span>
+                    </b-nav-item>
+
+                    <b-nav-item class="navbar-item" href="/">
+                    </b-nav-item>
+
+                    <b-nav-item class="navbar-item" href="/">
+                    </b-nav-item>
+                </b-navbar-nav>
+            </b-collapse>
+        </b-navbar>
     </div>
 </template>
 
