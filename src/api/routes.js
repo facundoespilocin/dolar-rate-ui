@@ -1,6 +1,6 @@
-import { API_BASE_URL } from './axiosConfig';
-
 export default {
-    // Dollar Rate
-    GET_EXCHANGE_RATES: `${API_BASE_URL}/dollarrate/exchange-rates`,
+    // Rates
+    GET_EXCHANGE_RATES: `/rates/exchange-rates`,
+    GET_MARKET_RATES: `/rates/market-rates`,
+    GET_FIXED_TERM_RATES: `/rates/market-rates`,
 };

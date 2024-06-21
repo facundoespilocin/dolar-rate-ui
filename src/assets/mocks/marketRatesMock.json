@@ -1,0 +1,50 @@
+{
+    "errors": [],
+    "data": [
+        {
+            "currency": "USD",
+            "shortName": "oficial",
+            "name": "Dólar",
+            "purchasePrice": 884.5,
+            "salePrice": 924.5,
+            "exchangeRateIndex": 1,
+            "updatedAt": "2024-06-19T15:03:00Z"
+        },
+        {
+            "currency": "EUR",
+            "shortName": "oficial",
+            "name": "Euro",
+            "purchasePrice": 972.95,
+            "salePrice": 973.33,
+            "exchangeRateIndex": 1,
+            "updatedAt": "2024-06-19T20:58:00Z"
+        },
+        {
+            "currency": "BRL",
+            "shortName": "oficial",
+            "name": "Real Brasileño",
+            "purchasePrice": 166.59,
+            "salePrice": 166.59,
+            "exchangeRateIndex": 1,
+            "updatedAt": "2024-06-19T20:58:00Z"
+        },
+        {
+            "currency": "CLP",
+            "shortName": "oficial",
+            "name": "Peso Chileno",
+            "purchasePrice": 97.2,
+            "salePrice": 97.3,
+            "exchangeRateIndex": 1,
+            "updatedAt": "2024-06-19T20:58:00Z"
+        },
+        {
+            "currency": "UYU",
+            "shortName": "oficial",
+            "name": "Peso Uruguayo",
+            "purchasePrice": 22.99,
+            "salePrice": 23.01,
+            "exchangeRateIndex": 1,
+            "updatedAt": "2024-06-19T20:58:00Z"
+        }
+    ]
+}

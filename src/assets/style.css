@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat');
+
 * {
     font-family: Montserrat;
 }
@@ -665,6 +667,13 @@ html, body, #app {
     color: white;
 }
 
-.border-color-white {
-    color: white;
+.background-black {
+    background-color: black;
+}
+
+.chart-container {
+    position: relative;
+    margin: auto;
+    height: 80vh;
+    width: 80vw;
 }

@@ -21,9 +21,15 @@
                         </span>
                     </b-nav-item>
 
-                    <b-nav-item class="navbar-item" href="/Inflation">
+                    <b-nav-item class="navbar-item" href="/Indexes">
                         <span class="text-color-white margin-left">
-                            Inflación
+                            Índices
+                        </span>
+                    </b-nav-item>
+
+                    <b-nav-item class="navbar-item" href="/FixedTerm">
+                        <span class="text-color-white margin-left">
+                            Plazo Fijo
                         </span>
                     </b-nav-item>
 
@@ -43,9 +49,6 @@
                         <span class="text-color-white margin-left">
                             Donaciones
                         </span>
-                    </b-nav-item>
-
-                    <b-nav-item class="navbar-item" href="/">
                     </b-nav-item>
 
                     <b-nav-item class="navbar-item" href="/">

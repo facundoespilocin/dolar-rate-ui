@@ -1,6 +1,9 @@
 import Vue from "vue"
 import Router from "vue-router"
 import Home from "../views/Home.vue"
+import MarketRates from "../components/Cards/MarketRatesCards.vue"
+import Indexes from "../views/Indexes/Indexes.vue"
+import FixedTerm from "../views/FixedTerm/FixedTerm.vue"
 import NotFound from '../components/Misc/NotFound.vue';
 import InConstrunction from '../components/Misc/InConstruction.vue';
 
@@ -23,11 +26,6 @@ const router = new Router({
             component: () => import('../views/About.vue')
         },
         {
-            path: "/Inflation",
-            name: "Inflation",
-            component: InConstrunction,
-        },
-        {
             path: "/Donations",
             name: "Donations",
             component: InConstrunction,
@@ -35,7 +33,7 @@ const router = new Router({
         {
             path: "/Currencies",
             name: "Currencies",
-            component: InConstrunction,
+            component: MarketRates,
         },
         {
             path: "/Historic",
@@ -46,6 +44,16 @@ const router = new Router({
             path: "/BugReport",
             name: "BugReport",
             component: InConstrunction,
+        },
+        {
+            path: "/Indexes",
+            name: "Indexes",
+            component: InConstrunction,
+        },
+        {
+            path: "/FixedTerm",
+            name: "FixedTerm",
+            component: FixedTerm,
         },
         // {
         //     path: "/MyProfile",

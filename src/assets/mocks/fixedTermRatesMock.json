@@ -1,0 +1,179 @@
+{
+    "errors": [],
+    "data": [
+        {
+            "entity": "BANCO DE LA NACION ARGENTINA",
+            "logo": "https://www.bcra.gob.ar/Imagenes/logosbancos1/00011.jpg",
+            "clientsTna": 0.33,
+            "noClientsTna": 0.33
+        },
+        {
+            "entity": "BANCO SANTANDER ARGENTINA S.A.",
+            "logo": "https://www.bcra.gob.ar/Imagenes/logosbancos1/00072.jpg",
+            "clientsTna": 0.31,
+            "noClientsTna": 0.31
+        },
+        {
+            "entity": "BANCO DE GALICIA Y BUENOS AIRES S.A.U.",
+            "logo": "https://www.bcra.gob.ar/Imagenes/logosbancos1/00007.jpg",
+            "clientsTna": 0.3,
+            "noClientsTna": 0.3
+        },
+        {
+            "entity": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
+            "logo": "https://www.bcra.gob.ar/Imagenes/logosbancos1/00014.jpg",
+            "clientsTna": 0.3,
+            "noClientsTna": 0.3
+        },
+        {
+            "entity": "BANCO BBVA ARGENTINA S.A.",
+            "logo": "https://www.bcra.gob.ar/Imagenes/logosbancos1/00017.jpg",
+            "clientsTna": 0.3,
+            "noClientsTna": 0.3,
+            "link": "https://www.bbva.com.ar/personas/productos/inversiones/plazos-fijos/online.html"
+        },
+        {
+            "entity": "BANCO MACRO S.A.",
+            "logo": "https://www.bcra.gob.ar/Imagenes/logosbancos1/00285.jpg",
+            "clientsTna": 0.33,
+            "noClientsTna": 0.33
+        },
+        {
+            "entity": "HSBC BANK ARGENTINA S.A.",
+            "logo": "https://www.bcra.gob.ar/Imagenes/logosbancos1/00150.jpg",
+            "clientsTna": 0.31,
+            "noClientsTna": 0.31
+        },
+        {
+            "entity": "BANCO CREDICOOP COOPERATIVO LIMITADO",
+            "logo": "https://www.bcra.gob.ar/Imagenes/logosbancos1/00191.jpg",
+            "clientsTna": 0.32,
+            "noClientsTna": 0.32,
+            "link": "https://www.bancocredicoop.coop/personas/solicitud-de-plazo-fijo"
+        },
+        {
+            "entity": "INDUSTRIAL AND COMMERCIAL BANK OF CHINA (ARGENTINA) S.A.U.",
+            "logo": "https://www.bcra.gob.ar/Imagenes/logosbancos1/00015.jpg",
+            "clientsTna": 0.31,
+            "noClientsTna": 0.31
+        },
+        {
+            "entity": "BANCO DE LA CIUDAD DE BUENOS AIRES",
+            "logo": "https://www.bcra.gob.ar/Imagenes/logosbancos1/00029.jpg",
+            "clientsTna": 0.31,
+            "noClientsTna": 0.31
+        },
+        {
+            "entity": "BANCO BICA S.A.",
+            "logo": "https://www.bcra.gob.ar/Imagenes/logosbancos1/00426.jpg",
+            "clientsTna": 0.34,
+            "noClientsTna": 0.34,
+            "link": "https://plazofijo.bancobica.com.ar/"
+        },
+        {
+            "entity": "BANCO CMF S.A.",
+            "logo": "https://www.bcra.gob.ar/Imagenes/logosbancos1/00319.jpg",
+            "clientsTna": 0.345,
+            "noClientsTna": 0.345,
+            "link": "https://pfweb.bancocmf.com.ar/inversionespf/"
+        },
+        {
+            "entity": "BANCO COMAFI SOCIEDAD ANONIMA",
+            "logo": "https://www.bcra.gob.ar/Imagenes/logosbancos1/00299.jpg",
+            "clientsTna": 0.33,
+            "noClientsTna": 0.33,
+            "link": "https://plazofijodigital.comafi.com.ar/#/simulator/form"
+        },
+        {
+            "entity": "BANCO DE CORRIENTES S.A.",
+            "logo": "https://www.bcra.gob.ar/Imagenes/logosbancos1/00094.jpg",
+            "clientsTna": 0.28,
+            "noClientsTna": 0.28,
+            "link": "https://aplicativos.bancodecorrientes.com.ar/sitio/clientes_solicitud-pf.php"
+        },
+        {
+            "entity": "BANCO DE LA PROVINCIA DE CORDOBA S.A.",
+            "logo": "https://www.bcra.gob.ar/Imagenes/logosbancos1/00020.jpg",
+            "clientsTna": 0.3,
+            "noClientsTna": 0.3,
+            "link": "https://www.bancor.com.ar/737_plazofijovirtual"
+        },
+        {
+            "entity": "BANCO DEL CHUBUT S.A.",
+            "logo": "https://www.bcra.gob.ar/Imagenes/logosbancos1/00083.jpg",
+            "clientsTna": 0.31,
+            "noClientsTna": 0.31,
+            "link": "https://www.bancochubut.com.ar/webinstitucional/personas/tramite/b1ac38f5-d70f-41c9-bf76-0df6de49cc06"
+        },
+        {
+            "entity": "BANCO DEL SOL S.A.",
+            "logo": "https://www.bcra.gob.ar/Imagenes/logosbancos1/00310.jpg",
+            "clientsTna": 0.31,
+            "noClientsTna": 0.31,
+            "link": "https://www.bancodelsol.com/"
+        },
+        {
+            "entity": "BANCO DINO S.A.",
+            "logo": "https://www.bcra.gob.ar/Imagenes/logosbancos1/00448.jpg",
+            "clientsTna": 0.28,
+            "noClientsTna": 0.28,
+            "link": "https://apps.bancodino.com/AltaPFNoCli/solicitarinversion.aspx"
+        },
+        {
+            "entity": "BANCO HIPOTECARIO S.A.",
+            "logo": "https://www.bcra.gob.ar/Imagenes/logosbancos1/00044.jpg",
+            "clientsTna": 0.34,
+            "noClientsTna": 0.34,
+            "link": "https://buhobank.com/onboarding/"
+        },
+        {
+            "entity": "BANCO JULIO SOCIEDAD ANONIMA",
+            "logo": "https://www.bcra.gob.ar/Imagenes/logosbancos1/00305.jpg",
+            "clientsTna": 0.3,
+            "noClientsTna": 0.3,
+            "link": "https://plazofijo.bancojulio.com.ar"
+        },
+        {
+            "entity": "BANCO MASVENTAS S.A.",
+            "logo": "https://www.bcra.gob.ar/Imagenes/logosbancos1/00341.jpg",
+            "clientsTna": 0.27,
+            "noClientsTna": 0.27,
+            "link": "https://www.bancomasventas.com.ar/plazo-fijo-no-clientes/"
+        },
+        {
+            "entity": "BANCO MERIDIAN S.A.",
+            "logo": "https://www.bcra.gob.ar/Imagenes/logosbancos1/00281.jpg",
+            "clientsTna": 0.345,
+            "noClientsTna": 0.345,
+            "link": "https://www.bancomeridian.com.ar/OnlineTermDeposit/Simulation"
+        },
+        {
+            "entity": "BANCO PROVINCIA DE TIERRA DEL FUEGO",
+            "logo": "https://www.bcra.gob.ar/Imagenes/logosbancos1/00268.jpg",
+            "clientsTna": 0.32,
+            "noClientsTna": 0.32,
+            "link": "https://www.btf.com.ar/contacto/solicitud_pf_web/"
+        },
+        {
+            "entity": "BANCO VOII S.A.",
+            "logo": "https://www.bcra.gob.ar/Imagenes/logosbancos1/00312.jpg",
+            "clientsTna": 0.35,
+            "noClientsTna": 0.35,
+            "link": "https://www.voii.com.ar/plazo-fijo-web/"
+        },
+        {
+            "entity": "BIBANK S.A.",
+            "logo": "https://www.bcra.gob.ar/Imagenes/logosbancos1/00147.jpg",
+            "clientsTna": 0.32,
+            "noClientsTna": 0.32,
+            "link": "https://bibank.com.ar/plazo-fijo-personas/"
+        },
+        {
+            "entity": "CRÉDITO REGIONAL COMPAÑÍA FINANCIERA S.A.U.",
+            "logo": "https://www.bcra.gob.ar/Imagenes/logosbancos1/65203.jpg",
+            "clientsTna": 0.33,
+            "noClientsTna": 0.34,
+            "link": "https://www.creditoregional.com.ar/solplazofijoweb.html"
+        }
+    ]
+}

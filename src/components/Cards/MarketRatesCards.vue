@@ -1,21 +1,20 @@
 <template>
     <div>
-        <b-overlay :show="showOverlay" rounded="sm">
             <div
                 class="product-section"
                 :class="[screenWidth < 768 ? 'pull-center' : '']" 
-                v-if="exchangeRates.length > 0">
-                <div v-for="(exchangeRate, index) in exchangeRates" :key="index" class="home-product-card pull-center">
+                v-if="marketRates.length > 0">
+                <div v-for="(marketRate, index) in marketRates" :key="index" class="home-product-card pull-center">
                     <div class="row">
                         <div class="d-flex align-items-center text-color-primary">
                             <h5 class="flex-grow-1">
-                                <span class="text-shadow">{{ ellipsis(exchangeRate.name) }}</span>
+                                <span class="text-shadow">{{ ellipsis(marketRate.name) }}</span>
                             </h5>
 
                             <b-icon-clipboard-check
                                 :id="'target-copy-paste-' + index" 
                                 class="icon-zoom" 
-                                v-on:click="copyToClipboard(exchangeRate)"/>
+                                v-on:click="copyToClipboard(marketRate)"/>
                         </div>
                     </div>
                     
@@ -23,13 +22,13 @@
                         <div class="col-6">
                             Compra
                             <br>
-                            <span>${{ exchangeRate.purchasePrice }}</span>
+                            <span>${{ marketRate.purchasePrice }}</span>
                         </div>
 
                         <div class="col-6">
                             Venta
                             <br>
-                            <span>${{ exchangeRate.salePrice }}</span>
+                            <span>${{ marketRate.salePrice }}</span>
                         </div>
                     </div>
 
@@ -52,17 +51,19 @@
                     </b-tooltip>
                 </div>
             </div>
+        <b-overlay :show="showOverlay" rounded="sm" class="mt-5">
+
         </b-overlay>
     </div>
 </template>
 
 <script>
 import "@/assets/style.css"
-import dollarRatesMocks from '@/assets/mocks/dollarRatesMock.json';
+import marketRatesMock from '@/assets/mocks/marketRatesMock.json';
 import API_ROUTES from '@/api/routes';
 
 export default {
-    name: "HomeCards",
+    name: "MarketRatesCards",
 
     data() {
         return {
@@ -71,8 +72,8 @@ export default {
             errorQuantityRequired: false,
             sizeSelected: "",
             deliveryTypeSelected: 1,
-            exchangeRates: [],
-            clipboardText: "El dólar {0} cotiza a ${1} para la compra y ${2} para la venta.\n\n" +
+            marketRates: [],
+            clipboardText: "El {0} cotiza a ${1} para la compra y ${2} para la venta.\n\n" +
                 //"La variación para el dia de hoy {3} es de {4}%.\n\n" +
                 "Fuente: https://dolarinfo.ar",
             screenWidth: window.innerWidth,
@@ -83,13 +84,13 @@ export default {
 
     async created() {
         //await this.$store.dispatch('getAllProducts');
-        //await this.getExchangeRates();
-        this.exchangeRates = dollarRatesMocks.data;
+        //await this.getMarketRates();
+        this.marketRates = marketRatesMock.data;
         
         this.updateScreenWidth();
         window.addEventListener('resize', this.updateScreenWidth);
         
-        //this.intervalId = setInterval(this.getExchangeRates, 5 * 60 * 1000);
+        //this.intervalId = setInterval(this.getMarketRates, 5 * 60 * 1000);
     },
 
     destroyed() {
@@ -109,23 +110,23 @@ export default {
             return name.length > 29 ? name.substring(0, 29) + "..." : name
         },
         
-        async getExchangeRates() {
+        async getMarketRates() {
             this.showOverlay = true;
 
             try {
-                const response = await this.$axios.get(API_ROUTES.GET_EXCHANGE_RATES);
-                this.exchangeRates = response.data.data;
+                const response = await  this.$axios.get(API_ROUTES.GET_MARKET_RATES);
+                this.marketRates = response.data.data;
             } catch (error) {
-                console.error('Error retrieving Exchange Rates:', error);
+                console.error('Error retrieving Market Rates:', error);
             }
 
             this.showOverlay = false;
         },
 
-        async copyToClipboard(exchangeRate) {
+        async copyToClipboard(marketRate) {
             const template = this.clipboardText;
-            //const values = [exchangeRate.name, exchangeRate.purchasePrice, exchangeRate.salePrice, await this.getCurrentDate(), exchangeRate.exchangeRateIndex];
-            const values = [exchangeRate.name, exchangeRate.purchasePrice, exchangeRate.salePrice, await this.getCurrentDate()];
+            //const values = [marketRate.name, marketRate.purchasePrice, marketRate.salePrice, await this.getCurrentDate(), marketRate.exchangeRateIndex];
+            const values = [marketRate.name, marketRate.purchasePrice, marketRate.salePrice, await this.getCurrentDate()];
 
             // Replace placeholders {0}, {1}, {2}, {3} y {4} with the correct values
             const formattedString = template.replace(/\{(\d+)\}/g, (match, index) => values[index]);
@@ -164,28 +165,8 @@ export default {
                 },
             });
         },
-
-        // async goProductDetail(productId) {
-        //     window.location.href = "/Products/Details/" + productId;
-        // }
     },
 
-    computed: {
-        // orderItems() {
-        //     return this.getOrderItems;
-        // },
-
-        // orderId() {
-        //     return this.getOrderId;
-        // },
-
-        // products() {
-        //     return this.$store.getters.getProducts;
-        // },
-
-        // subTotal() {
-        //     return this.getSubtotal;
-        // },
-    }
+    computed: { }
 }
 </script>

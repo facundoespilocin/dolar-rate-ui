@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router/index.js'
 import store from './store'
 import { BootstrapVue, BootstrapVueIcons, FormSelectPlugin } from 'bootstrap-vue'
-import { axios } from "./api/axiosConfig"
+import axios from "./api/axiosConfig"
 import VueAxios from "vue-axios"
 import Toasted from "vue-toasted"
 import VueSidebarMenu from "vue-sidebar-menu"
@@ -14,6 +14,8 @@ Vue.use(BootstrapVueIcons)
 Vue.use(VueAxios, axios)
 Vue.use(Toasted)
 Vue.use(VueSidebarMenu)
+
+Vue.prototype.$axios = axios;
 
 import "bootstrap/dist/css/bootstrap.css"
 import "bootstrap-vue/dist/bootstrap-vue.css"
