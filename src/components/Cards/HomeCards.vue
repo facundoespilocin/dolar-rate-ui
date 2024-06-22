@@ -2,7 +2,6 @@
     <div>
         <b-overlay :show="showOverlay" rounded="sm">
             <div
-                class="product-section"
                 :class="[screenWidth < 768 ? 'pull-center' : '']" 
                 v-if="exchangeRates.length > 0">
                 <div v-for="(exchangeRate, index) in exchangeRates" :key="index" class="home-product-card pull-center">
@@ -21,13 +20,13 @@
                     
                     <div class="row">
                         <div class="col-6">
-                            Compra
+                            <b-badge pill variant="dark" class="badge-primary">Compra</b-badge>
                             <br>
                             <span>${{ exchangeRate.purchasePrice }}</span>
                         </div>
 
                         <div class="col-6">
-                            Venta
+                            <b-badge pill class="badge-secondary"><span class="text-color-black">Venta</span></b-badge>
                             <br>
                             <span>${{ exchangeRate.salePrice }}</span>
                         </div>

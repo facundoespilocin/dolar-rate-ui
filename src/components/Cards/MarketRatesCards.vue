@@ -20,13 +20,13 @@
                     
                     <div class="row">
                         <div class="col-6">
-                            Compra
+                            <b-badge pill variant="dark" class="badge-primary">Compra</b-badge>
                             <br>
                             <span>${{ marketRate.purchasePrice }}</span>
                         </div>
 
                         <div class="col-6">
-                            Venta
+                            <b-badge pill class="badge-secondary"><span class="text-color-black">Venta</span></b-badge>
                             <br>
                             <span>${{ marketRate.salePrice }}</span>
                         </div>

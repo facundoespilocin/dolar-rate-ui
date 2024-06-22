@@ -55,15 +55,19 @@
                     </b-nav-item>
                 </b-navbar-nav>
             </b-collapse>
+
+            <!-- <ThemeSwitch @theme-change="$emit('theme-change', $event)"/> -->
         </b-navbar>
     </div>
 </template>
 
 <script>
 import "@/assets/style.css"
+import ThemeSwitch from '@/components/Navbar/ThemeSwitch.vue';
 
 export default {
     name: "Navbar",
+    components: { ThemeSwitch },
 
     data() {
         return { 

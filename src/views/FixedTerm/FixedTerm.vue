@@ -1,22 +1,21 @@
 <template>
   <div>
-    <div v-if="screenWidth > 768">
+    <div class="mb-3" v-if="screenWidth > 768">
       <BarChart />
     </div>
     <div v-else>
-      
+      <Table />
     </div>
   </div>
 </template>
 
 <script>
-import fixedTermRatesMock from "@/assets/mocks/fixedTermRatesMock.json";
-import BarChart from "@/components/Bar/Bar.vue";
-import API_ROUTES from "@/api/routes";
+import BarChart from "@/views/FixedTerm/BarChart.vue";
+import Table from "@/views/FixedTerm/Table.vue";
 
 export default {
     name: "FixedTerm",
-    components: { BarChart },
+    components: { BarChart, Table },
 
     data() {
         return {
@@ -24,7 +23,7 @@ export default {
         };
     },
 
-    async created() {
+    created() {
         this.updateScreenWidth();
         window.addEventListener('resize', this.updateScreenWidth);
     },

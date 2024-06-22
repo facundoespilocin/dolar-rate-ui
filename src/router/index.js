@@ -4,6 +4,7 @@ import Home from "../views/Home.vue"
 import MarketRates from "../components/Cards/MarketRatesCards.vue"
 import Indexes from "../views/Indexes/Indexes.vue"
 import FixedTerm from "../views/FixedTerm/FixedTerm.vue"
+import BugReport from "../views/BugReport/BugReport.vue"
 import NotFound from '../components/Misc/NotFound.vue';
 import InConstrunction from '../components/Misc/InConstruction.vue';
 
@@ -43,7 +44,7 @@ const router = new Router({
         {
             path: "/BugReport",
             name: "BugReport",
-            component: InConstrunction,
+            component: BugReport,
         },
         {
             path: "/Indexes",

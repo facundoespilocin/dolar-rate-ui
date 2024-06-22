@@ -1,9 +1,9 @@
 <template>
-    <div id="app">
-        <div class="main-content container">
-            <Navbar />
-            
-            <div class="card">
+    <div id="app" :class="[ isDarkTheme ? 'dark' : '' ]">
+        <div class="main-content container">           
+            <Navbar @theme-change="toggleTheme"/>
+
+            <div :class="[isDarkTheme ? 'card-dark' : 'card']">
                 <div class="row">
                     <div class="col-sm-4 pull-center">
                         <span>Sincronización automática</span>
@@ -24,32 +24,47 @@
                 </div>
             </div>
             
-            <router-view />
+            <router-view :class="[isDarkTheme ? 'card-dark' : '']"/>
         </div>
 
         <!-- Footer section -->
-        <Footer class="footer container"/>
+        <Footer 
+            class="footer container"
+            :class="[isDarkTheme ? 'card-dark' : 'card']"/>
     </div>
 </template>
 
 <script>
 import Navbar from "@/components/Navbar/Navbar.vue";
-import Footer from '@/components/Footers/HomeFooter.vue'
+import Footer from '@/components/Footers/Footer.vue'
 import "@/assets/style.css";
 
 export default {
+    name: 'App',
     components: {
         Navbar,
         Footer
     },
 
     data() {
-        return {};
+        return {
+            isDarkTheme: false,
+        };
     },
 
-    created() {},
+    mounted() {
+        this.isDarkTheme = localStorage.getItem('theme') === 'dark';
+    },
 
-    methods: {},
+    created() {
+        
+    },
+
+    methods: {
+        toggleTheme(isDark) {
+            this.isDarkTheme = isDark;
+        }
+    },
 
     computed: {},
 };

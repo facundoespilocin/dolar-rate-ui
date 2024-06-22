@@ -19,7 +19,6 @@ import {
     LinearScale,
 } from "chart.js";
 import fixedTermRatesMock from "@/assets/mocks/fixedTermRatesMock.json";
-import API_ROUTES from "@/api/routes";
 
 ChartJS.register(
     Title,
@@ -48,8 +47,8 @@ export default {
                 labels: ["January", "February", "March"],
                 datasets: [
                     {
-                        label: "No Clientes TNA",
-                        data: [40.23, 20, 12],
+                        label: "TNA p/ Clientes",
+                        data: [],
                         backgroundColor: ["#8C08B9"],
                     },
                 ],
