@@ -29,7 +29,7 @@
 
                     <b-nav-item class="navbar-item" href="/FixedTerm">
                         <span class="text-color-white margin-left">
-                            Plazo Fijo
+                            Plazo fijo
                         </span>
                     </b-nav-item>
 

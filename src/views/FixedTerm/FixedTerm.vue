@@ -1,5 +1,7 @@
 <template>
   <div class="card p-2">
+    <h2>TNA de Plazos fijos</h2>
+
     <p>
       Los porcentajes presentados se corresponden con la Tasa Nominal Anual para colocaciones mediante canales electrónicos a partir de $100.000 en un plazo de 30 días.
     </p>
