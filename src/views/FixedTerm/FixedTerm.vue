@@ -1,5 +1,11 @@
 <template>
-  <div>
+  <div class="card p-2">
+    <p>
+      Los porcentajes presentados se corresponden con la Tasa Nominal Anual para colocaciones mediante canales electrónicos a partir de $100.000 en un plazo de 30 días.
+    </p>
+
+    <p>La tasa puede cambiar para montos y plazos superiores.</p>
+
     <div class="mb-3" v-if="screenWidth > 768">
       <BarChart />
     </div>

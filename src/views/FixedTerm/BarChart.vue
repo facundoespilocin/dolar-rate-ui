@@ -111,7 +111,7 @@ export default {
         );
 
         this.chartData.datasets[0].data = fixedTermRatesMock.data.map(
-            (item) => item.noClientsTna * 100
+            (item) => item.noClientsTna
         );
 
         this.chartLoaded = true;
