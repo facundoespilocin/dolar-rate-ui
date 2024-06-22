@@ -667,6 +667,7 @@ html, body, #app {
 
 .footer {
     padding: 20px 0;
+    margin: 20px 0 0 0;
 }
 
 .text-color-white {
@@ -760,4 +761,25 @@ input:checked + .slider:before {
 
 .table-success {
     color: #8C08B9;   
+}
+
+.input-group-text {
+    border-left: 0;
+    background-color: white;
+}
+
+.input-group .form-control {
+    border-right: 0;
+}
+
+.input-group .form-control:focus {
+    box-shadow: none;
+}
+
+.color-yellow {
+    color: black;
+    background-color: yellow;
+    font-weight: 300;
+    border-radius: 15px;
+    box-shadow: 1px 1px 5px;
 }

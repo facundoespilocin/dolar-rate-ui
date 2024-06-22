@@ -150,7 +150,12 @@ export default {
     },
 
     async mounted() {
-        await this.getAllFixedTermRates();
+        //await this.getAllFixedTermRates();
+        
+        // Mock
+        this.fixedTermRates = fixedTermRatesMock;
+        this.totalRows = fixedTermRatesMock.data.length;
+
         await this.updateCurrentItemsCount();
     },
 

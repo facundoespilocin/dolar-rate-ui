@@ -8,18 +8,18 @@
                     <div class="col-sm-4 pull-center">
                         <span>Sincronización automática</span>
                         <br />
-                        Los datos se actualizan cada 5 minutos.
+                        Los datos se actualizan cada 5 minutos 🔃
                     </div>
                     <div class="col-sm-4 pull-center">
                         <span>Tasas, índices y cotizaciones</span>
                         <br />
-                        Información histórica y actualizada.
+                        Información histórica y actualizada 📊
                     </div>
                     <div class="col-sm-4 pull-center">
                         <span>Soporte ágil y personalizado</span>
                         <br />
                         Si encontrás algún bug,
-                        <a href="/BugReport">reportalo</a>.
+                        <a href="/BugReport">reportalo</a> 🐞
                     </div>
                 </div>
             </div>
@@ -28,9 +28,11 @@
         </div>
 
         <!-- Footer section -->
-        <Footer 
-            class="footer container"
-            :class="[isDarkTheme ? 'card-dark' : 'card']"/>
+        <div class="container">
+            <Footer 
+                class="footer p-3"
+                :class="[isDarkTheme ? 'card-dark' : 'card']"/>
+        </div>
     </div>
 </template>
 
