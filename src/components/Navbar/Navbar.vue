@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-navbar toggleable="lg" class="text-color-primary">
+        <b-navbar toggleable="lg" class="">
             <b-navbar-brand href="/" class="margin-left">
                 <img src="@/assets/icons/dollar-info-icon.png" width="20%">
                 <span class="text-color-white margin-left">Dólar Info</span>

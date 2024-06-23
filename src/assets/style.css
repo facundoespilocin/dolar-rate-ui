@@ -204,10 +204,6 @@ input[type='file'] {
     color: #8C08B9
 }
 
-.item-menu {
-
-}
-
 .item-menu:hover {
     border-radius: 10px;
     background-color: #84aae498;
@@ -301,6 +297,7 @@ input[type='file'] {
     justify-content: space-between;
     align-items: center;
     background-color: #8C08B9;
+    background-image: linear-gradient(to right, #8C08B9, #4A3D7E);
     padding: 10px 20px;
 }
 
@@ -684,10 +681,6 @@ html, body, #app {
     height: 80vh;
     width: 80vw;
 }
-
-.theme-switch {
-    
-}
   
 .switch {
     position: relative;
@@ -782,4 +775,75 @@ input:checked + .slider:before {
     font-weight: 300;
     border-radius: 15px;
     box-shadow: 1px 1px 5px;
+}
+
+/* Circular Menu Styles */
+.indexes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.content {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.circular-menu {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background-color: #8d08b963;
+    box-shadow: 1px 1px 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  
+.circular-menu-item {
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    background-color: #8C08B9;
+    background-image: linear-gradient(to right, #8C08B9, #4A3D7E);
+    box-shadow: 1px 1px 5px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+  
+.circular-menu-item:hover {
+    transform: scale(1.1);
+}
+  
+.circular-menu-top {
+    top: -40px;
+    left: 60px;
+}
+  
+.circular-menu-right {
+    top: 60px;
+    left: 160px;
+}
+  
+.circular-menu-bottom {
+    top: 160px;
+    left: 60px;
+}
+  
+.circular-menu-left {
+    top: 60px;
+    left: -40px;
+}
+
+.fade-enter-active, .fade-leave-active {
+    transition: opacity 0.1s;
+}
+  
+.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+    opacity: 0.15;
 }

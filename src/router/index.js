@@ -49,7 +49,7 @@ const router = new Router({
         {
             path: "/Indexes",
             name: "Indexes",
-            component: InConstrunction,
+            component: Indexes,
         },
         {
             path: "/FixedTerm",
