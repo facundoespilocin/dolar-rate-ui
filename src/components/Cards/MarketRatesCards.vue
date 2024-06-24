@@ -84,8 +84,8 @@ export default {
 
     async created() {
         //await this.$store.dispatch('getAllProducts');
-        //await this.getMarketRates();
-        this.marketRates = marketRatesMock.data;
+        await this.getMarketRates();
+        //this.marketRates = marketRatesMock.data;
         
         this.updateScreenWidth();
         window.addEventListener('resize', this.updateScreenWidth);
