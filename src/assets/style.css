@@ -669,6 +669,7 @@ html, body, #app {
 
 .text-color-white {
     color: white;
+    user-select: none;
 }
 
 .background-black {
@@ -742,10 +743,12 @@ input:checked + .slider:before {
 
 .badge-primary {
     background-color: #8C08B9;
+    user-select: none;
 }
 
 .badge-secondary {
     background-color: #8d08b963;
+    user-select: none;
 }
 
 .text-color-black {

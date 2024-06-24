@@ -13,7 +13,7 @@
         </p>
 
         <p>
-            Para reportar un bug, simplemente llena el formulario en nuestra página o envíanos un correo a dolarinformation@gmail.com. Cada reporte cuenta y nos acerca un paso más hacia la excelencia.
+            Para reportar un bug, simplemente completá el formulario a continuación o envíanos un correo a <em>dolarinformation@gmail.com</em>. Cada reporte cuenta y nos acerca un paso más hacia la excelencia.
         </p>
         
         <p>
