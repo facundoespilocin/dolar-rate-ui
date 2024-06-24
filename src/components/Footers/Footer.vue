@@ -55,7 +55,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-12 text-center mt-4">
+            <div class="col-12 mt-2 font-footer">
                 <CopyrightLinks :links="copyrightLinks" />
             </div>
         </div>
