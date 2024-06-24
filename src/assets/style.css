@@ -847,3 +847,14 @@ input:checked + .slider:before {
 .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
     opacity: 0.15;
 }
+
+.copyright-link-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+  
+.copyright-link-item {
+    text-decoration: none;
+    color: inherit;
+}

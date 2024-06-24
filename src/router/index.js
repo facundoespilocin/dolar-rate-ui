@@ -5,6 +5,8 @@ import MarketRates from "../components/Cards/MarketRatesCards.vue"
 import Indexes from "../views/Indexes/Indexes.vue"
 import FixedTerm from "../views/FixedTerm/FixedTerm.vue"
 import BugReport from "../views/BugReport/BugReport.vue"
+import TermsAndConditions from "../components/Footers/TermsAndConditions.vue"
+import PrivacyPolicy from "../components/Footers/PrivacyPolicy.vue"
 import NotFound from '../components/Misc/NotFound.vue';
 import InConstrunction from '../components/Misc/InConstruction.vue';
 
@@ -55,6 +57,16 @@ const router = new Router({
             path: "/FixedTerm",
             name: "FixedTerm",
             component: FixedTerm,
+        },
+        {
+            path: "/TermsAndConditions",
+            name: "TermsAndConditions",
+            component: TermsAndConditions,
+        },
+        {
+            path: "/PrivacyPolicy",
+            name: "PrivacyPolicy",
+            component: PrivacyPolicy,
         },
         // {
         //     path: "/MyProfile",

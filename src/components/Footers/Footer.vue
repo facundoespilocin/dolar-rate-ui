@@ -54,22 +54,36 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-12 text-center mt-4">
+                <CopyrightLinks :links="copyrightLinks" />
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
 import "@/assets/style.css"
-import { mapGetters, mapActions } from "vuex"
+import CopyrightLinks from '@/components/Footers/CopyrightLinks.vue';
 
 export default {
     name: "Footer",
+    components: { CopyrightLinks },
     props: { 
         product: Object,
     },
 
     data() {
         return { 
-            screenWidth: window.innerWidth
+            screenWidth: window.innerWidth,
+            socialLinks: [
+                { path: "https://www.instagram.com/dolarinfo_ar/", text: "Instagram" },
+                { path: "https://twitter.com/facuespilocin_", text: "Twitter" },
+            ],
+            copyrightLinks: [
+                { path: "/TermsAndConditions", text: "Términos y condiciones" },
+                { path: "/PrivacyPolicy", text: "Políticas de privacidad" },
+            ],
         }
     },
 
