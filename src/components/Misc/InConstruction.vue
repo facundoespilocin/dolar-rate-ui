@@ -1,7 +1,7 @@
 <template>
-    <div class="not-found card-border-primary container p-2">
-        <div class="row">
-            <b-icon-exclamation-triangle class="icon-size-l text-color-custom-yellow"/>
+    <div class="not-found card-border-primary container p-2 pull-center">
+        <div class="row pull-center">
+            <b-icon-exclamation-triangle class="icon-size-l text-color-custom-yellow pull-center"/>
         </div>
         
         <h1>Página en construcción</h1>
