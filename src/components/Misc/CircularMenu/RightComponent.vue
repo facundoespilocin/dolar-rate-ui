@@ -60,6 +60,7 @@ export default {
   },
   data() {
       return {
+          showOverlay: false,
           chartLoaded: false,
           chartData: {
               labels: [],

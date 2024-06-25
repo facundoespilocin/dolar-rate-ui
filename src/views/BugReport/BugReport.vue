@@ -26,61 +26,63 @@
 
         <h3 class="mb-2">Ingresá los datos del Bug</h3>
 
-        <form v-on:submit.prevent="">
-            <div class="row my-2">
-                <div class="col-sm-6">
-                    <label id="userName" class="control-label">Nombre</label>
-                    <input 
-                        type="text"
-                        class="form-control"
-                        :class="[errorNameRequired ? 'is-invalid' : '']"
-                        placeholder="Ingresá tu Nombre"
-                        maxlength="100"
-                        v-model="bugReport.name">
-                    <small v-if="errorNameRequired">Es un campo requerido</small>
-                </div>
-            </div>
-
-            <div class="row my-2">
-                <div class="col-sm-6">
-                    <label id="emailFrom" class="control-label">Email</label>
-                    <div class="d-flex align-items-center">
-                        <input type="text"
-                            placeholder="Ingresá tu correo electrónico"
+        <b-overlay :show="showOverlay" rounded="sm">
+            <form v-on:submit.prevent="">
+                <div class="row my-2">
+                    <div class="col-sm-6">
+                        <label id="userName" class="control-label">Nombre</label>
+                        <input 
+                            type="text"
                             class="form-control"
-                            :class="[errorEmailFromRequired ? 'is-invalid' : '']"
+                            :class="[errorNameRequired ? 'is-invalid' : '']"
+                            placeholder="Ingresá tu Nombre"
                             maxlength="100"
-                            v-model="bugReport.emailFrom">
-                        <b-icon id="infoIcon" class="color-yellow margin-left" icon="exclamation-circle"/>
+                            v-model="bugReport.name">
+                        <small v-if="errorNameRequired">Es un campo requerido</small>
                     </div>
-                    <small v-if="errorEmailFromRequired" class="text-danger">Es un campo requerido</small>
                 </div>
-            </div>
 
-            <div class="row my-2">
-                <div class="">
-                    <label id="bugDescription" class="control-label">Descripción</label>
-                    <b-form-textarea
-                        id="bugDescription"
-                        :class="[errorDescriptionRequired ? 'is-invalid' : '']"
-                        placeholder="Ingresá la Descripción"
-                        v-model="bugReport.description"
-                        rows="8">
-                    </b-form-textarea>
-                    <small v-if="errorDescriptionRequired">Es un campo requerido</small>
+                <div class="row my-2">
+                    <div class="col-sm-6">
+                        <label id="emailFrom" class="control-label">Email</label>
+                        <div class="d-flex align-items-center">
+                            <input type="text"
+                                placeholder="Ingresá tu correo electrónico"
+                                class="form-control"
+                                :class="[errorEmailFromRequired ? 'is-invalid' : '']"
+                                maxlength="100"
+                                v-model="bugReport.emailFrom">
+                            <b-icon id="infoIcon" class="color-yellow margin-left" icon="exclamation-circle"/>
+                        </div>
+                        <small v-if="errorEmailFromRequired" class="text-danger">Es un campo requerido</small>
+                    </div>
                 </div>
-            </div>
 
-            <div class="pull-right">
-                <button class="btn-primary" type="submit" v-on:click="postSendBugReport()">Enviar</button>
-            </div>
+                <div class="row my-2">
+                    <div class="">
+                        <label id="bugDescription" class="control-label">Descripción</label>
+                        <b-form-textarea
+                            id="bugDescription"
+                            :class="[errorDescriptionRequired ? 'is-invalid' : '']"
+                            placeholder="Ingresá la Descripción"
+                            v-model="bugReport.description"
+                            rows="8">
+                        </b-form-textarea>
+                        <small v-if="errorDescriptionRequired">Es un campo requerido</small>
+                    </div>
+                </div>
 
-            <b-tooltip 
-                target="infoIcon"
-                triggers="hover">
-                Por favor, es importante que ingreses un correo electrónico valido
-            </b-tooltip>
-        </form>
+                <div class="pull-right">
+                    <button class="btn-primary" type="submit" v-on:click="postSendBugReport()">Enviar</button>
+                </div>
+
+                <b-tooltip 
+                    target="infoIcon"
+                    triggers="hover">
+                    Por favor, es importante que ingreses un correo electrónico valido
+                </b-tooltip>
+            </form>
+        </b-overlay>
     </div>
 </template>
 
@@ -91,6 +93,7 @@ import API_ROUTES from '@/api/routes';
 export default {
     data() {
         return {
+            showOverlay: false,
             errorNameRequired: false,
             errorDescriptionRequired: false,
             errorEmailFromRequired: false,
@@ -108,25 +111,26 @@ export default {
 
     methods: {
         async postSendBugReport() {
+            this.showOverlay = true;
             let validateForm = this.validateFields();
                 
             if (validateForm) {
-                let body = {
-                    bugReport: this.bugReport
-                }
-                
-                await this.$axios.post(API_ROUTES.POST_BUG_REPORT, body)
+                let params = {
+                    name: this.bugReport.name,
+                    emailFrom: this.bugReport.emailFrom,
+                    description: this.bugReport.description
+                };
+
+                let res = await this.$axios.get(API_ROUTES.GET_BUG_REPORT, {params})
                 .then(res => {
                     this.showNotification("success", "Se envió correctamente el Bug. Muchas gracias por tu colaboración.");
                 })
-                .catch(e => {                    
-                    // if (e.response.data.error.errors.name.message) {
-                    //     this.message.text = e.response.data.error.errors.name.message;
-                    // } else {
-                    //     this.message.text = "No se ingresó la Nota"
-                    // }
+                .catch(e => {
+                    this.showNotification("error", "Error al enviar el reporte de bug" + e);
                 })
-                .finally(e => { })
+                .finally(e => {
+                    this.showOverlay = false;
+                })
             }
         },
 

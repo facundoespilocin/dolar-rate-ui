@@ -65,7 +65,6 @@ export default {
 
     data() {
         return {
-            showButtonOverlay: false,
             isSuccess: false,
             errorQuantityRequired: false,
             sizeSelected: "",

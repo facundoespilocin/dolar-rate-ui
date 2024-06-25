@@ -8,5 +8,5 @@ export default {
     GET_INFLATION_INDEXES: '/indexes/inflation',
 
     // Bug Report
-    POST_BUG_REPORT: `/bugreport`,
+    GET_BUG_REPORT: `/bugreport`,
 };
