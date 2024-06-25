@@ -82,13 +82,16 @@ export default {
 
     async created() {
         //await this.$store.dispatch('getAllProducts');
-        await this.getExchangeRates();
+
+        // Mock
         //this.exchangeRates = dollarRatesMocks.data;
+
+        await this.getExchangeRates();
         
         this.updateScreenWidth();
         window.addEventListener('resize', this.updateScreenWidth);
         
-        //this.intervalId = setInterval(this.getExchangeRates, 5 * 60 * 1000);
+        this.intervalId = setInterval(this.getExchangeRates, 5 * 60 * 1000);
     },
 
     destroyed() {

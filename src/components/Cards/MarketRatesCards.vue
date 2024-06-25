@@ -82,13 +82,16 @@ export default {
 
     async created() {
         //await this.$store.dispatch('getAllProducts');
-        //await this.getMarketRates();
-        this.marketRates = marketRatesMock.data;
+        
+        // Mock
+        //this.marketRates = marketRatesMock.data;
+
+        await this.getMarketRates();
         
         this.updateScreenWidth();
         window.addEventListener('resize', this.updateScreenWidth);
         
-        //this.intervalId = setInterval(this.getMarketRates, 5 * 60 * 1000);
+        this.intervalId = setInterval(this.getMarketRates, 5 * 60 * 1000);
     },
 
     destroyed() {
