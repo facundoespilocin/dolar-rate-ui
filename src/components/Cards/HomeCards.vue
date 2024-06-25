@@ -82,8 +82,8 @@ export default {
 
     async created() {
         //await this.$store.dispatch('getAllProducts');
-        //await this.getExchangeRates();
-        this.exchangeRates = dollarRatesMocks.data;
+        await this.getExchangeRates();
+        //this.exchangeRates = dollarRatesMocks.data;
         
         this.updateScreenWidth();
         window.addEventListener('resize', this.updateScreenWidth);
