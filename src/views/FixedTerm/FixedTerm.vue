@@ -1,5 +1,5 @@
 <template>
-  <div class="card p-2">
+  <div class="card-border-primary p-2">
     <h2>TNA de Plazos fijos</h2>
 
     <p>

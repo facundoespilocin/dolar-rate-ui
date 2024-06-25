@@ -1,5 +1,5 @@
 <template>
-    <div class="indexes card p-2">
+    <div class="indexes card-border-primary p-2">
         <CircularMenu class="mt-5" @menu-selected="handleMenuSelection" />
 
         

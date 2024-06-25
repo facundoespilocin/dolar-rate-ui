@@ -25,9 +25,7 @@
 
                     <p class="font-footer">
                         ¡Tu apoyo es fundamental para mantener nuestra plataforma actualizada y accesible para todos! Con tu donación podés ayudarnos a seguir proporcionando información ¡Cada contribución cuenta!
-                        <a href='https://cafecito.app/facuespilocin' rel='noopener' target='_blank'>
-                            <img srcset='https://cdn.cafecito.app/imgs/buttons/button_3.png 1x, https://cdn.cafecito.app/imgs/buttons/button_3_2x.png 2x, https://cdn.cafecito.app/imgs/buttons/button_3_3.75x.png 3.75x' src='https://cdn.cafecito.app/imgs/buttons/button_3.png' alt='Invitame un café en cafecito.app' />
-                        </a>
+                        <button class="btn-primary" v-on:click="goToCafecito()">☕ Invitame un Cafecito</button>
                     </p>
                 </div>
             </div>
@@ -99,6 +97,10 @@ export default {
     methods: {
         updateScreenWidth() {
             this.screenWidth = window.innerWidth;
+        },
+
+        goToCafecito() {
+            window.open("https://cafecito.app/facuespilocin", "_blank");
         },
     },
 

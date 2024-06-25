@@ -1,6 +1,8 @@
 <template>
-    <div class="not-found border-shadow container p-2">
-        <b-icon-exclamation-triangle class="icon-size-l text-color-custom-yellow"/>
+    <div class="not-found card-border-primary container p-2">
+        <div class="row">
+            <b-icon-exclamation-triangle class="icon-size-l text-color-custom-yellow"/>
+        </div>
         
         <h1>Página en construcción</h1>
         

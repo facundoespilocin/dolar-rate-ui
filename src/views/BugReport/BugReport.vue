@@ -1,5 +1,5 @@
 <template>
-    <div class="card p-2">        
+    <div class="card-border-primary p-2">        
         <p>
             Quiero agradecerles por usar la plataforma y ser parte de esta comunidad. Sé muy bien que su experiencia es fundamental y siempre estoy buscando formas de mejorar el producto.
         </p>
@@ -46,7 +46,7 @@
                     <label id="emailFrom" class="control-label">Email</label>
                     <div class="d-flex align-items-center">
                         <input type="text"
-                            placeholder="Ingresa tu correo electrónico"
+                            placeholder="Ingresá tu correo electrónico"
                             class="form-control"
                             :class="[errorEmailFromRequired ? 'is-invalid' : '']"
                             maxlength="100"

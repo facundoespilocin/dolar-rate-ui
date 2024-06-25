@@ -1,57 +1,57 @@
 <template>
     <div>
-        <b-overlay :show="showOverlay" rounded="sm">
-            <div
-                :class="[screenWidth < 768 ? 'pull-center' : '']" 
-                v-if="exchangeRates.length > 0">
-                <div v-for="(exchangeRate, index) in exchangeRates" :key="index" class="home-product-card pull-center">
-                    <div class="row">
-                        <div class="d-flex align-items-center text-color-primary">
-                            <h5 class="flex-grow-1">
-                                <span class="text-shadow">{{ ellipsis(exchangeRate.name) }}</span>
-                            </h5>
+        <div
+            class="card-border-primary"
+            :class="[screenWidth < 768 ? 'pull-center' : '']" 
+            v-if="exchangeRates.length > 0">
+            <div v-for="(exchangeRate, index) in exchangeRates" :key="index" class="home-product-card pull-center card-border-shadow">
+                <div class="row">
+                    <div class="d-flex align-items-center text-color-primary">
+                        <h5 class="flex-grow-1">
+                            <span class="text-shadow">{{ ellipsis(exchangeRate.name) }}</span>
+                        </h5>
 
-                            <b-icon-clipboard-check
-                                :id="'target-copy-paste-' + index" 
-                                class="icon-zoom" 
-                                v-on:click="copyToClipboard(exchangeRate)"/>
-                        </div>
+                        <b-icon-clipboard-check
+                            :id="'target-copy-paste-' + index" 
+                            class="icon-zoom" 
+                            v-on:click="copyToClipboard(exchangeRate)"/>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-6">
+                        <b-badge pill variant="dark" class="badge-primary">Compra</b-badge>
+                        <br>
+                        <span>${{ exchangeRate.purchasePrice }}</span>
+                    </div>
+
+                    <div class="col-6">
+                        <b-badge pill class="badge-secondary"><span class="text-color-black">Venta</span></b-badge>
+                        <br>
+                        <span>${{ exchangeRate.salePrice }}</span>
+                    </div>
+                </div>
+
+                <!-- <div class="row pull-center">
+                    <div class="pull-center" v-if="exchangeRate.exchangeRateIndex > 0">
+                        <b-icon-caret-down-fill class="text-color-red"/>
+                        {{ exchangeRate.exchangeRateIndex }}
                     </div>
                     
-                    <div class="row">
-                        <div class="col-6">
-                            <b-badge pill variant="dark" class="badge-primary">Compra</b-badge>
-                            <br>
-                            <span>${{ exchangeRate.purchasePrice }}</span>
-                        </div>
-
-                        <div class="col-6">
-                            <b-badge pill class="badge-secondary"><span class="text-color-black">Venta</span></b-badge>
-                            <br>
-                            <span>${{ exchangeRate.salePrice }}</span>
-                        </div>
+                    <div class="pull-center" v-else>
+                        <b-icon-caret-up-fill class="icon-green"/>
+                        {{ exchangeRate.exchangeRateIndex }}
                     </div>
+                </div> -->
 
-                    <!-- <div class="row pull-center">
-                        <div class="pull-center" v-if="exchangeRate.exchangeRateIndex > 0">
-                            <b-icon-caret-down-fill class="text-color-red"/>
-                            {{ exchangeRate.exchangeRateIndex }}
-                        </div>
-                        
-                        <div class="pull-center" v-else>
-                            <b-icon-caret-up-fill class="icon-green"/>
-                            {{ exchangeRate.exchangeRateIndex }}
-                        </div>
-                    </div> -->
-
-                    <b-tooltip 
-                        :target="'target-copy-paste-' + index"
-                        triggers="hover">
-                            Copiá toda la información del contenedor
-                    </b-tooltip>
-                </div>
+                <b-tooltip 
+                    :target="'target-copy-paste-' + index"
+                    triggers="hover">
+                        Copiá toda la información del contenedor
+                </b-tooltip>
             </div>
-        </b-overlay>
+        </div>
+        <b-overlay :show="showOverlay" rounded="sm" class="mt-5"></b-overlay>
     </div>
 </template>
 

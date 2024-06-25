@@ -1,5 +1,5 @@
 <template>
-    <div class="card p-2">  
+    <div class="card-border-shadow p-2">  
         <p>Última actualización: el <strong>24 de junio de 2024</strong></p>
         
         <h5>1. Precios</h5>

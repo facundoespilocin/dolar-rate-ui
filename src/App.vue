@@ -3,7 +3,7 @@
         <div class="main-content container">           
             <Navbar @theme-change="toggleTheme"/>
 
-            <div :class="[isDarkTheme ? 'card-dark' : 'card']">
+            <div class="margin-bottom-double" :class="[isDarkTheme ? 'card-dark' : 'card-border-primary']">
                 <div class="row">
                     <div class="col-sm-4 pull-center">
                         <span>Sincronización automática</span>
@@ -31,7 +31,7 @@
         <div class="container">
             <Footer 
                 class="footer p-3"
-                :class="[isDarkTheme ? 'card-dark' : 'card']"/>
+                :class="[isDarkTheme ? 'card-dark' : 'card-border-primary']"/>
         </div>
     </div>
 </template>

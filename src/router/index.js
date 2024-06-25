@@ -5,6 +5,7 @@ import MarketRates from "../components/Cards/MarketRatesCards.vue"
 import Indexes from "../views/Indexes/Indexes.vue"
 import FixedTerm from "../views/FixedTerm/FixedTerm.vue"
 import BugReport from "../views/BugReport/BugReport.vue"
+import Donations from "../views/Donations/Donations.vue"
 import TermsAndConditions from "../components/Footers/TermsAndConditions.vue"
 import PrivacyPolicy from "../components/Footers/PrivacyPolicy.vue"
 import NotFound from '../components/Misc/NotFound.vue';
@@ -31,7 +32,7 @@ const router = new Router({
         {
             path: "/Donations",
             name: "Donations",
-            component: InConstrunction,
+            component: Donations,
         },
         {
             path: "/Currencies",

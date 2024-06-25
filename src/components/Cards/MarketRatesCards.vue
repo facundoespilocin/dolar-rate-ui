@@ -1,10 +1,10 @@
 <template>
     <div>
             <div
-                class="product-section"
+                class="card-border-primary"
                 :class="[screenWidth < 768 ? 'pull-center' : '']" 
                 v-if="marketRates.length > 0">
-                <div v-for="(marketRate, index) in marketRates" :key="index" class="home-product-card pull-center">
+                <div v-for="(marketRate, index) in marketRates" :key="index" class="home-product-card pull-center card-border-shadow">
                     <div class="row">
                         <div class="d-flex align-items-center text-color-primary">
                             <h5 class="flex-grow-1">
@@ -51,9 +51,7 @@
                     </b-tooltip>
                 </div>
             </div>
-        <b-overlay :show="showOverlay" rounded="sm" class="mt-5">
-
-        </b-overlay>
+        <b-overlay :show="showOverlay" rounded="sm" class="mt-5"></b-overlay>
     </div>
 </template>
 
