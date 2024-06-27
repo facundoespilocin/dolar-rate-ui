@@ -32,17 +32,17 @@
                     </div>
                 </div>
 
-                <!-- <div class="row pull-center">
+                <div class="row pull-center">
                     <div class="pull-center" v-if="exchangeRate.exchangeRateIndex > 0">
-                        <b-icon-caret-down-fill class="text-color-red"/>
-                        {{ exchangeRate.exchangeRateIndex }}
+                        <b-icon-caret-up-fill class="icon-green"/>
+                        {{ exchangeRate.exchangeRateIndex }} %
                     </div>
                     
                     <div class="pull-center" v-else>
-                        <b-icon-caret-up-fill class="icon-green"/>
-                        {{ exchangeRate.exchangeRateIndex }}
+                        <b-icon-caret-down-fill class="text-color-red"/>
+                        {{ exchangeRate.exchangeRateIndex }} %
                     </div>
-                </div> -->
+                </div>
 
                 <b-tooltip 
                     :target="'target-copy-paste-' + index"
@@ -71,8 +71,8 @@ export default {
             deliveryTypeSelected: 1,
             exchangeRates: [],
             clipboardText: "El dólar {0} cotiza a ${1} para la compra y ${2} para la venta.\n\n" +
-                //"La variación para el dia de hoy {3} es de {4}%.\n\n" +
-                "Fuente: https://dolarinfo.ar",
+                "La variación con respecto al valor declarado al inicio del día de hoy {3} es de {4}%.\n\n" +
+                "Fuente: https://dolar-info.com",
             screenWidth: window.innerWidth,
             intervalId: null,
             showOverlay: false,
@@ -125,8 +125,8 @@ export default {
 
         async copyToClipboard(exchangeRate) {
             const template = this.clipboardText;
-            //const values = [exchangeRate.name, exchangeRate.purchasePrice, exchangeRate.salePrice, await this.getCurrentDate(), exchangeRate.exchangeRateIndex];
-            const values = [exchangeRate.name, exchangeRate.purchasePrice, exchangeRate.salePrice, await this.getCurrentDate()];
+            const values = [exchangeRate.name, exchangeRate.purchasePrice, exchangeRate.salePrice, await this.getCurrentDate(), exchangeRate.exchangeRateIndex];
+            //const values = [exchangeRate.name, exchangeRate.purchasePrice, exchangeRate.salePrice, await this.getCurrentDate()];
 
             // Replace placeholders {0}, {1}, {2}, {3} y {4} with the correct values
             const formattedString = template.replace(/\{(\d+)\}/g, (match, index) => values[index]);
