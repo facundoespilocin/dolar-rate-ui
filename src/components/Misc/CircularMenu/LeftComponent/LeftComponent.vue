@@ -14,13 +14,18 @@
         </p>
       </div>
 
-      <Bar
+      <div v-if="screenWidth > 768">
+        <Bar
           id="barChart"
           ref="barChart"
           v-if="chartLoaded"
           :options="chartOptions"
           :data="chartData"
           :style="styles" />
+      </div>
+      <div v-else>
+        <Table />
+      </div>
   </div>
 </template>
 
@@ -36,6 +41,7 @@ import {
   LinearScale,
 } from "chart.js";
 import zoomPlugin from 'chartjs-plugin-zoom';
+import Table from '@/components/Misc/CircularMenu/LeftComponent/Table.vue';
 import uvaInflationIndexesMock from '@/assets/mocks/uvaInflationIndexesMock.json';
 import API_ROUTES from '@/api/routes';
 
@@ -51,7 +57,7 @@ ChartJS.register(
 
 export default {
   name: "LeftComponent",
-  components: { Bar },
+  components: { Bar, Table },
   computed: {
       styles() {
           return {
@@ -62,6 +68,7 @@ export default {
   },
   data() {
       return {
+          screenWidth: window.innerWidth,
           chartLoaded: false,
           chartData: {
               labels: [],

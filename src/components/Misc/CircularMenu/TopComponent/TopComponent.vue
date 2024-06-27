@@ -15,13 +15,18 @@
             <p>Este índice se calcula el último dia del mes anterior y se publica los primeros días del mes en curso.</p>
         </div>
 
-        <Bar
+        <div v-if="screenWidth > 768">
+            <Bar
             id="barChart"
             ref="barChart"
             v-if="chartLoaded"
             :options="chartOptions"
             :data="chartData"
             :style="styles" />
+        </div>
+        <div v-else>
+            <Table />
+        </div>
     </div>
 </template>
 
@@ -38,6 +43,7 @@ import {
     LinearScale,
 } from "chart.js";
 import zoomPlugin from 'chartjs-plugin-zoom';
+import Table from '@/components/Misc/CircularMenu/TopComponent/Table.vue';
 import monthlyInflationIndexesMock from '@/assets/mocks/monthlyInflationIndexesMock.json';
 import API_ROUTES from '@/api/routes';
 
@@ -53,7 +59,7 @@ ChartJS.register(
 
 export default {
     name: "TopComponent",
-    components: { Bar },
+    components: { Bar, Table },
     computed: {
         styles() {
             return {
@@ -64,6 +70,7 @@ export default {
     },
     data() {
         return {
+            screenWidth: window.innerWidth,
             chartLoaded: false,
             chartData: {
                 labels: [],
